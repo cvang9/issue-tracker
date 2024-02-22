@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex-container">
+        <div class="flex-container" v-if="!authState.isLogin" >
             <div class="router-view">
                 <router-view></router-view>
             </div>
@@ -14,6 +14,7 @@
 <script>
 
 import IntroBox from './IntroBox.vue';
+import { useAuthStore } from '../store/auth.js';
 
 export default {
     
@@ -23,6 +24,11 @@ export default {
 
     setup() {
         
+        const authState = useAuthStore();
+
+        return {
+            authState
+        }
     },
 }
 </script>
