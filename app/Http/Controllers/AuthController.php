@@ -15,7 +15,7 @@ class AuthController extends Controller
             return response(['success' => 'You are authenticated'], 200 );
         }
 
-        return response(['error' => 'Invalid credentials'], 201 );
+        return response(['error' => 'Invalid credentials'], 501 );
     }
 
     public function register(RegisterRequest $request)

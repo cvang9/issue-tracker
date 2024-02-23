@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Department;
+use App\Models\Resolver;
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -31,6 +34,30 @@ class DatabaseSeeder extends Seeder
             'name' => 'DB Admin',
             'role' => 'admin',
             'email' => 'admin@mail.com'
+        ]);
+
+        Department::factory()->create([
+            'name' => 'Technical'
+        ]);
+
+        Department::factory()->create([
+            'name' => 'Management'
+        ]);
+
+        Department::factory()->create([
+            'name' => 'Security'
+        ]);
+
+
+        Resolver::factory()->create([
+            'user_id' => 2,
+            'department_id' => 2
+        ]);
+
+
+        Ticket::factory()->create([
+            'user_id' => 1,
+            'department_id' => 2
         ]);
 
     }

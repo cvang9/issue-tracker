@@ -10,6 +10,7 @@
 
 
         <form>
+            <p align="center" v-if="invalidCreds" style="color:red;" > Invalid Credentials Entered </p>
           <div>
             <label for="email"> Email</label>
             <input type="email" class="input-field" placeholder="Email" name="email" v-model="email" required/>
@@ -54,6 +55,7 @@ export default {
         const role = ref(route.currentRoute._value.query.role);
         const email = ref('');
         const password = ref('');
+        const invalidCreds = ref(false);
 
         const submitButtonHandler = async () => {
 
@@ -83,6 +85,10 @@ export default {
                     }
                 }
 
+                else {
+                    invalidCreds.value = true;
+                }
+
             } catch (error) {
                 console.log(error.response);
             }
@@ -93,7 +99,8 @@ export default {
             role,
             email,
             password,
-            submitButtonHandler
+            submitButtonHandler,
+            invalidCreds
         }
     },
 }
