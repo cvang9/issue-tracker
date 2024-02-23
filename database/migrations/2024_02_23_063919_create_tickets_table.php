@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('body');
             $table->string('status');
             $table->text('feedback')->nullable();
-            $table->foreignIdFor(Resolver::class)->nullable()->constrained();
+            $table->foreignIdFor(Resolver::class)->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->foreignIdFor(Department::class)->constrained();
             $table->foreignIdFor(User::class)->constrained();
             $table->timestamps();

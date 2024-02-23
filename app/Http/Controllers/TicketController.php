@@ -96,7 +96,7 @@ class TicketController extends Controller
             'data' => [
                 'success' => 'Successfully updated a ticket'
             ]
-        ], 201 );
+        ], 201 );         
     }
 
     /**
