@@ -8,6 +8,9 @@
                 <intro-box></intro-box>
             </div>
         </div>
+        <div v-else >
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
