@@ -3,7 +3,7 @@
 <div class="login-box">
     <div class="login-box-formbox">
       <div class="login-box-signup">
-        Do have an account? <router-link to="/login">Login</router-link>
+        Do have an account? <router-link to="/login?role=user">Login</router-link>
       </div>
       <div class="login-box-login">
         <h1>User</h1>
