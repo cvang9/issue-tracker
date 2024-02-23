@@ -71,6 +71,7 @@ export default {
                 if(response.status == 200) 
                 {
                     toggleState();
+                    localStorage.setItem('token',response.data.token )
 
                     if( role.value == 'user' ) {
                         route.push('/tickets');

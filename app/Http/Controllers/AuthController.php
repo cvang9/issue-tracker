@@ -12,7 +12,11 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         if (auth()->attempt($request->validated())) {
-            return response(['success' => 'You are authenticated'], 200 );
+            $token = auth()->user()->createToken('my-key')->plainTextToken;
+
+            return response([
+                'token' => $token
+            ], 200);
         }
 
         return response(['error' => 'Invalid credentials'], 501 );
@@ -24,7 +28,11 @@ class AuthController extends Controller
 
         auth()->login($user);
 
-        return response(['success' => 'User registered'], 200 );
+        $token = auth()->user()->createToken('my-key')->plainTextToken;
+
+        return response([
+            'token' => $token
+        ], 200);
     }
 
     public function logout()

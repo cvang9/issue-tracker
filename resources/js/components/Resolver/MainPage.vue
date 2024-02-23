@@ -15,14 +15,42 @@
     <div class="right-div">
       <p>Your Department Related Issues</p>
       <div v-for="item in 5" :key="item" class="right-div-card">
-        <IssueCard />
+        <issue-card />
       </div>
     </div>
   </div>
 </template>
-<script setup>
+
+
+<script>
+
 import IssueCard from "./IssueCard.vue";
+import apiClient from "../../services/api.js";
+
+export default {
+
+    components: {
+        'issue-card' : IssueCard
+    },
+
+    setup() {
+        
+        apiClient.get('/api/users')
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+            
+    },
+}
+
+
 </script>
+
+
+
 <style scoped>
 .main-div {
   height: 100vh;

@@ -59,12 +59,12 @@ export default {
 
             try {
 
-
                 const response = await axios.post('/register', payload );
 
-                if( response.status == 201 )
+                if( response.status == 200 )
                 {
                     toggleState();
+                    localStorage.setItem('token', response.data.token);
                     route.push('/tickets');
                 }
 
