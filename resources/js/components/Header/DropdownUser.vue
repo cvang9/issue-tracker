@@ -1,13 +1,32 @@
 <script setup>
 import { onClickOutside } from '@vueuse/core'
-import { ref } from 'vue'
+import { ref } from 'vue';
+import apiClient from '../../services/api.js';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../store/auth.js';
 
 const target = ref(null)
 const dropdownOpen = ref(false)
+const router = useRouter();
+const { toggleState } = useAuthStore();
 
 onClickOutside(target, () => {
   dropdownOpen.value = false
 })
+
+const handleLogout = ()=> {
+
+    apiClient.get('/api/logout')
+    .then(function(response) {
+        console.log(response.data);
+        toggleState();
+        router.push('/');
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
+
+}
 </script>
 
 <template>
@@ -76,7 +95,7 @@ onClickOutside(target, () => {
           </router-link>
         </li>
       </ul>
-      <button
+      <button v-on:click="handleLogout"
         class="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
       >
         <svg

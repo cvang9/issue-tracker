@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import BreadcrumbDefault from '@/components/Breadcrumbs/BreadcrumbDefault.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-const pageTitle = ref('Create Department')
+const pageTitle = ref(' Create / Update / Delete Department')
 import apiClient from '../../services/api.js';
 
 const departmentCreate = ref('');

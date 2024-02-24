@@ -75,7 +75,7 @@ const menuGroups = ref([
                     fill="white"
                   />
                 </svg>`,
-        label: 'Create',
+        label: 'New',
         route: '#',
         children: [
           { label: 'Resolver', route: '/create/resolver' },
