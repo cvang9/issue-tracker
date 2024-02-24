@@ -1,3 +1,5 @@
 <template>
-  <div>This is resolver profile</div>
+    <div>
+        I am a resolver
+    </div>
 </template>

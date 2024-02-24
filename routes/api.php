@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ResolverController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
@@ -29,6 +30,11 @@ Route::middleware('auth:sanctum')->group( function() {
     Route::put('/resolvers/{resolver_id}', [ResolverController::class, 'update'] )->middleware(['can:isAdmin'])->name('resolvers.update');
     Route::delete('/resolvers/{resolver_id}', [ResolverController::class, 'destroy'] )->middleware(['can:isAdmin'])->name('resolvers.destroy');
 
-    
+    // DepartmentController
+    Route::get('/departments', [DepartmentController::class, 'index' ] )->name('departments.index');
+    Route::get('/departments/{department_id}', [DepartmentController::class, 'show' ] )->name('departments.index');
+    Route::post('/departments', [DepartmentController::class, 'store'] )->middleware(['can:isAdmin'])->name('departments.store');
+    Route::put('/departments', [DepartmentController::class, 'update'] )->middleware(['can:isAdmin'])->name('departments.update');
+    Route::put('/departments/delete', [DepartmentController::class, 'destroy'] )->middleware(['can:isAdmin'])->name('departments.destroy');
 
 });

@@ -27,6 +27,8 @@
 import IssueCard from "./IssueCard.vue";
 import apiClient from "../../services/api.js";
 
+
+
 export default {
 
     components: {
@@ -34,6 +36,10 @@ export default {
     },
 
     setup() {
+
+        
+
+       
         
         apiClient.get('/api/users')
         .then(response => {
