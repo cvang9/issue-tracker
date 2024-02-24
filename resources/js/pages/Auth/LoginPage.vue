@@ -74,11 +74,11 @@ export default {
                     localStorage.setItem('token',response.data.token )
 
                     if( role.value == 'user' ) {
-                        route.push('/tickets');
+                        route.push('/user/' + response.data.id + '/tickets');
                     }
                     
                     else if( role.value == 'resolver' ) {
-                        route.push('/resolver');
+                        route.push('/resolver/' + response.data.id );
                     }
                     
                     else if( role.value == 'admin' ) {

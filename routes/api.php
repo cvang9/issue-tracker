@@ -29,4 +29,6 @@ Route::middleware('auth:sanctum')->group( function() {
     Route::put('/resolvers/{resolver_id}', [ResolverController::class, 'update'] )->middleware(['can:isAdmin'])->name('resolvers.update');
     Route::delete('/resolvers/{resolver_id}', [ResolverController::class, 'destroy'] )->middleware(['can:isAdmin'])->name('resolvers.destroy');
 
+    
+
 });

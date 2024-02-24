@@ -4,6 +4,7 @@ import LoginAs from '../pages/Auth/LoginAsPage.vue';
 import Signup from '../pages/Auth/SignupPage.vue';
 import Resolver from '../components/Resolver/MainPage.vue';
 import ResolverProfile from '../components/Resolver/ResolverProfile.vue';
+import AdminDashboard from '../pages/admin/AdminDashboard.vue'
 
 export default createRouter({
 
@@ -12,8 +13,9 @@ export default createRouter({
         { path: '/', component: LoginAs },
         { path: '/login', component: Login },
         { path: '/user-signup', component: Signup },
-        { path: '/resolver', component: Resolver },
-        { path: '/resolver-profile', component: ResolverProfile }
+        { path: '/resolver/:resolverId', component: Resolver },
+        { path: '/resolver-profile', component: ResolverProfile },
+        { path: '/admin', component: AdminDashboard }
     ]
 });
 

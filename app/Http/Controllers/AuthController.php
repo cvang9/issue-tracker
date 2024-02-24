@@ -12,11 +12,30 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         if (auth()->attempt($request->validated())) {
-            $token = auth()->user()->createToken('my-key')->plainTextToken;
 
-            return response([
-                'token' => $token
-            ], 200);
+            $user = auth()->user();
+            $token = $user->createToken('my-key')->plainTextToken;
+
+            if( $user->role == 'user' ) {
+                return response([
+                    'token' => $token,
+                    'id' => $user->id
+                ], 200);
+            } 
+
+            else if( $user->role == 'resolver' ) {
+                return response([
+                    'token' => $token,
+                    'id' => $user->resolver->id
+                ], 200);
+            }
+
+            else {
+                return response([
+                    'token' => $token
+                ], 200);
+            }
+
         }
 
         return response(['error' => 'Invalid credentials'], 501 );
@@ -31,7 +50,8 @@ class AuthController extends Controller
         $token = auth()->user()->createToken('my-key')->plainTextToken;
 
         return response([
-            'token' => $token
+            'token' => $token,
+            'id' => $user->id
         ], 200);
     }
 

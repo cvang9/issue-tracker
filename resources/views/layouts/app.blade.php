@@ -14,6 +14,7 @@
             font-family: "Source Sans Pro", sans-serif;
         }
     </style>
+    <link rel="stylesheet" href="../../css/app.css">
     @yield('title')
     @vite(['resources/js/app.js'])
 </head>
@@ -23,5 +24,6 @@
             @yield('content')
         </main>
     </div>
+    <script src="../../js/services/bundle.js" ></script>
 </body>
 </html>
