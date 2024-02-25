@@ -132,22 +132,6 @@ apiClient.get('/api/admin/counts')
     });
 
 
-
-
-onMounted(function() {
-
-    // apiClient.get('/api/admin/counts')
-    // .then(function(response) {
-    //     counts.value = response.data.data.attributes.count
-    //     console.log(counts.value.tickets.pending);
-    // })
-    // .catch(function(error) {
-    //     console.log(error);
-    // });
-
-
-})
-
 </script>
 
 <template>
