@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->group( function() {
 
     // Admin Controller
     Route::get('/admin/data', [AdminController::class, 'fetchData' ] )->middleware(['can:isAdmin'])->name('admin.data');
-    Route::get('/admin/resolvers', [AdminController::class, 'fetchResolvers'])->middleware(['can:isAdmin'])->name('admin.resolvers');
+    Route::get('/admin/resolvers', [AdminController::class, 'fetchResolvers' ] )->middleware(['can:isAdmin'])->name('admin.data');
+    
     
 });

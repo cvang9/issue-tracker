@@ -41,9 +41,28 @@ class AuthController extends Controller
         return response(['error' => 'Invalid credentials'], 501 );
     }
 
-    public function register(RegisterRequest $request)
+    public function register()
     {
-        $user = User::create($request->validated());
+
+        $validated = request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'file' => 'required|file'
+        ]);
+
+        $file = request()->file('file');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('uploads', $fileName); 
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'role' => 'user',
+            'img' => $fileName
+        ]);
+
 
         auth()->login($user);
 

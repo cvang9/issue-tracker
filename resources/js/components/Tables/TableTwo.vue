@@ -8,7 +8,7 @@ onMounted( function() {
 
     apiClient.get('/api/admin/resolvers')
     .then(function(response) {
-        console.log(response.data.data);
+        console.log(response.data);
         resolverData.value = response.data.data;
     })
     .catch(function(error) {
@@ -50,9 +50,7 @@ onMounted( function() {
       <div
         v-for="resolver in resolverData"
         :key="resolver.data.resolver_id"
-        :class="`grid grid-cols-3 sm:grid-cols-5 ${
-          key === resolverData.length - 1 ? '' : 'border-b border-stroke dark:border-strokedark'
-        }`"
+        :class="`grid grid-cols-3 sm:grid-cols-5 border-b border-stroke dark:border-strokedark`"
       >
         <div class="flex items-center gap-3 p-2.5 xl:p-5">
           <p class="hidden text-black dark:text-white sm:block">{{ resolver.data.attributes.user }}</p>

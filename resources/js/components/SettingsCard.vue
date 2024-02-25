@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import apiClient from '../services/api';
 
 const departments = ref([]);
+const selectedFile = ref(null);
 
 const formData = ref({
   name: 'Devid Jhon',
@@ -24,9 +25,34 @@ onMounted(() => {
 
 });
 
+
 const handleSubmit = () => {
-  // Handle form submission for personal information
+  
+    const formDataObject = new FormData();
+      formDataObject.append('name', formData.value.name);
+      formDataObject.append('email', formData.value.email);
+      formDataObject.append('password', formData.value.password);
+      formDataObject.append('department', formData.value.department);
+      formDataObject.append('file', selectedFile.value);
+
+      apiClient.post('/api/resolvers', formDataObject)
+      .then(function(response) {
+        console.log(response.data);
+        if(response.status == 201 )
+        {
+            // alert('Resolver Created Successfully');
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      })
+
 }
+
+const handleFileChange = () => {
+      const fileInput = document.getElementById('fileInput');
+      selectedFile.value = fileInput.files[0];
+    };
 
 </script>
 
@@ -258,6 +284,8 @@ const handleSubmit = () => {
                 accept="image/*"
                 class="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
                 name="image"
+                id="fileInput"
+                v-on:change="handleFileChange"
               />
               <div class="flex flex-col items-center justify-center space-y-3">
                 <span

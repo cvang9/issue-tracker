@@ -26,17 +26,25 @@ class ResolverController extends Controller
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
-            'department' => 'required'
+            'department' => 'required',
+            'file' => 'required|file'
         ]);
 
         $department = Department::where('name', '=', $validated['department'] )->first();
+        $file = request()->file('file');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('uploads', $fileName); 
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
-            'role' => 'resolver'
+            'role' => 'resolver',
+            'img' => $fileName
         ]);
+
+
+
 
         $resolver = Resolver::create([
             'user_id' => $user->id,
