@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ResolverController;
 use App\Http\Controllers\TicketController;
@@ -25,6 +26,7 @@ Route::middleware('auth:sanctum')->group( function() {
     // ResolverController
     Route::get('/resolvers', [ResolverController::class, 'index'] )->name('resolvers.index');
     Route::get('/resolvers/{resolver_id}', [ResolverController::class, 'show'] )->name('resolvers.show');
+    Route::get('/resolvers/{resolver_id}/tickets/', [ResolverController::class, 'departmentTicket'] )->name('resolvers.status.update');
     Route::put('/resolvers/{resolver_id}/tickets/{ticket_id}', [ResolverController::class, 'updateTicket'] )->name('resolvers.status.update');
     Route::post('/resolvers', [ResolverController::class, 'store'] )->middleware(['can:isAdmin'])->name('resolvers.store');
     Route::put('/resolvers/{resolver_id}', [ResolverController::class, 'update'] )->middleware(['can:isAdmin'])->name('resolvers.update');
@@ -37,4 +39,9 @@ Route::middleware('auth:sanctum')->group( function() {
     Route::put('/departments', [DepartmentController::class, 'update'] )->middleware(['can:isAdmin'])->name('departments.update');
     Route::put('/departments/delete', [DepartmentController::class, 'destroy'] )->middleware(['can:isAdmin'])->name('departments.destroy');
 
+
+    // Admin Controller
+    Route::get('/admin/counts', [AdminController::class, 'fetchData' ] )->middleware(['can:isAdmin'])->name('admin.data');
+    Route::get('admin/stats', [AdminController::class, 'fetchStats'] )->middleware(['can:isAdmin'])->name('admin.stats');
+    
 });

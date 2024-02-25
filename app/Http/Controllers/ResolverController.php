@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ResolverResource;
 use App\Http\Resources\ResolverResourceCollection;
+use App\Http\Resources\TicketResourceCollection;
 use App\Models\Department;
 use App\Models\Resolver;
 use App\Models\Ticket;
@@ -96,5 +97,13 @@ class ResolverController extends Controller
         ]);
 
         return response(['Success' => 'Successfully updated ticket'], 200);
+    }
+
+    public function departmentTicket( $resolver_id )
+    {
+        $resolver = Resolver::findOrFail($resolver_id);
+        $department_id = $resolver->department->id;
+        $tickets = Ticket::where('department_id', '=', $department_id )->get();
+        return new TicketResourceCollection($tickets);
     }
 }

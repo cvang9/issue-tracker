@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ResolverController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/admin/stats', [AdminController::class, 'fetchStats' ] )->name('admin.data');
 
 Route::post('/login', [AuthController::class, 'login' ] );
 Route::post('/register', [AuthController::class, 'register' ] );
