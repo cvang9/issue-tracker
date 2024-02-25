@@ -7,8 +7,6 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const pageTitle = ref('Tables')
 
-
-
 </script>
 
 <template>
@@ -16,7 +14,6 @@ const pageTitle = ref('Tables')
     <!-- Breadcrumb Start -->
     <BreadcrumbDefault :pageTitle="pageTitle" />
     <!-- Breadcrumb End -->
-
     <div class="flex flex-col gap-10">
       <TableOne />
       <TableTwo />

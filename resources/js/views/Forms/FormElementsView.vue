@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup >
 import BreadcrumbDefault from '@/components/Breadcrumbs/BreadcrumbDefault.vue'
 import CheckboxFive from '@/components/Forms/Checkboxes/CheckboxFive.vue'
 import CheckboxFour from '@/components/Forms/Checkboxes/CheckboxFour.vue'

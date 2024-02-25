@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AdminResolverResourceCollection;
+use App\Http\Resources\UserResource;
 use App\Models\Department;
 use App\Models\Resolver;
 use App\Models\Ticket;
@@ -31,53 +32,86 @@ class AdminController extends Controller
 
         $currentYear = now()->year;
 
-        $ticketsByMonth = Ticket::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as ticket_count'))
-        ->whereYear('created_at', $currentYear)
-        ->groupBy(DB::raw('MONTH(created_at)'))
-        ->orderBy(DB::raw('MONTH(created_at)'))
-        ->get()
-        ->keyBy('month') 
-        ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
-        ->toArray();
+        if(cache()->has('all_tickets_by_month')) {
 
-        $resolvedTicketsByMonth = Ticket::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as ticket_count'))
-        ->whereYear('created_at', $currentYear)
-        ->groupBy(DB::raw('MONTH(created_at)'))
-        ->orderBy(DB::raw('MONTH(created_at)'))
-        ->where('status', '=', 'resolved')
-        ->get()
-        ->keyBy('month') 
-        ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
-        ->toArray();
-        
+            $ticketsByMonth = cache()->get('all_tickets_by_month', null);
+        }
+        else {
+
+            
+            $ticketsByMonth = Ticket::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as ticket_count'))
+            ->whereYear('created_at', $currentYear)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy(DB::raw('MONTH(created_at)'))
+            ->get()
+            ->keyBy('month') 
+            ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
+            ->toArray();
+            
+        }
+
+
+        if( cache()->has('resolved_tickets_by_month') )
+        {
+            $resolvedTicketsByMonth = cache()->get('resolved_tickets_by_month', null);
+        }
+        else {
+
+            $resolvedTicketsByMonth = Ticket::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as ticket_count'))
+            ->whereYear('created_at', $currentYear)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy(DB::raw('MONTH(created_at)'))
+            ->where('status', '=', 'resolved')
+            ->get()
+            ->keyBy('month') 
+            ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
+            ->toArray();
+            
+        }
+
+
         $startOfWeek = now()->startOfWeek()->format('Y-m-d H:i:s');
         $endOfWeek = now()->endOfWeek()->format('Y-m-d H:i:s');
 
-        $ticketsByDay = Ticket::select(
-                DB::raw('DAYNAME(created_at) as day_of_week'), 
-                DB::raw('COUNT(*) as ticket_count')
-            )
-            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->groupBy(DB::raw('DAYNAME(created_at)'))
-            ->orderBy(DB::raw('MIN(created_at)')) 
-            ->get()
-            ->keyBy('day_of_week') 
-            ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
-            ->toArray();
-        
-        $resolvedTicketsByDay = Ticket::select(
-                DB::raw('DAYNAME(created_at) as day_of_week'), 
-                DB::raw('COUNT(*) as ticket_count')
-            )
-            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->groupBy(DB::raw('DAYNAME(created_at)'))
-            ->orderBy(DB::raw('MIN(created_at)')) 
-            ->where('status', '=', 'resolved')
-            ->get()
-            ->keyBy('day_of_week') 
-            ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
-            ->toArray();
+        if( cache()->has('tickets_by_day') ) 
+        {
+            $ticketsByDay = cache()->get('tickets_by_day', null);
+        }
+        else {
 
+            $ticketsByDay = Ticket::select(
+                DB::raw('DAYNAME(created_at) as day_of_week'), 
+                DB::raw('COUNT(*) as ticket_count')
+                )
+                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->groupBy(DB::raw('DAYNAME(created_at)'))
+                ->orderBy(DB::raw('MIN(created_at)')) 
+                ->get()
+                ->keyBy('day_of_week') 
+                ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
+                ->toArray();
+            }
+        
+        if( cache()->has('resolved_tickets_by_day') )
+        {
+            $resolvedTicketsByDay = cache()->get('resolved_tickets_by_day', null);
+        }
+        else {
+
+            $resolvedTicketsByDay = Ticket::select(
+                DB::raw('DAYNAME(created_at) as day_of_week'), 
+                DB::raw('COUNT(*) as ticket_count')
+                )
+                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->groupBy(DB::raw('DAYNAME(created_at)'))
+                ->orderBy(DB::raw('MIN(created_at)')) 
+                ->where('status', '=', 'resolved')
+                ->get()
+                ->keyBy('day_of_week') 
+                ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
+                ->toArray();
+                
+            }
 
         return response([
             'data' => [
@@ -119,5 +153,12 @@ class AdminController extends Controller
         $resolvers = Resolver::all();
 
         return new AdminResolverResourceCollection( $resolvers );
+    }
+
+    public function show()
+    {
+        $admin = User::where('role', '=', 'admin' )->first();
+
+        return new UserResource($admin);
     }
 }

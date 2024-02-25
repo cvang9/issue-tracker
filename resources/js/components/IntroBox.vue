@@ -39,7 +39,7 @@
   min-height: 40em;
   /* border-radius: 20px; */
   background-color: #ffffff;
-  overflow: hidden;
+  /* overflow: hidden; */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.025);
 }
 

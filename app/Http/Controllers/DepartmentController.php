@@ -60,7 +60,6 @@ class DepartmentController extends Controller
 
     public function destroy()
     {
-        $value = request();
         $validated = request()->validate([
             'department' => ''
         ]);
