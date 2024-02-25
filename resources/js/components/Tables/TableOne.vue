@@ -1,100 +1,80 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<script setup>
+import { ref, onMounted } from 'vue'
+import apiClient from '../../services/api.js';
 
-const brandData = ref([
-  {
-    name: 'Google',
-    visitors: 3.5,
-    revenues: '5,768',
-    sales: 590,
-    conversion: 4.8
-  },
-  {
-    name: 'Twitter',
-    visitors: 2.2,
-    revenues: '4,635',
-    sales: 467,
-    conversion: 4.3
-  },
-  {
-    name: 'Github',
-    visitors: 2.1,
-    revenues: '4,290',
-    sales: 420,
-    conversion: 3.7
-  },
-  {
-    name: 'Vimeo',
-    visitors: 1.5,
-    revenues: '3,580',
-    sales: 389,
-    conversion: 2.5
-  },
-  {
-    name: 'Facebook',
-    visitors: 3.5,
-    revenues: '6,768',
-    sales: 390,
-    conversion: 4.2
-  }
-])
+const deptData = ref([])
+
+onMounted( function() {
+
+    apiClient.get('/api/departments')
+    .then(function(response) {
+        console.log(response.data.data);
+        deptData.value = response.data.data;
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
+
+
+})
+
+
+
 </script>
 
 <template>
   <div
     class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1"
   >
-    <h4 class="mb-6 text-xl font-semibold text-black dark:text-white">Top Channels</h4>
+    <h4 class="mb-6 text-xl font-semibold text-black dark:text-white">Department List</h4>
 
     <div class="flex flex-col">
       <div class="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
         <div class="p-2.5 xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Source</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base">Department Name</h5>
         </div>
         <div class="p-2.5 text-center xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Visitors</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base"> Total Issues</h5>
         </div>
         <div class="p-2.5 text-center xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Revenues</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base">Total Resolvers</h5>
         </div>
         <div class="hidden p-2.5 text-center sm:block xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Sales</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base">Issues Resolved</h5>
         </div>
         <div class="hidden p-2.5 text-center sm:block xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Conversion</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base">Issues Unresolved</h5>
         </div>
       </div>
 
       <div
-        v-for="(brand, key) in brandData"
-        :key="key"
+        v-for="dept in deptData"
+        :key="dept.data.department_id"
         :class="`grid grid-cols-3 sm:grid-cols-5 ${
-          key === brandData.length - 1 ? '' : 'border-b border-stroke dark:border-strokedark'
+          key === deptData.length - 1 ? '' : 'border-b border-stroke dark:border-strokedark'
         }`"
       >
         <div class="flex items-center gap-3 p-2.5 xl:p-5">
-          <div class="flex-shrink-0">
-            <img  alt="Brand" />
-          </div>
-          <p class="hidden text-black dark:text-white sm:block">{{ brand.name }}</p>
+          <p class="hidden text-black dark:text-white sm:block">{{ dept.data.attributes.name }}</p>
         </div>
 
         <div class="flex items-center justify-center p-2.5 xl:p-5">
-          <p class="text-black dark:text-white">{{ brand.visitors }}K</p>
+          <p class="text-black dark:text-white">{{ dept.data.attributes.counts.issue }}</p>
         </div>
 
         <div class="flex items-center justify-center p-2.5 xl:p-5">
-          <p class="text-meta-3">${{ brand.revenues }}</p>
+          <p class="text-black dark:text-white">{{ dept.data.attributes.counts.resolver }}</p>
         </div>
 
         <div class="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-          <p class="text-black dark:text-white">{{ brand.sales }}</p>
+          <p class="text-meta-3">{{ dept.data.attributes.counts.resolved_tickets }}</p>
         </div>
 
         <div class="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-          <p class="text-meta-5">{{ brand.conversion }}%</p>
+          <p class="text-meta-7">{{ dept.data.attributes.counts.unresolved_tickets }}</p>
         </div>
       </div>
     </div>
   </div>
+  
 </template>

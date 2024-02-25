@@ -1,81 +1,139 @@
-<script setup lang="ts">
+<script>
 import { ref } from 'vue'
-// @ts-ignore
-import VueApexCharts from 'vue3-apexcharts'
+import VueApexCharts from 'vue3-apexcharts';
 
-const chartData = {
-  series: [
-    {
-      name: 'Raised',
-      data: [0, 44, 55, 41, 67, 22]
+export default {
+
+    components:{
+        'vue-apex-charts' : VueApexCharts
     },
-    {
-      name: 'Resolved',
-      data: [0, 13, 23, 20, 8, 13]
-    }
-  ],
-  labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S']
-}
+    props: ['counts'],
+    setup(props) {
 
-const chart = ref(null)
 
-const apexOptions = {
-  colors: ['#3056D3', '#80CAEE'],
-  chart: {
-    type: 'bar',
-    height: 335,
-    stacked: true,
-    toolbar: {
-      show: false
-    },
-    zoom: {
-      enabled: false
-    }
-  },
-  responsive: [
-    {
-      breakpoint: 1536,
-      options: {
-        plotOptions: {
-          bar: {
-            borderRadius: 0,
-            columnWidth: '25%'
-          }
+        const isLoading = ref(true);
+        const chartData = ref(null)
+        const apexOptions = ref(null)
+        const chart = ref(null)
+
+        const fun = () => {
+            setTimeout( function() {
+                if( props.counts ) {
+                    isLoading.value = false;
+                    analyse();
+                }
+                else {
+                    fun();
+                }
+            } , 500)
         }
-      }
-    }
-  ],
-  plotOptions: {
-    bar: {
-      horizontal: false,
-      borderRadius: 0,
-      columnWidth: '25%',
-      borderRadiusApplication: 'end',
-      borderRadiusWhenStacked: 'last'
-    }
-  },
-  dataLabels: {
-    enabled: false
-  },
-  xaxis: {
-    type: 'category',
-    categories: chartData.labels
-  },
-  legend: {
-    position: 'top',
-    horizontalAlign: 'left',
-    fontFamily: 'Satoshi',
-    fontWeight: 500,
-    fontSize: '14px',
 
-    markers: {
-      radius: 99
+        fun();
+
+        const analyse = () => {
+
+            
+            chartData.value = {
+        series: [
+            {
+                name: 'Raised',
+                data: [
+                (props.counts.created.Monday) ? props.counts.created.Monday.ticket_count : 0,
+                (props.counts.created.Tuesday) ? props.counts.created.Tuesday.ticket_count : 0,
+                (props.counts.created.Wednesday) ? props.counts.created.Wednesday.ticket_count : 0,
+                (props.counts.created.Thursday) ? props.counts.created.Thursday.ticket_count : 0,
+                (props.counts.created.Friday) ? props.counts.created.Friday.ticket_count : 0,
+                (props.counts.created.Saturday) ? props.counts.created.Saturday.ticket_count : 0,
+                (props.counts.created.Sunday) ? props.counts.created.Sunday.ticket_count : 0             
+            ]
+        },
+            {
+                name: 'Resolved',
+                data: [
+                    (props.counts.resolved.Monday) ? props.counts.resolved.Monday.ticket_count : 0,
+                    (props.counts.resolved.Tuesday) ? props.counts.resolved.Tuesday.ticket_count : 0,
+                    (props.counts.resolved.Wednesday) ? props.counts.resolved.Wednesday.ticket_count : 0,
+                (props.counts.resolved.Thursday) ? props.counts.resolved.Thursday.ticket_count : 0,
+                (props.counts.resolved.Friday) ? props.counts.resolved.Friday.ticket_count : 0,
+                (props.counts.resolved.Saturday) ? props.counts.resolved.Saturday.ticket_count : 0,
+                (props.counts.resolved.Sunday) ? props.counts.resolved.Sunday.ticket_count : 0             
+            ]
+            }
+        ],
+        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S']
     }
-  },
-  fill: {
-    opacity: 1
-  }
+    
+      
+        
+        apexOptions.value = {
+            colors: ['#3056D3', '#80CAEE'],
+            chart: {
+            type: 'bar',
+            height: 335,
+            stacked: true,
+            toolbar: {
+                show: false
+            },
+            zoom: {
+                enabled: false
+            }
+        },
+        responsive: [
+            {
+                breakpoint: 1536,
+            options: {
+                plotOptions: {
+                    bar: {
+                        borderRadius: 0,
+                        columnWidth: '25%'
+                    }
+                }
+            }
+        }
+        ],
+        plotOptions: {
+            bar: {
+            horizontal: false,
+            borderRadius: 0,
+            columnWidth: '25%',
+            borderRadiusApplication: 'end',
+            borderRadiusWhenStacked: 'last'
+        }
+    },
+    dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            type: 'category',
+            categories: chartData.value.labels
+        },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'left',
+            fontFamily: 'Satoshi',
+            fontWeight: 500,
+            fontSize: '14px',
+            
+            markers: {
+            radius: 99
+            }
+        },
+        fill: {
+            opacity: 1
+        }
+    }
 }
+
+    return {
+        apexOptions,
+        chartData,
+        chart,
+        isLoading
+        }
+    }
+}
+
+
 </script>
 
 <template>
@@ -92,7 +150,7 @@ const apexOptions = {
 
     <div>
       <div id="chartTwo" class="-ml-5 -mb-9">
-        <VueApexCharts
+        <vue-apex-charts v-if="!isLoading"
           type="bar"
           height="335"
           :options="apexOptions"

@@ -1,98 +1,80 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<script setup>
+import { ref, onMounted } from 'vue'
+import apiClient from '../../services/api.js';
+
+const resolverData = ref([])
+
+onMounted( function() {
+
+    apiClient.get('/api/admin/resolvers')
+    .then(function(response) {
+        console.log(response.data.data);
+        resolverData.value = response.data.data;
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
 
 
-const products = ref([
-  {
-    id: 1,
-    name: 'Apple Watch Series 7',
-    category: 'Electronics',
-    price: 269,
-    sold: 22,
-    profit: 45,
-  },
-  {
-    id: 2,
-    name: 'Macbook Pro M1',
-    category: 'Electronics',
-    price: 546,
-    sold: 34,
-    profit: 125,
-  },
-  {
-    id: 3,
-    name: 'Dell Inspiron 15',
-    category: 'Electronics',
-    price: 443,
-    sold: 64,
-    profit: 247,
-  },
-  {
-    id: 4,
-    name: 'HP Probook 450',
-    category: 'Electronics',
-    price: 499,
-    sold: 72,
-    profit: 103,
-  }
-])
+})
+
+
+
 </script>
 
 <template>
   <div
-    class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+    class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1"
   >
-    <div class="py-6 px-4 md:px-6 xl:px-7.5">
-      <h4 class="text-xl font-bold text-black dark:text-white">Top Products</h4>
-    </div>
+    <h4 class="mb-6 text-xl font-semibold text-black dark:text-white">Resolvers List</h4>
 
-    <!-- Table Header -->
-    <div
-      class="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
-    >
-      <div class="col-span-3 flex items-center">
-        <p class="font-medium">Product Name</p>
-      </div>
-      <div class="col-span-2 hidden items-center sm:flex">
-        <p class="font-medium">Category</p>
-      </div>
-      <div class="col-span-1 flex items-center">
-        <p class="font-medium">Price</p>
-      </div>
-      <div class="col-span-1 flex items-center">
-        <p class="font-medium">Sold</p>
-      </div>
-      <div class="col-span-1 flex items-center">
-        <p class="font-medium">Profit</p>
-      </div>
-    </div>
-
-    <!-- Table Rows -->
-    <div
-      v-for="product in products"
-      :key="product.id"
-      class="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
-    >
-      <div class="col-span-3 flex items-center">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <div class="h-12.5 w-15 rounded-md">
-            <img :src="product.imageSrc" :alt="`Product: ${product.name}`" />
-          </div>
-          <p class="text-sm font-medium text-black dark:text-white">{{ product.name }}</p>
+    <div class="flex flex-col">
+      <div class="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
+        <div class="p-2.5 xl:p-5">
+          <h5 class="text-sm font-medium uppercase xsm:text-base">Resolver Name</h5>
+        </div>
+        <div class="p-2.5 text-center xl:p-5">
+          <h5 class="text-sm font-medium uppercase xsm:text-base"> Department Name </h5>
+        </div>
+        <div class="p-2.5 text-center xl:p-5">
+          <h5 class="text-sm font-medium uppercase xsm:text-base"> Issues Resolved </h5>
+        </div>
+        <div class="hidden p-2.5 text-center sm:block xl:p-5">
+          <h5 class="text-sm font-medium uppercase xsm:text-base">Issues Rejected </h5>
+        </div>
+        <div class="hidden p-2.5 text-center sm:block xl:p-5">
+          <h5 class="text-sm font-medium uppercase xsm:text-base">Issue Processing</h5>
         </div>
       </div>
-      <div class="col-span-2 hidden items-center sm:flex">
-        <p class="text-sm font-medium text-black dark:text-white">{{ product.category }}</p>
-      </div>
-      <div class="col-span-1 flex items-center">
-        <p class="text-sm font-medium text-black dark:text-white">${{ product.price }}</p>
-      </div>
-      <div class="col-span-1 flex items-center">
-        <p class="text-sm font-medium text-black dark:text-white">{{ product.sold }}</p>
-      </div>
-      <div class="col-span-1 flex items-center">
-        <p class="text-sm font-medium text-meta-3">${{ product.profit }}</p>
+
+      <div
+        v-for="resolver in resolverData"
+        :key="resolver.data.resolver_id"
+        :class="`grid grid-cols-3 sm:grid-cols-5 ${
+          key === resolverData.length - 1 ? '' : 'border-b border-stroke dark:border-strokedark'
+        }`"
+      >
+        <div class="flex items-center gap-3 p-2.5 xl:p-5">
+          <p class="hidden text-black dark:text-white sm:block">{{ resolver.data.attributes.user }}</p>
+        </div>
+
+        <div class="flex items-center justify-center p-2.5 xl:p-5">
+          <p class="text-black dark:text-white">{{ resolver.data.attributes.department }}</p>
+        </div>
+
+        <div class="flex items-center justify-center p-2.5 xl:p-5">
+          <p class="text-meta-3">{{ resolver.data.attributes.counts.resolved_tickets }}</p>
+        </div>
+
+        <div class="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+          <p class="text-meta-7">{{ resolver.data.attributes.counts.rejected_tickets }}</p>
+        </div>
+
+        <div class="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+          <p class="text-meta-5">{{ resolver.data.attributes.counts.processing_tickets }}</p>
+        </div>
       </div>
     </div>
   </div>
+  
 </template>
