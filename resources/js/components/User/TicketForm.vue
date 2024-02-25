@@ -4,9 +4,9 @@
       <input type="text" v-model="title" placeholder="Enter the title...">
       <textarea v-model="query" placeholder="Enter your query..." rows="6"></textarea>
       <div class="category-buttons">
-        <button type="button" @click="selectCategory('General')" :class="{ active: selectedCategory === 'General' }">General</button>
+        <button type="button" @click="selectCategory('Security')" :class="{ active: selectedCategory === 'Security' }">Security</button>
         <button type="button" @click="selectCategory('Technical')" :class="{ active: selectedCategory === 'Technical' }">Technical</button>
-        <button type="button" @click="selectCategory('Sales')" :class="{ active: selectedCategory === 'Sales' }">Sales</button>
+        <button type="button" @click="selectCategory('Management')" :class="{ active: selectedCategory === 'Management' }">Management</button>
       </div>
       <button type="submit">Submit</button>
     </form>
@@ -14,10 +14,13 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
+import apiClient from '../../services/api';
 
 export default {
-  setup() {
+  emits: defineEmits(['formSubmitted']),
+
+  setup(_, {emit}) {
     const title = ref('');
     const query = ref('');
     const selectedCategory = ref(null);
@@ -26,9 +29,25 @@ export default {
       console.log('Title:', title.value);
       console.log('Query:', query.value);
       console.log('Category:', selectedCategory.value);
+
+      const payload = {
+        'body': query.value,
+        'department': selectedCategory.value
+      }
+
+      apiClient.post("/api/users/4/tickets", payload)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+
+
       title.value = '';
       query.value = '';
       selectedCategory.value = null;
+      emit('formSubmitted');
     };
 
     const selectCategory = (category) => {

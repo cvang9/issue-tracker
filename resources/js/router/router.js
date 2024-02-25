@@ -5,6 +5,7 @@ import Signup from '../pages/Auth/SignupPage.vue';
 import Resolver from '../components/Resolver/MainPage.vue';
 import ResolverProfile from '../components/Resolver/ResolverProfile.vue';
 import Tickets from '../components/User/Tickets.vue'
+import TicketDetail from '../components/User/TicketDetail.vue'
 
 export default createRouter({
 
@@ -15,7 +16,8 @@ export default createRouter({
         { path: '/user-signup', component: Signup },
         { path: '/resolver', component: Resolver },
         { path: '/resolver-profile', component: ResolverProfile },
-        { path: '/tickets', component: Tickets }
+        { path: '/tickets', component: Tickets },
+        { path: '/TicketDetails/:id', component: TicketDetail, name: 'TicketDetail' }
     ]
 });
 

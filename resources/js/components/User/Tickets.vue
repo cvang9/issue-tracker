@@ -18,6 +18,7 @@
         <div class="issue-meta">
           <button class="category">{{ issue.data.attributes.department.data.attributes.name }}</button>
           <span class="posted-at">Posted {{ issue.postedAt }}</span>
+          <router-link :to="{ name: 'TicketDetail', params: { id: issue.data.ticket_id } }">View more</router-link>
         </div>
       </div>
     </div>
@@ -27,7 +28,7 @@
     <div class="modal" v-if="showTicketForm">
       <div class="modal-content">
         <span class="close-button" @click="showTicketForm = false">&times;</span>
-        <TicketForm />
+        <TicketForm @formSubmitted="handleFormSubmission"/>
       </div>
     </div>
   </div>
@@ -36,7 +37,7 @@
 <script setup>
 
 // import axios from 'axios';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import profile from './profile.png'
 import user from './user.png'
@@ -44,8 +45,11 @@ import TicketForm from './TicketForm.vue';
 import apiClient from "../../services/api.js"
 
   const issues = ref([]);
+  const router = useRouter();
+  const showText = ref(false);
+  const showTicketForm = ref(false);
 
-  // const fetchTickets = () => {
+  const fetchTickets = () => {
     apiClient.get('/api/tickets')
       .then(res => {
         console.log(res.data.data);
@@ -56,32 +60,15 @@ import apiClient from "../../services/api.js"
       .catch(error => {
         console.log(error);
       })
-  // }
-    // const issues = ref([
-    //   {
-    //     id: 1,
-    //     title: "How to learn programming?",
-    //     query: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate tempor libero. Maecenas ultricies eleifend magna, at malesuada nisi imperdiet a. Etiam ipsum arcu, ullamcorper eget finibus non, accumsan nec mauris. Mauris scelerisque leo eget turpis tincidunt hendrerit. Praesent efficitur mauris facilisis vulputate molestie.",
-    //     category: "Programming",
-    //     userImage: profile,
-    //     username: "User 1",
-    //     postedAt: "2 hours ago"
-    //   },
-    //   {
-    //     id: 2,
-    //     title: "What are some good books for learning JavaScript?",
-    //     query: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate tempor libero. Maecenas ultricies eleifend magna, at malesuada nisi imperdiet a. Etiam ipsum arcu, ullamcorper eget finibus non, accumsan nec mauris. Mauris scelerisque leo eget turpis tincidunt hendrerit. Praesent efficitur mauris facilisis vulputate molestie.",
-    //     category: "JavaScript",
-    //     userImage: profile,
-    //     username: "User 2",
-    //     postedAt: "5 hours ago"
-    //   }
-    //   // Add more issues as needed
-    // ]);
+  }
 
-    const router = useRouter();
-    const showText = ref(false);
-    const showTicketForm = ref(false);
+  fetchTickets();
+
+  const handleFormSubmission = () => {
+  fetchTickets();
+  showTicketForm.value = false;
+};
+
 
     const openTicketForm = () => {
       router.push('/ticketForm');
@@ -124,6 +111,7 @@ import apiClient from "../../services/api.js"
 }
 
 .issue {
+  position: relative;
   margin-bottom: 20px;
   padding: 20px;
   background-color: rgb(249, 244, 234);
