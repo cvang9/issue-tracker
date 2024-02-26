@@ -19,7 +19,13 @@ class DepartmentResource extends JsonResource
                 'type' => 'department',
                 'department_id' => $this->id,
                 'attributes' => [
-                    'name' => $this->name
+                    'name' => $this->name,
+                    'counts' => [
+                        'issue' => $this->tickets()->count(),
+                        'resolver' => $this->resolvers()->count(),
+                        'resolved_tickets' => $this->tickets()->where('status', '=', 'resolved')->count(),
+                        'unresolved_tickets' => $this->tickets()->where('status', '!=', 'resolved' )->count()
+                    ]
                 ]
             ]
                 ];

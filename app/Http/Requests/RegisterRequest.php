@@ -24,7 +24,8 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => "required",
-            'password' => "required"
+            'password' => "required",
+            'file' => 'required|file'
         ];
     }
 
@@ -32,9 +33,10 @@ class RegisterRequest extends FormRequest
     public function validated($key = null, $default = null)
     {
         return [
-            'name' => request('name')['_value'],
-            'email' => request('email')['_value'],
-            'password' => request('password')['_value'],
+            'name' => request('name'),
+            'email' => request('email'),
+            'password' => request('password'),
+            'file' => request('file'),
             'role' => 'user'
         ];
     }

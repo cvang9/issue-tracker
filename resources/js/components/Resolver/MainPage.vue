@@ -1,61 +1,143 @@
 <template>
-  <div class="main-div">
-    <div class="left-div">
+  <div v-if="loadingTickets || loadingUser" :class="[darkMode ? 'dark-loading' : 'loading']">
+    <div></div>
+  </div>
+  <div v-else :class="[darkMode ? 'dark-main-div' : 'main-div']">
+    <div :class="[darkMode ? 'dark-left-div' : 'left-div']">
       <img
         src="https://qph.fs.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd"
         alt="resolver"
       />
-      <p>Shivam Teotia</p>
+      <p class="name">
+        {{ user?.data?.attributes?.user?.data?.attributes?.name }}
+      </p>
+      <P>{{ user?.data?.attributes?.department?.data?.attributes?.name }}</P>
+      <!-- <p style="color: green">
+        Ticket resolved - {{ user?.data?.attributes?.resolved_tickets.length }}
+      </p> -->
+      <!-- <p style="color: red">Ticket rejected - 10</p> -->
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+        <router-link :to="`/resolver-profile/${$route.params.id}`"> My Profile </router-link>
+      </button>
       <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+        v-if="!loading"
+        class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded mt-4 hover:cursor-pointer"
+        @click="logoutHandler"
       >
-        <router-link to="/resolver-profile"> My Profile </router-link>
+        Logout
+      </button>
+      <Loader v-if="loading" />
+      <button :class="[darkMode ? 'lightbutton' : 'darkbutton']" @click="toggleMode">
+        {{ darkMode ? 'Light' : 'Dark' }}
       </button>
     </div>
-    <div class="right-div">
-      <p>Your Department Related Issues</p>
-      <div v-for="item in 5" :key="item" class="right-div-card">
-        <issue-card />
+    <div :class="[darkMode ? 'dark-right-div' : 'right-div']">
+      <p>Your Department Related issues</p>
+      <div v-for="item in cards.data" :key="item" class="right-div-card">
+        <issue-card :card="item" @loadagain="newfunc" :darkMode="darkMode" />
       </div>
     </div>
   </div>
 </template>
 
-
-<script>
-
-import IssueCard from "./IssueCard.vue";
-import apiClient from "../../services/api.js";
-
-export default {
-
-    components: {
-        'issue-card' : IssueCard
-    },
-
-    setup() {
-        
-        apiClient.get('/api/users')
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-            
-    },
+<script setup>
+import IssueCard from './IssueCard.vue'
+import Loader from './Loader.vue'
+import axios from 'axios'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
+import { useAuthStore } from '../../store/auth.js'
+import apiClient from '../../services/api.js'
+import { useRoute, useRouter } from 'vue-router'
+import { computed, onMounted, ref } from 'vue'
+const loading = ref(false)
+const route = useRoute()
+const loadingUser = ref(true)
+const loadingTickets = ref(true)
+const route1 = useRouter()
+const cards = ref([])
+const darkMode = ref(false)
+const user = ref(null)
+const { authenticated, toggleState } = useAuthStore()
+function toggleMode() {
+  darkMode.value = !darkMode.value
+  if (darkMode.value) {
+    localStorage.setItem('dark', true)
+  } else {
+    localStorage.removeItem('dark')
+  }
 }
-
-
+function newfunc() {
+  loadUser()
+  loaded()
+  toast.success('Successfully resolved', {
+    autoClose: 1000
+  })
+}
+toast.success('Welcome back', {
+  autoClose: 1000
+})
+const logoutHandler = async () => {
+  loading.value = true
+  try {
+    const response = await axios.post('/logout')
+    if (response.status == 200) {
+      toggleState()
+      localStorage.removeItem('token')
+      localStorage.removeItem('id')
+      localStorage.removeItem('role')
+      route1.push('/')
+    }
+  } catch (error) {
+    console.log(error.response)
+  } finally {
+    loading.value = false
+  }
+}
+const loadUser = () => {
+  loadingUser.value = true
+  apiClient
+    .get(`/api/resolvers/${route.params.id}`)
+    .then((response) => {
+      user.value = response.data
+      loadingUser.value = false
+    })
+    .catch((error) => {
+      console.log(error)
+      loadingUser.value = false
+    })
+}
+const loaded = () => {
+  loadingTickets.value = true
+  apiClient
+    .get(`/api/resolvers/${route.params.id}/tickets`)
+    .then((response) => {
+      cards.value = response.data
+      loadingTickets.value = false
+    })
+    .catch((error) => {
+      console.log(error)
+      loadingTickets.value = false
+    })
+}
+onMounted(() => {
+  if (localStorage.getItem('dark')) {
+    darkMode.value = true
+  }
+  if (!authenticated) {
+    route1.push('/')
+  } else {
+    loaded()
+    loadUser()
+  }
+})
 </script>
-
-
-
 <style scoped>
+/* light mode CSS */
 .main-div {
   height: 100vh;
   display: flex;
-  gap: 2vmax;
+  /* gap: 2vmax; */
   width: 100%;
 }
 .left-div {
@@ -65,13 +147,13 @@ export default {
   width: 25%;
 }
 .left-div > img {
-  margin-top: 2vmax;
+  margin-top: 5vmax;
   width: 80%;
   border-radius: 50%;
   margin-bottom: 2vmax;
 }
-.left-div > p {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+.left-div > .name {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 700;
 }
 .right-div {
@@ -91,5 +173,107 @@ export default {
 }
 .right-div-card {
   padding: 1rem 2rem;
+}
+.loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: whitesmoke;
+  display: grid;
+  place-items: center;
+  max-width: 100%;
+}
+.loading > div {
+  width: 15vmax;
+  border-bottom: 4px solid rgb(116, 84, 84);
+  border-radius: 50%;
+  height: 14vmax;
+  animation: loadingRouter 850ms linear infinite;
+}
+@keyframes loadingRouter {
+  to {
+    transform: rotateZ(-360deg);
+  }
+}
+
+/* dark mode CSS */
+.dark-main-div {
+  height: 100vh;
+  display: flex;
+  /* gap: 2vmax; */
+  width: 100%;
+}
+.dark-left-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #3a3a3a;
+  width: 25%;
+  color: white;
+}
+.dark-left-div > img {
+  margin-top: 5vmax;
+  width: 80%;
+  border-radius: 50%;
+  margin-bottom: 2vmax;
+}
+.dark-left-div > .name {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
+}
+.dark-right-div {
+  width: 75%;
+  background-color: #3a3a3a;
+  overflow-y: auto;
+  border-radius: 5px;
+}
+.dark-right-div > p {
+  margin: 5px 0;
+  text-align: center;
+  font-size: 2vmax;
+  /* color: white; */
+  color: rgba(235, 235, 235, 0.6);
+  padding-bottom: 1.2vmax;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-bottom: 1px solid grey;
+}
+.dark-right-div-card {
+  padding: 1rem 2rem;
+}
+.dark-loading {
+  width: 100vw;
+  height: 100vh;
+  /* background-color: whitesmoke; */
+  background-color: #3a3a3a;
+  display: grid;
+  place-items: center;
+  max-width: 100%;
+}
+.dark-loading > div {
+  width: 15vmax;
+  border-bottom: 4px solid white;
+  border-radius: 50%;
+  height: 14vmax;
+  animation: loadingRouter 850ms linear infinite;
+}
+@keyframes loadingRouter {
+  to {
+    transform: rotateZ(-360deg);
+  }
+}
+.lightbutton {
+  position: fixed;
+  border: 1px solid white;
+  left: 10px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  bottom: 10px;
+}
+.darkbutton {
+  position: fixed;
+  border: 1px solid black;
+  left: 10px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  bottom: 10px;
 }
 </style>

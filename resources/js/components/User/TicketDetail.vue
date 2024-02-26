@@ -7,9 +7,22 @@
       </div>
     </div>
     <div class="ticket-details">
-      <p class="ticket-query"><span class="bold">Query:</span> {{ ticket.body }}</p>
-      <p class="ticket-posted-by"><span class="bold">Posted by:</span> {{ ticket.user.name }}</p>
-      <p v-if="1" class="ticket-feedback"><span class="bold">Feedback:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p class="ticket-query">
+        <span class="bold">Query:</span> {{ ticket.body }}
+      </p>
+      <p class="ticket-posted-by">
+        <span class="bold">Posted by:</span>
+        {{ ticket.user.data.attributes.name }}
+      </p>
+      <p v-if="1" class="ticket-feedback">
+        <span class="bold">Feedback:</span> Lorem ipsum dolor sit amet,
+        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
     </div>
   </div>
 </template>
@@ -22,37 +35,38 @@ import apiClient from "../../services/api";
 const ticket = ref({});
 
 const fetchTicketDetails = () => {
-    // Access route parameter
-    const route = useRoute();
-    const ticketId = route.params.id;
+  // Access route parameter
+  const route = useRoute();
+  const ticketId = route.params.id;
 
-    apiClient.get('/api/tickets/'+ticketId)
-        .then(res => {
-        console.log(res.data.data.attributes);
-        ticket.value = res.data.data.attributes;
-        // console.log(issues._rawValue);
-        // console.log(issues.value[0]);
-        })
-        .catch(error => {
-        console.log(error);
-        })
-    // Fetch ticket details using ticketId
-    // Assign the fetched ticket details to 'ticket' ref
+  apiClient
+    .get("/api/tickets/" + ticketId)
+    .then((res) => {
+      console.log(res.data.data.attributes);
+      ticket.value = res.data.data.attributes;
+      // console.log(issues._rawValue);
+      // console.log(issues.value[0]);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  // Fetch ticket details using ticketId
+  // Assign the fetched ticket details to 'ticket' ref
 };
 
 fetchTicketDetails();
 const getStateClass = (state) => {
-    switch (state) {
-    case 'pending':
-      return 'pending-state';
-    case 'reject':
-      return 'reject-state';
-    case 'processing':
-      return 'processing-state';
-    case 'resolve':
-      return 'resolve-state';
+  switch (state) {
+    case "pending":
+      return "pending-state";
+    case "reject":
+      return "reject-state";
+    case "processing":
+      return "processing-state";
+    case "resolve":
+      return "resolve-state";
     default:
-      return '';
+      return "";
   }
 };
 </script>

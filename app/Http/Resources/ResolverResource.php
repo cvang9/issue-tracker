@@ -21,7 +21,12 @@ class ResolverResource extends JsonResource
                 'attributes' => [
                     'user' => new UserResource($this->user),
                     'department' => new DepartmentResource($this->department),
-                    'resolved_tickets' => new TicketResourceCollection($this->tickets) 
+                    'resolved_tickets' => new TicketResourceCollection($this->tickets),
+                    'counts' => [
+                        'resolved_tickets' => $this->tickets()->where('status', '=', 'resolved' )->count(),
+                        'rejected_tickets' =>  $this->tickets()->where('status', '=', 'rejected' )->count(),
+                        'processing_tickets' =>  $this->tickets()->where('status', '=', 'processing' )->count()
+                    ]
                 ]
             ]
         ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ResolverResource;
 use App\Http\Resources\ResolverResourceCollection;
+use App\Http\Resources\TicketResourceCollection;
 use App\Models\Department;
 use App\Models\Resolver;
 use App\Models\Ticket;
@@ -25,17 +26,25 @@ class ResolverController extends Controller
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
-            'department' => 'required'
+            'department' => 'required',
+            'file' => 'required|file'
         ]);
 
         $department = Department::where('name', '=', $validated['department'] )->first();
+        $file = request()->file('file');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('uploads', $fileName); 
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
-            'role' => 'resolver'
+            'role' => 'resolver',
+            'img' => $fileName
         ]);
+
+
+
 
         $resolver = Resolver::create([
             'user_id' => $user->id,
@@ -96,5 +105,13 @@ class ResolverController extends Controller
         ]);
 
         return response(['Success' => 'Successfully updated ticket'], 200);
+    }
+
+    public function departmentTicket( $resolver_id )
+    {
+        $resolver = Resolver::findOrFail($resolver_id);
+        $department_id = $resolver->department->id;
+        $tickets = Ticket::where('department_id', '=', $department_id )->get();
+        return new TicketResourceCollection($tickets);
     }
 }

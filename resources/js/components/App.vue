@@ -38,7 +38,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped > 
 
 .flex-container {
     display: flex;
@@ -55,16 +55,7 @@ export default {
 }
 
 
-h1 {
-  font-size: 2.5em;
-  color: #131125;
-  font-weight: 700;
-  margin: 0;
-}
 
-p {
-  line-height: 180%;
-}
 
 .login-box {
   display: flex;
