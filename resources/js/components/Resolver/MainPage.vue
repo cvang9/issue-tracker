@@ -4,24 +4,17 @@
   </div>
   <div v-else :class="[darkMode ? 'dark-main-div' : 'main-div']">
     <div :class="[darkMode ? 'dark-left-div' : 'left-div']">
-      <img
-        src="https://qph.fs.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd"
-        alt="resolver"
-      />
+      <img :src="profile" alt="resolver" />
       <p class="name">
         {{ user?.data?.attributes?.user?.data?.attributes?.name }}
       </p>
       <P>{{ user?.data?.attributes?.department?.data?.attributes?.name }}</P>
-      <!-- <p style="color: green">
-        Ticket resolved - {{ user?.data?.attributes?.resolved_tickets.length }}
-      </p> -->
-      <!-- <p style="color: red">Ticket rejected - 10</p> -->
       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
         <router-link :to="`/resolver-profile/${$route.params.id}`"> My Profile </router-link>
       </button>
       <button
         v-if="!loading"
-        class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded mt-4 hover:cursor-pointer"
+        class="bg-red hover:bg-white hover:text-red text-white font-bold py-2 px-4 rounded mt-4"
         @click="logoutHandler"
       >
         Logout
@@ -43,13 +36,12 @@
 <script setup>
 import IssueCard from './IssueCard.vue'
 import Loader from './Loader.vue'
-import axios from 'axios'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useAuthStore } from '../../store/auth.js'
 import apiClient from '../../services/api.js'
 import { useRoute, useRouter } from 'vue-router'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 const loading = ref(false)
 const route = useRoute()
 const loadingUser = ref(true)
@@ -58,6 +50,7 @@ const route1 = useRouter()
 const cards = ref([])
 const darkMode = ref(false)
 const user = ref(null)
+const profile = ref('http://[::1]:5173/storage/app/uploads/profile.png')
 const { authenticated, toggleState } = useAuthStore()
 function toggleMode() {
   darkMode.value = !darkMode.value
@@ -68,7 +61,6 @@ function toggleMode() {
   }
 }
 function newfunc() {
-  loadUser()
   loaded()
   toast.success('Successfully resolved', {
     autoClose: 1000
@@ -77,22 +69,25 @@ function newfunc() {
 toast.success('Welcome back', {
   autoClose: 1000
 })
-const logoutHandler = async () => {
+const logoutHandler = () => {
   loading.value = true
-  try {
-    const response = await axios.post('/logout')
-    if (response.status == 200) {
+  apiClient
+    .get('/api/logout')
+    .then((response) => {
       toggleState()
       localStorage.removeItem('token')
       localStorage.removeItem('id')
       localStorage.removeItem('role')
+      loading.value = false
       route1.push('/')
-    }
-  } catch (error) {
-    console.log(error.response)
-  } finally {
-    loading.value = false
-  }
+    })
+    .catch((error) => {
+      console.log(error)
+      toast.error('Error occured,Please try again later', {
+        autoClose: 1000
+      })
+      loading.value = false
+    })
 }
 const loadUser = () => {
   loadingUser.value = true
@@ -100,6 +95,10 @@ const loadUser = () => {
     .get(`/api/resolvers/${route.params.id}`)
     .then((response) => {
       user.value = response.data
+
+      if (user.value?.data?.attributes?.user?.data?.attributes?.img !== '') {
+        profile.value = `http://[::1]:5173/storage/app/uploads/${user.value?.data?.attributes?.user?.data?.attributes?.img}`
+      }
       loadingUser.value = false
     })
     .catch((error) => {
@@ -270,7 +269,9 @@ onMounted(() => {
 }
 .darkbutton {
   position: fixed;
+  background-color: #3a3a3a;
   border: 1px solid black;
+  color: white;
   left: 10px;
   padding: 1px 5px;
   border-radius: 5px;

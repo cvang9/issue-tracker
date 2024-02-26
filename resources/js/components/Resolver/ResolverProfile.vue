@@ -14,11 +14,8 @@
         </div>
       </div>
       <div :class="[darkMode ? 'dark-profile-right-div' : 'profile-right-div']">
-        <img
-          src="https://qph.fs.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd"
-          alt="resolver"
-        />
-        <P>{{ department }}</P>
+        <img :src="profile" alt="resolver" />
+        <P style="font-size: 2vmax">Department- {{ department }}</P>
         <p style="color: green">
           Ticket resolved -
           {{ user?.data?.attributes?.counts?.resolved_tickets }}
@@ -27,7 +24,7 @@
           Ticket rejected -
           {{ user?.data?.attributes?.counts?.rejected_tickets }}
         </p>
-        <p style="color: blue">
+        <p>
           Ticket processing -
           {{ user?.data?.attributes?.counts?.processing_tickets }}
         </p>
@@ -45,6 +42,7 @@ import apiClient from '../../services/api.js'
 const user = ref('')
 const route = useRoute()
 const name = ref('')
+const profile = ref('http://[::1]:5173/storage/app/uploads/profile.png')
 const router = useRouter()
 const department = ref('')
 const darkMode = ref(false)
@@ -55,11 +53,13 @@ const loadUser = () => {
   apiClient
     .get(`/api/resolvers/${route.params.id}`)
     .then((response) => {
-      console.log(response.data)
       user.value = response.data
       name.value = user.value.data?.attributes?.user?.data?.attributes?.name
       email.value = user.value.data?.attributes?.user?.data?.attributes?.email
       department.value = user.value?.data?.attributes?.department?.data?.attributes?.name
+      if (user.value?.data?.attributes?.user?.data?.attributes?.img !== '') {
+        profile.value = `http://[::1]:5173/storage/app/uploads/${user.value?.data?.attributes?.user?.data?.attributes?.img}`
+      }
     })
     .catch((error) => {
       console.log(error)
@@ -103,7 +103,9 @@ onMounted(() => {
 .profile-left-div > input {
   padding: 1vmax 1vmax;
   color: black;
-  border-color: rgb(123, 123, 207);
+  width: 100%;
+  border: 1px solid rgb(123, 123, 207);
+  border-radius: 5px;
   outline: none;
   margin: 0.5vmax 0;
 }
@@ -192,7 +194,9 @@ onMounted(() => {
 .dark-profile-left-div > input {
   padding: 1vmax 1vmax;
   color: black;
-  border-color: #3a3a3a;
+  width: 100%;
+  border: 1px solid #3a3a3a;
+  border-radius: 5px;
   outline: none;
   margin: 0.5vmax 0;
 }

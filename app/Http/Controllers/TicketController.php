@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\TicketResource;
 use App\Http\Resources\TicketResourceCollection;
+use App\Jobs\SendTicketCreatedNotification;
 use App\Models\Department;
+use App\Models\Resolver;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Notifications\TestNotification;
+use App\Notifications\TicketCreatedNotification;
 use Illuminate\Http\Request;
+// use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification;
 
 class TicketController extends Controller
 {
@@ -41,12 +47,22 @@ class TicketController extends Controller
 
         $department = Department::where('name', '=', $validate['department'])->first();
 
-        Ticket::create([
+        $ticket = Ticket::create([
             'body' => $validate['body'],
             'status' => 'pending',
             'user_id' => $user_id,
             'department_id' => $department->id
         ]);
+
+        // Send Notifications To All Resolvers that are from same department
+        $resolvers = Resolver::where('department_id', '=', $department->id )->get();
+
+        foreach ($resolvers as $resolver) {
+            SendTicketCreatedNotification::dispatch($resolver->user, $ticket);
+        }
+
+
+        
 
         return response([
             'data' => [
@@ -81,7 +97,7 @@ class TicketController extends Controller
     {
         $validated = request()->validate([
             'body' => '',
-            'department' => ''
+            'department' => '',
         ]);
 
         $ticket = Ticket::findOrFail($ticket_id);
