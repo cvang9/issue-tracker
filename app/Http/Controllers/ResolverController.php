@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ResolverResource;
 use App\Http\Resources\ResolverResourceCollection;
 use App\Http\Resources\TicketResourceCollection;
+use App\Jobs\SendTicketUpdateNotification;
 use App\Models\Department;
 use App\Models\Resolver;
 use App\Models\Ticket;
@@ -103,6 +104,10 @@ class ResolverController extends Controller
             'status' => $validated['status'],
             'resolver_id' => $resolver_id
         ]);
+
+        $user = $ticket->user;
+
+        SendTicketUpdateNotification::dispatch($user, $ticket);
 
         return response(['Success' => 'Successfully updated ticket'], 200);
     }
