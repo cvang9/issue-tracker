@@ -5,10 +5,7 @@
     ]"
   >
     <div :class="[darkMode ? 'dark-card-div-header' : 'card-div-header']">
-      <img
-        src="https://qph.fs.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd"
-        alt="none"
-      />
+      <img :src="profile" alt="none" />
       <p class="mr-5">
         {{ card.data.attributes.user.data.attributes.name }}
       </p>
@@ -67,7 +64,13 @@ export default {
     return {
       toogle: false,
       feedback: '',
-      status: 'pending'
+      status: 'pending',
+      profile: 'http://[::1]:5173/storage/app/uploads/user.png'
+    }
+  },
+  onmounted() {
+    if (this.card.data.attributes.user.data.attributes.img !== '') {
+      this.profile = `http://[::1]:5173/storage/app/uploads/${this.card.data.attributes.user.data.attributes.img}`
     }
   },
   methods: {
@@ -77,6 +80,7 @@ export default {
         feedback: this.feedback,
         status: this.status
       }
+      this.toggle = !this.toggle
       apiClient
         .put(`/api/resolvers/${this.$route.params.id}/tickets/${this.card.data.ticket_id}`, payload)
         .then((response) => {
@@ -84,12 +88,15 @@ export default {
           this.$emit('loadagain')
         })
         .catch((error) => {
-          this.$emit('loadagain')
+          toast.error('Error occured,Please try again later', {
+            autoClose: 1000
+          })
           console.log(error)
         })
     },
     rejected() {
       this.status = 'rejected'
+      this.toggle = !this.toggle
       const payload = {
         feedback: this.feedback,
         status: this.status
@@ -101,7 +108,9 @@ export default {
           this.$emit('loadagain')
         })
         .catch((error) => {
-          this.$emit('loadagain')
+          toast.error('Error occured,Please try again later', {
+            autoClose: 1000
+          })
           console.log(error)
         })
     },
@@ -111,6 +120,7 @@ export default {
         feedback: this.feedback,
         status: this.status
       }
+      this.toggle = !this.toggle
       apiClient
         .put(`/api/resolvers/${this.$route.params.id}/tickets/${this.card.data.ticket_id}`, payload)
         .then((response) => {
@@ -118,7 +128,9 @@ export default {
           this.$emit('loadagain')
         })
         .catch((error) => {
-          this.$emit('loadagain')
+          toast.error('Error occured,Please try again later', {
+            autoClose: 1000
+          })
           console.log(error)
         })
     }
