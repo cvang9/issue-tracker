@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ResolverController;
 use App\Http\Controllers\TicketController;
@@ -45,4 +46,8 @@ Route::middleware('auth:sanctum')->group( function() {
     Route::get('/admin/resolvers', [AdminController::class, 'fetchResolvers' ] )->middleware(['can:isAdmin'])->name('admin.data');
     Route::get('/admin', [AdminController::class, 'show'] )->middleware(['can:isAdmin'])->name('admin.show');
     
+
+    // AdminNotification Controller
+    Route::get('/admin/notifications', [AdminNotificationController::class, 'getLatestNotifications'] )->name('admin.notifications');
+
 });

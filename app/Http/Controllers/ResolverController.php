@@ -102,12 +102,14 @@ class ResolverController extends Controller
         $ticket->update([
             'feedback' => $validated['feedback'],
             'status' => $validated['status'],
-            'resolver_id' => $resolver_id
+            'resolver_id' => (int)$resolver_id
         ]);
 
-        $user = $ticket->user;
+        // $resolver = Resolver::findOrFail($resolver_id);
 
-        SendTicketUpdateNotification::dispatch($user, $ticket);
+        // $user = $ticket->user;
+
+        // SendTicketUpdateNotification::dispatch($user, $ticket);
 
         return response(['Success' => 'Successfully updated ticket'], 200);
     }

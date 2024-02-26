@@ -3,7 +3,8 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-
+// Route::post('/resolvers/{resolver_id}/tickets/{ticket_id}', [ResolverController::class, 'updateTicket'] )->name('tickets.store');
+// Route::get('/admin/nots', [AdminNotificationController::class, 'getLatestNotifications'] )->name('admin.notifications');
 
 Route::post('/login', [AuthController::class, 'login' ] );
 Route::post('/register', [AuthController::class, 'register' ] );
