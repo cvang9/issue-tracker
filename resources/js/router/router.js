@@ -10,6 +10,9 @@ import SettingsView from '@/views/Pages/SettingsView.vue'
 import CreateDepartment from '@/views/Pages/CreateDepartment.vue'
 import TablesView from '@/views/TablesView.vue'
 
+import Tickets from '../components/User/Tickets.vue';
+import TicketDetail from '../components/User/TicketDetail.vue';
+
 export default createRouter({
 
     history: createWebHistory(),
@@ -17,8 +20,10 @@ export default createRouter({
         { path: '/', component: LoginAs },
         { path: '/login', component: Login },
         { path: '/user-signup', component: Signup },
-        { path: '/resolver/:resolverId', component: Resolver },
-        { path: '/resolver-profile', component: ResolverProfile },
+        { path: '/resolver/:id', component: Resolver },
+        { path: '/resolver-profile/:id', component: ResolverProfile },
+        { path: '/tickets', component: Tickets },
+        { path: '/TicketDetails/:id', component: TicketDetail, name: 'TicketDetail' },
         {
             path: '/admin',
             name: 'adminDashboard',

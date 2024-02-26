@@ -119,7 +119,7 @@ export default {
                     localStorage.setItem('token',response.data.token )
 
                     if( role.value == 'user' ) {
-                        route.push('/user/' + response.data.id + '/tickets');
+                        route.push('/tickets');
                     }
                     
                     else if( role.value == 'resolver' ) {
