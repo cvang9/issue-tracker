@@ -9,6 +9,7 @@ import AdminDashboard from '@/views/Dashboard/AdminDashboard.vue'
 import SettingsView from '@/views/Pages/SettingsView.vue'
 import CreateDepartment from '@/views/Pages/CreateDepartment.vue'
 import TablesView from '@/views/TablesView.vue'
+import Chat from '../components/Chat.vue';
 
 import Tickets from '../components/User/Tickets.vue';
 import TicketDetail from '../components/User/TicketDetail.vue';
@@ -240,6 +241,11 @@ export default createRouter({
 
             }
         },
+        {
+            path: '/chat',
+            name: 'queryChat',
+            component: Chat
+        }
 
     ]
 });

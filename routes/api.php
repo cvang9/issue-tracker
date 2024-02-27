@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminNotificationController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ResolverController;
 use App\Http\Controllers\TicketController;
@@ -50,4 +51,7 @@ Route::middleware('auth:sanctum')->group( function() {
     // AdminNotification Controller
     Route::get('/admin/notifications', [AdminNotificationController::class, 'getLatestNotifications'] )->name('admin.notifications');
 
+    //ChatController
+    Route::get('/{user_id}/messages/{friend_id}', [ChatController::class, 'index'] )->name('chats.index');
+    Route::post('/messages', [ChatController::class, 'store'] )->name('chats.store');
 });

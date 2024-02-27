@@ -56,5 +56,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Resolver::class);
     }
+    
+    public function messages() : HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
+    
 
 }
