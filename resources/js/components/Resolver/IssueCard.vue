@@ -10,20 +10,22 @@
         {{ card.data.attributes.user.data.attributes.name }}
       </p>
     </div>
-    <h2>Title of the issue</h2>
+    <!-- <h2>Title of the issue</h2> -->
     <p>
       {{ card.data.attributes.body }}
     </p>
     <div :class="[darkMode ? 'dark-card-button' : 'card-button']">
+        <p :class="getStateClass">{{ card.data.attributes.status }}</p>
       <button
+      v-show="
+          card.data.attributes.status === 'pending' || card.data.attributes.status === 'processing'
+        "
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-4 rounded"
         @click="toogle = !toogle"
       >
         {{ toogle ? 'Close' : 'Open' }}
       </button>
-      <p>
-        Status : <span>{{ card.data.attributes.status }}</span>
-      </p>
+
     </div>
     <transition name="fade">
       <div v-if="toogle" :class="[darkMode ? 'dark-feedback' : 'feedback']">
@@ -73,7 +75,21 @@ export default {
       this.profile = `http://[::1]:5173/storage/app/uploads/${this.card.data.attributes.user.data.attributes.img}`
     }
   },
-  methods: {
+  computed: {
+    getStateClass() {
+      switch (this.card.data.attributes.status) {
+        case 'pending':
+          return 'pending'
+        case 'rejected':
+          return 'rejected'
+        case 'resolved':
+          return 'resolved'
+        case 'processing':
+          return 'processing'
+        default:
+          return ''
+      }
+    },
     resolve() {
       this.status = 'resolved'
       const payload = {
@@ -160,6 +176,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 8px;
 }
 .feedback {
   width: 100%;
@@ -186,6 +203,31 @@ h2 {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.pending {
+  padding: 0.5vmax 0.5vmax;
+  color: white;
+  border-radius: 4px;
+  background-color: #ffc107; /* Yellow */
+}
+.rejected {
+  padding: 0.5vmax 0.5vmax;
+  border-radius: 4px;
+  color: white;
+  background-color: #dc3545; /* Red */
+}
+.resolved {
+  padding: 0.5vmax 0.5vmax;
+  border-radius: 4px;
+  color: white;
+  background-color: #28a745; /* Green */
+}
+.processing {
+  padding: 0.5vmax 0.5vmax;
+  border-radius: 4px;
+  color: white;
+  background-color: #007bff; /* Blue */
 }
 
 /* Dark mode */

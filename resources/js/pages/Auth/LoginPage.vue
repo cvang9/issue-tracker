@@ -121,9 +121,9 @@ export default {
                     // setCookie('', 'user', 1 );
 
                     if( role.value == 'user' ) {
-                        // toggleUser();
                         setCookie('role', 'user', 1 );
-                        route.push('/tickets');
+                        setCookie('userId', response.data.id , 1 );
+                        route.push('/users/' + response.data.id );
                     }
                     
                     else if( role.value == 'resolver' ) {

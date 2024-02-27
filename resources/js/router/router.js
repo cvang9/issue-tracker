@@ -58,7 +58,8 @@ export default createRouter({
                     }
                     else if( isUser() ) 
                     {
-                        next('/tickets');
+                        const userId = getCookie('resolverId');
+                        next('/users/' + userId );
                     }
                 }
                 else {
@@ -84,7 +85,8 @@ export default createRouter({
                     }
                     else if( isUser() ) 
                     {
-                        next('/tickets');
+                        const userId = getCookie('resolverId');
+                        next('/users/' + userId );
                     }
                 }
                 else {
@@ -110,7 +112,8 @@ export default createRouter({
                     }
                     else if( isUser() ) 
                     {
-                        next('/tickets');
+                        const userId = getCookie('resolverId');
+                        next('/users/' + userId );
                     }
                 }
                 else {
@@ -144,7 +147,7 @@ export default createRouter({
             }
         },
         {
-            path: '/tickets',
+            path: '/users/:id',
             component: Tickets,
             beforeEnter: ( to, from, next ) => {
                 if(isUser()) {

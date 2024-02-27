@@ -172,9 +172,9 @@ export default {
                 if( response.status == 200 )
                 {
                     toggleState();
-                    localStorage.setItem('token', response.data.token);
                     setCookie('role', 'user', 1 );
-                    route.push('/tickets');
+                    setCookie('userId', response.data.id , 1 );
+                    route.push('/users/' + response.data.id );
                     button.value = false;
                 }
                 else {
