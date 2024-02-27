@@ -105,11 +105,11 @@ class ResolverController extends Controller
             'resolver_id' => (int)$resolver_id
         ]);
 
-        // $resolver = Resolver::findOrFail($resolver_id);
+        $resolver = Resolver::findOrFail($resolver_id);
 
-        // $user = $ticket->user;
+        $user = $ticket->user;
 
-        // SendTicketUpdateNotification::dispatch($user, $ticket);
+        SendTicketUpdateNotification::dispatch($user, $ticket);
 
         return response(['Success' => 'Successfully updated ticket'], 200);
     }
@@ -118,7 +118,19 @@ class ResolverController extends Controller
     {
         $resolver = Resolver::findOrFail($resolver_id);
         $department_id = $resolver->department->id;
-        $tickets = Ticket::where('department_id', '=', $department_id )->get();
-        return new TicketResourceCollection($tickets);
+        $tickets = Ticket::where('department_id', '=', $department_id );
+
+        $resolved_tickets = $tickets->where('status', '=', 'resolved')->where('resolver_id', '=', (int)$resolver_id )->get();
+        $pending_tickets = $tickets->where('status', '=', 'pending')->get();
+
+        return response()->json([
+            'data' => [
+                'type' => 'tickets',
+                'tickets' => [
+                    'resolved' => $resolved_tickets,
+                    'pending' => $pending_tickets
+                ]
+            ]
+        ], 200);
     }
 }

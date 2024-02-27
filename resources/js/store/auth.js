@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { getCookie } from '../helper/CookieHelper.js'; 
 
 export const useAuthStore = defineStore('auth', function () {
 
@@ -10,7 +11,7 @@ export const useAuthStore = defineStore('auth', function () {
     const authenticated = computed(function () {
         return isLogin.value;
     });
-    if (localStorage.getItem("token") !== null) {
+    if (getCookie('role')) {
         isLogin.value = true;
     }
 

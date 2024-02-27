@@ -35,13 +35,15 @@
 
 <script setup>
 import IssueCard from './IssueCard.vue'
-import Loader from './Loader.vue'
+import Loader from './Loader.vue';
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useAuthStore } from '../../store/auth.js'
 import apiClient from '../../services/api.js'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
+import { deleteCookie } from '../../helper/CookieHelper.js'
+
 const loading = ref(false)
 const route = useRoute()
 const loadingUser = ref(true)
@@ -75,9 +77,10 @@ const logoutHandler = () => {
     .get('/api/logout')
     .then((response) => {
       toggleState()
-      localStorage.removeItem('token')
-      localStorage.removeItem('id')
-      localStorage.removeItem('role')
+
+      deleteCookie('role');
+      deleteCookie('resolverId');
+
       loading.value = false
       route1.push('/')
     })
@@ -111,6 +114,7 @@ const loaded = () => {
   apiClient
     .get(`/api/resolvers/${route.params.id}/tickets`)
     .then((response) => {
+        console.log(response.data);
       cards.value = response.data
       loadingTickets.value = false
     })

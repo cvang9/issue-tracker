@@ -87,6 +87,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../store/auth.js';
 import axios from 'axios';
+import { setCookie } from '../../helper/CookieHelper.js';
 
 
 export default {
@@ -117,16 +118,22 @@ export default {
                 {
                     toggleState();
                     localStorage.setItem('token',response.data.token )
+                    // setCookie('', 'user', 1 );
 
                     if( role.value == 'user' ) {
+                        // toggleUser();
+                        setCookie('role', 'user', 1 );
                         route.push('/tickets');
                     }
                     
                     else if( role.value == 'resolver' ) {
+                        setCookie('role', 'resolver', 1 );
+                        setCookie('resolverId', response.data.id , 1 );
                         route.push('/resolver/' + response.data.id );
                     }
                     
                     else if( role.value == 'admin' ) {
+                        setCookie('role', 'admin', 1 );
                         route.push('/admin');
                     }
                 }
