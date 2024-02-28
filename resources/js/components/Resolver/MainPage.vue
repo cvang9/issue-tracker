@@ -35,13 +35,14 @@
       <div v-for="item in cards" :key="item" class="right-div-card">
         <issue-card :card="item" @loadagain="newfunc" :darkMode="darkMode" />
       </div>
+      <div v-if="cards.length === 0" class="no-ticket">No Ticket Check other category</div>
     </div>
   </div>
 </template>
 
 <script setup>
 import IssueCard from './IssueCard.vue'
-import Loader from './Loader.vue';
+import Loader from './Loader.vue'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useAuthStore } from '../../store/auth.js'
@@ -69,7 +70,7 @@ function toggleMode() {
   }
 }
 function newfunc() {
-  loaded()
+  getResolvedTickets()
   toast.success('Successfully resolved', {
     autoClose: 1000
   })
@@ -84,8 +85,8 @@ const logoutHandler = () => {
     .then((response) => {
       toggleState()
 
-      deleteCookie('role');
-      deleteCookie('resolverId');
+      deleteCookie('role')
+      deleteCookie('resolverId')
 
       loading.value = false
       route1.push('/')
@@ -115,20 +116,6 @@ const loadUser = () => {
       loadingUser.value = false
     })
 }
-// const loaded = () => {
-//   loadingTickets.value = true
-//   apiClient
-//     .get(`/api/resolvers/${route.params.id}/tickets`)
-//     .then((response) => {
-//         console.log(response.data);
-//       cards.value = response.data
-//       loadingTickets.value = false
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//       loadingTickets.value = false
-//     })
-// }
 
 const getResolvedTickets = () => {
   loadingTickets.value = true
@@ -184,7 +171,7 @@ const getProcessingTickets = () => {
       loadingTickets.value = false
     })
     .catch((error) => {
-        console.log(error);
+      console.log(error)
     })
 }
 
@@ -262,6 +249,16 @@ onMounted(() => {
   cursor: pointer;
   background-color: grey;
   color: white;
+}
+.no-ticket {
+  display: flex;
+  width: 100%;
+  height: 70vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 2vmax;
+  font-weight: 800;
+  color: gray;
 }
 
 .loading {

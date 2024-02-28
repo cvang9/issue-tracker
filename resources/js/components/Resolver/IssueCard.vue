@@ -15,9 +15,9 @@
       {{ card.data.attributes.body }}
     </p>
     <div :class="[darkMode ? 'dark-card-button' : 'card-button']">
-        <p :class="getStateClass">{{ card.data.attributes.status }}</p>
+      <p :class="getStateClass">{{ card.data.attributes.status }}</p>
       <button
-      v-show="
+        v-show="
           card.data.attributes.status === 'pending' || card.data.attributes.status === 'processing'
         "
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-4 rounded"
@@ -25,7 +25,11 @@
       >
         {{ toogle ? 'Close' : 'Open' }}
       </button>
-
+    </div>
+    <div class="chat">
+      <router-link :to="`/chat?role=resolver&friendId=${card.data.attributes.user.data.user_id}`">
+        <img class="chat-image" src="./chat.png" alt="none"
+      /></router-link>
     </div>
     <transition name="fade">
       <div v-if="toogle" :class="[darkMode ? 'dark-feedback' : 'feedback']">
@@ -230,6 +234,16 @@ h2 {
   background-color: #007bff; /* Blue */
 }
 
+.chat {
+  color: grey;
+  margin: 1vmax 0;
+  border-radius: 5px;
+  padding: 0.5vmax 0;
+  width: 20%;
+}
+.chat-image {
+  height: 40px;
+}
 /* Dark mode */
 .dark-card-main-div {
   min-height: 15vmax;
