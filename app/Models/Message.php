@@ -10,7 +10,7 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'message', 'friend_id', 'role' ];
+    protected $fillable = ['user_id', 'message', 'friend_id', 'role', 'hash' ];
 
     public function user() : BelongsTo
     {

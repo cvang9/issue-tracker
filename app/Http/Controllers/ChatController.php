@@ -7,7 +7,9 @@ namespace App\Http\Controllers;
 
 use App\Events\SendMessage;
 use App\Http\Resources\ChatResourceCollection;
+use App\Jobs\SendChatSessionNotification;
 use App\Models\Message;
+use App\Models\Resolver;
 use App\Models\User;
 
 // use Illuminate\Http\Request;
@@ -15,11 +17,9 @@ use App\Models\User;
 class ChatController extends Controller
 {
     
-    public function index( $user_id, $friend_id )
+    public function index( $hash )
     {
-        $chats = Message::where('user_id', '=', (int)$user_id )
-                       ->where('friend_id', '=', (int)$friend_id )
-                       ->get();
+        $chats = Message::where('hash', '=', $hash )->get();
                        
         return new ChatResourceCollection($chats);
     }
@@ -33,7 +33,8 @@ class ChatController extends Controller
         $message = $user->messages()->create([
             'message' => request('message'),
             'friend_id' => request('friend_id'),
-            'role' =>  request('role')
+            'role' =>  request('role'),
+            'hash' => request('hash')
         ]);
 
         broadcast(new SendMessage($user, $message))->toOthers();
@@ -41,5 +42,20 @@ class ChatController extends Controller
         // broadcast( new FreshEvent() )->toOthers();
 
         return response(['status' => 'Message Sent!'], 200);
+    }
+
+    public function notifyUser( $resolver_id, $user_id )
+    {
+        request()->validate([
+            'timestamp' => 'required'
+        ]);
+
+        $user = User::findOrFail($user_id);
+
+        $resolver_user = Resolver::findOrFail($resolver_id)->user->id;
+
+        SendChatSessionNotification::dispatch($user, request('timestamp'), $resolver_user);
+        
+        return response(['status' => 'Notification Sent!'], 200);   
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('message');
             $table->unsignedBigInteger('friend_id');
             $table->string('role');
+            $table->string('hash');
             $table->timestamps();
         });
     }

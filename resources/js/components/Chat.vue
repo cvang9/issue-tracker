@@ -25,42 +25,9 @@
         </div>
       </div>
     </div>
-        <!-- <div class="chat card">
-            <div class="scrollable card-body" ref="hasScrolledToBottom">
-                <template v-for="message in messages" >
-                    <div class="message message-receive" v-if="user.id != message.user.id">
-                        <p>
-                            <strong class="primary-font">
-                                {{ message.user.name }} :
-                            </strong>
-                            {{ message.message }}
-                        </p>
-                    </div>
-                    <div class="message message-send" v-else>
-                        <p>
-                            <strong class="primary-font">
-                                {{ message.user.name }} :
-                            </strong>
-                            {{ message.message }}
-                        </p>
-                    </div>
-                </template>
-            </div>
-    
-            <div class="chat-form input-group">
-                <input id="btn-input" type="text" name="message" class="form-control input-sm message-" placeholder="Type your message here..." v-model="newMessage" @keyup.enter="addMessage">
-    
-                <span class="input-group-btn">
-                    <button class="btn btn-primary" id="btn-chat" @click="addMessage">
-                        Send
-                    </button>
-                </span>
-            </div>
-    
-        </div> -->
     </template>
     <script>
-        import { ref, onMounted,onUpdated } from 'vue';
+        import { ref, onMounted } from 'vue';
         // import axios from 'axios';
         import {  getCookie } from '../helper/CookieHelper.js';
         import { useRouter } from 'vue-router'
@@ -78,6 +45,12 @@
 
                 // Contains a user ID actually
                 const user = ref(null)
+
+                // Contains a hash value
+                const hash = ref(null)
+
+
+
                 
                 if( role.value == 'user' )
                 {
@@ -85,7 +58,9 @@
                     apiClient.get('/api/users/'+ id.value)
                     .then(response => {
                         user.value = response.data.data.user_id;
-                        // console.log(user.value);
+                        hash.value = hashFunction(user.value, friendId.value);
+                        console.log(user.value);
+                        fetchMessages();
                     })
                     .catch(error => {
                         console.log(error);
@@ -97,34 +72,37 @@
                     apiClient.get('/api/resolvers/'+ id.value)
                     .then(response => {
                         user.value = response.data.data.attributes.user_id;
-                        // console.log(user.value);
+                        hash.value = hashFunction(user.value, friendId.value);
+                        console.log(user.value);
+                        console.log(hash.value);
+                        fetchMessages();
                     })
                     .catch(error => { 
                         console.log(error);
                     });
                 }
-
-                apiClient.get('/api/messages').then(response => {
-                        console.log(response.data.data);
-                        messages.value = response.data.data;
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    })
-
-
                 
-                // let hasScrolledToBottom = ref('')
-    
-    
-    
-                // onMounted(() =>{
-                //     fetchMessages()
-                // })
-    
-                // onUpdated(() => {
-                //     scrollBottom()
-                // })
+                // Generating hash
+               function hashFunction(a, b) {
+                   let hash = a ^ b;
+                   hash ^= (hash << 13) | (hash >>> 19);
+                   hash ^= (hash << 5) | (hash >>> 27);
+                   hash ^= (hash << 17);
+
+                   return hash >>> 0; 
+               }
+
+               
+
+
+                function fetchMessages() {
+                    apiClient.get('/api/messages/' + hash.value).then(response => {
+                        console.log(response.data);
+                        messages.value = response.data.data;
+                    });
+                }
+
+
                 
                 Echo.private('query-channel')
                   .listen('SendMessage', (e) => {
@@ -146,19 +124,15 @@
     
     
     
-                // const fetchMessages = async()=> {
-                //     apiClient.get('/api/messages').then(response => {
-                //         console.log(response.data.data);
-                //         messages.value = response.data;
-                //     });
-                // }
-    
+
                 const addMessage = async()=> {
+
                     let user_message = {
                         user_id: user.value,
                         friend_id: friendId.value,
                         message: newMessage.value,
-                        role: role.value
+                        role: role.value,
+                        hash: hash.value
                     };
                     messages.value.push(user_message);
                     apiClient.post('/api/messages', user_message).then(response => {
@@ -167,20 +141,11 @@
                     newMessage.value = ''
                 }
     
-                // const scrollBottom = () =>{
-                //     if(messages.value.length > 1){
-                //         let el = hasScrolledToBottom.value;
-                //           el.scrollTop = el.scrollHeight;
-                //     }        	
-                // }
     
                 return {
                     messages,
                     newMessage,
                     addMessage
-                    // fetchMessages,
-                    // hasScrolledToBottom,
-                    // clickSendButton: clickSendButton
                 }
             }
         }
