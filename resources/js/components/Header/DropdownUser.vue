@@ -5,6 +5,7 @@ import apiClient from '../../services/api.js';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../store/auth.js';
 import { useAdminStore } from '../../store/admin.js';
+import { setCookie, deleteCookie } from '../../helper/CookieHelper.js';
 
 const target = ref(null)
 const dropdownOpen = ref(false)
@@ -27,8 +28,9 @@ const handleLogout = ()=> {
     .then(function(response) {
         console.log(response.data);
         toggleState();
-        router.push('/');
         spin.value = false;
+        deleteCookie('role');
+        router.push('/');
     })
     .catch(function(error) {
         spin.value = false;

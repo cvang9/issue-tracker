@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminNotificationController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ResolverController;
 use App\Http\Controllers\TicketController;
@@ -45,4 +47,12 @@ Route::middleware('auth:sanctum')->group( function() {
     Route::get('/admin/resolvers', [AdminController::class, 'fetchResolvers' ] )->middleware(['can:isAdmin'])->name('admin.data');
     Route::get('/admin', [AdminController::class, 'show'] )->middleware(['can:isAdmin'])->name('admin.show');
     
+
+    // AdminNotification Controller
+    Route::get('/admin/notifications', [AdminNotificationController::class, 'getLatestNotifications'] )->name('admin.notifications');
+
+    //ChatController
+    Route::get('/messages/{hash}', [ChatController::class, 'index'] )->name('chats.index');
+    Route::post('/messages', [ChatController::class, 'store'] )->name('chats.store');
+    Route::post('/messages/{resolver_id}/notify/{user_id}', [ ChatController::class, 'notifyUser'] )->name('chats.notify');
 });

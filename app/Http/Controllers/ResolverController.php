@@ -102,8 +102,10 @@ class ResolverController extends Controller
         $ticket->update([
             'feedback' => $validated['feedback'],
             'status' => $validated['status'],
-            'resolver_id' => $resolver_id
+            'resolver_id' => (int)$resolver_id
         ]);
+
+        $resolver = Resolver::findOrFail($resolver_id);
 
         $user = $ticket->user;
 
@@ -112,11 +114,59 @@ class ResolverController extends Controller
         return response(['Success' => 'Successfully updated ticket'], 200);
     }
 
-    public function departmentTicket( $resolver_id )
+    // public function departmentTicket( $resolver_id )
+    // {
+    //     $resolver = Resolver::findOrFail($resolver_id);
+    //     $department_id = $resolver->department->id;
+    //     $tickets = Ticket::where('department_id', '=', $department_id );
+
+    //     $resolved_tickets = $tickets->where('status', '=', 'resolved')->where('resolver_id', '=', (int)$resolver_id )->get();
+    //     $pending_tickets = $tickets->where('status', '=', 'pending')->get();
+
+    //     return response()->json([
+    //         'data' => [
+    //             'type' => 'tickets',
+    //             'tickets' => [
+    //                 'resolved' => $resolved_tickets,
+    //                 'pending' => $pending_tickets
+    //             ]
+    //         ]
+    //     ], 200);
+    // }
+
+    public function departmentTicket($resolver_id)
     {
         $resolver = Resolver::findOrFail($resolver_id);
         $department_id = $resolver->department->id;
-        $tickets = Ticket::where('department_id', '=', $department_id )->get();
-        return new TicketResourceCollection($tickets);
+
+        $processing_tickets = Ticket::where('department_id', $department_id)
+            ->where('status', 'processing')
+            ->get();
+
+        $rejected_tickets = Ticket::where('department_id', $department_id)
+            ->where('status', 'rejected')
+            ->where('resolver_id', $resolver_id)
+            ->get();
+
+        $resolved_tickets = Ticket::where('department_id', $department_id)
+            ->where('status', 'resolved')
+            ->where('resolver_id', $resolver_id)
+            ->get();
+
+        $pending_tickets = Ticket::where('department_id', $department_id)
+            ->where('status', 'pending')
+            ->get();
+
+        return response()->json([
+            'data' => [
+                'type' => 'tickets',
+                'tickets' => [
+                    'resolved' => new TicketResourceCollection($resolved_tickets),
+                    'pending' => new TicketResourceCollection($pending_tickets),
+                    'rejected' => new TicketResourceCollection($rejected_tickets),
+                    'processing' => new TicketResourceCollection($processing_tickets),
+                ],
+            ],
+        ], 200);
     }
 }

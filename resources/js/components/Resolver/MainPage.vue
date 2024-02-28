@@ -26,7 +26,13 @@
     </div>
     <div :class="[darkMode ? 'dark-right-div' : 'right-div']">
       <p>Your Department Related issues</p>
-      <div v-for="item in cards.data" :key="item" class="right-div-card">
+      <div class="filters">
+        <button @click="getResolvedTickets">Resolved Tickets</button>
+        <button @click="getPendingTickets">Pending Tickets</button>
+        <button @click="getRejectedTickets">Rejected Tickets</button>
+        <button @click="getProcessingTickets">Processing Tickets</button>
+      </div>
+      <div v-for="item in cards" :key="item" class="right-div-card">
         <issue-card :card="item" @loadagain="newfunc" :darkMode="darkMode" />
       </div>
     </div>
@@ -35,13 +41,15 @@
 
 <script setup>
 import IssueCard from './IssueCard.vue'
-import Loader from './Loader.vue'
+import Loader from './Loader.vue';
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useAuthStore } from '../../store/auth.js'
 import apiClient from '../../services/api.js'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
+import { deleteCookie } from '../../helper/CookieHelper.js'
+
 const loading = ref(false)
 const route = useRoute()
 const loadingUser = ref(true)
@@ -75,9 +83,10 @@ const logoutHandler = () => {
     .get('/api/logout')
     .then((response) => {
       toggleState()
-      localStorage.removeItem('token')
-      localStorage.removeItem('id')
-      localStorage.removeItem('role')
+
+      deleteCookie('role');
+      deleteCookie('resolverId');
+
       loading.value = false
       route1.push('/')
     })
@@ -106,12 +115,28 @@ const loadUser = () => {
       loadingUser.value = false
     })
 }
-const loaded = () => {
+// const loaded = () => {
+//   loadingTickets.value = true
+//   apiClient
+//     .get(`/api/resolvers/${route.params.id}/tickets`)
+//     .then((response) => {
+//         console.log(response.data);
+//       cards.value = response.data
+//       loadingTickets.value = false
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//       loadingTickets.value = false
+//     })
+// }
+
+const getResolvedTickets = () => {
   loadingTickets.value = true
   apiClient
     .get(`/api/resolvers/${route.params.id}/tickets`)
     .then((response) => {
-      cards.value = response.data
+      cards.value = response.data.data.tickets.resolved
+      console.log(response.data)
       loadingTickets.value = false
     })
     .catch((error) => {
@@ -119,6 +144,50 @@ const loaded = () => {
       loadingTickets.value = false
     })
 }
+
+const getPendingTickets = () => {
+  loadingTickets.value = true
+  apiClient
+    .get(`/api/resolvers/${route.params.id}/tickets`)
+    .then((response) => {
+      cards.value = response.data.data.tickets.pending
+      console.log(cards.value)
+      loadingTickets.value = false
+    })
+    .catch((error) => {
+      console.log(error)
+      loadingTickets.value = false
+    })
+}
+
+const getRejectedTickets = () => {
+  loadingTickets.value = true
+  apiClient
+    .get(`/api/resolvers/${route.params.id}/tickets`)
+    .then((response) => {
+      cards.value = response.data.data.tickets.rejected
+      console.log(cards.value)
+      loadingTickets.value = false
+    })
+    .catch((error) => {
+      console.log(error)
+      loadingTickets.value = false
+    })
+}
+const getProcessingTickets = () => {
+  loadingTickets.value = true
+  apiClient
+    .get(`/api/resolvers/${route.params.id}/tickets`)
+    .then((response) => {
+      cards.value = response.data.data.tickets.processing
+      console.log(cards.value)
+      loadingTickets.value = false
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+}
+
 onMounted(() => {
   if (localStorage.getItem('dark')) {
     darkMode.value = true
@@ -126,7 +195,7 @@ onMounted(() => {
   if (!authenticated) {
     route1.push('/')
   } else {
-    loaded()
+    getResolvedTickets()
     loadUser()
   }
 })
@@ -173,6 +242,28 @@ onMounted(() => {
 .right-div-card {
   padding: 1rem 2rem;
 }
+
+.filters {
+  display: flex;
+  gap: 1vmax;
+  margin: 1vmax 0;
+  align-items: center;
+  justify-content: center;
+}
+.filters > button {
+  border: 1px solid rgba(0, 0, 0, 0.425);
+  background-color: white;
+  color: black;
+  padding: 0.5vmax 0.5vmax;
+  border-radius: 4px;
+  transition: all 0.5s;
+}
+.filters > button:hover {
+  cursor: pointer;
+  background-color: grey;
+  color: white;
+}
+
 .loading {
   width: 100vw;
   height: 100vh;

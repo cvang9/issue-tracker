@@ -1,42 +1,46 @@
 <script setup >
 import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
+import apiClient from '../../services/api'
 
 const target = ref(null)
 const dropdownOpen = ref(false)
 const notifying = ref(true)
+const notificationItems = ref([]);
 
 onClickOutside(target, () => {
   dropdownOpen.value = false
 })
 
-const notificationItems = ref([
-  {
-    route: '#',
-    title: 'Edit your information in a swipe',
-    details:
-      'Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.',
-    time: '12 May, 2025'
-  },
-  {
-    route: '#',
-    title: 'It is a long established fact',
-    details: 'that a reader will be distracted by the readable.',
-    time: '24 Feb, 2025'
-  },
-  {
-    route: '#',
-    title: 'There are many variations',
-    details: 'of passages of Lorem Ipsum available, but the majority have suffered',
-    time: '04 Jan, 2025'
-  },
-  {
-    route: '#',
-    title: 'There are many variations',
-    details: 'of passages of Lorem Ipsum available, but the majority have suffered',
-    time: '01 Dec, 2024'
-  }
-])
+apiClient.get('/api/admin/notifications')
+         .then(function(response) {
+             console.log(response.data);
+             notificationItems.value = response.data
+         })
+         .catch(function(error) {
+            console.log(error);
+         })
+
+         function timeAgo(timestamp) {
+            const currentDate = new Date();
+            const targetDate = new Date(timestamp);
+            const timeDifference = currentDate - targetDate;
+
+            const seconds = Math.floor(timeDifference / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (seconds < 60) {
+                return `${seconds} seconds ago`;
+            } else if (minutes < 60) {
+                return `${minutes} minutes ago`;
+            } else if (hours < 24) {
+                return `${hours} hours ago`;
+            } else {
+                return `${days} days ago`;
+            }
+        }
 </script>
 
 <template>
@@ -76,23 +80,22 @@ const notificationItems = ref([
       class="absolute -right-27 mt-2.5 flex h-90 w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:right-0 sm:w-80"
     >
       <div class="px-4.5 py-3">
-        <h5 class="text-sm font-medium text-bodydark2">Notification</h5>
+        <h5 class="text-sm font-medium text-bodydark2">Notifications</h5>
       </div>
 
       <ul class="flex h-auto flex-col overflow-y-auto">
-        <template v-for="(item, index) in notificationItems" :key="index">
+        <template v-for="(nots, index) in notificationItems" :key="index">
           <li>
-            <router-link
+            <div
               class="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              :to="item.route"
             >
+            <p>Ticket ID: {{ nots.ticket_id }}</p>
               <p class="text-sm">
-                <span class="text-black dark:text-white">{{ item.title }}</span>
-                {{ item.details }}
+                {{ ( nots.operation === 'created') ? `${nots.name} has created a ticket .` : `${nots.resolver_name} has updated ${nots.name}'s ticket.` }}
               </p>
 
-              <p class="text-xs">{{ item.time }}</p>
-            </router-link>
+              <p class="text-xs">{{ ( nots.operation === 'created') ? timeAgo(nots.created_at) : timeAgo(nots.updated_at) }}</p>
+            </div>
           </li>
         </template>
       </ul>

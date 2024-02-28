@@ -136,7 +136,7 @@ export default {
     setup() {
 
         const route = useRouter();
-        const { toggleState } = useAuthStore();
+        const { toggleState, toggleUser } = useAuthStore();
         const name = ref(null);
         const email = ref(null);
         const password = ref(null);
@@ -172,8 +172,9 @@ export default {
                 if( response.status == 200 )
                 {
                     toggleState();
-                    localStorage.setItem('token', response.data.token);
-                    route.push('/tickets');
+                    setCookie('role', 'user', 1 );
+                    setCookie('userId', response.data.id , 1 );
+                    route.push('/users/' + response.data.id );
                     button.value = false;
                 }
                 else {

@@ -20,6 +20,7 @@ class ResolverResource extends JsonResource
                 'resolver_id' => $this->id,
                 'attributes' => [
                     'user' => new UserResource($this->user),
+                    'user_id' => $this->user->id,
                     'department' => new DepartmentResource($this->department),
                     'resolved_tickets' => new TicketResourceCollection($this->tickets),
                     'counts' => [
