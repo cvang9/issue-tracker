@@ -26,10 +26,22 @@
         {{ toogle ? 'Close' : 'Open' }}
       </button>
     </div>
-    <div class="chat">
-      <router-link :to="`/chat?role=resolver&friendId=${card.data.attributes.user.data.user_id}`">
-        <img class="chat-image" src="./chat.png" alt="none"
-      /></router-link>
+    <div
+      v-show="
+        card.data.attributes.status === 'pending' || card.data.attributes.status === 'processing'
+      "
+      class="chat"
+    >
+      <div>
+        <router-link :to="`/chat?role=resolver&friendId=${card.data.attributes.user.data.user_id}`">
+          <img class="chat-image" src="./chat.png" alt="none"
+        /></router-link>
+      </div>
+      <button @click="toogleSchedule = !toogleSchedule" class="toggleButtons">Schedule</button>
+    </div>
+    <div class="toogleSchedule" v-if="toogleSchedule">
+      <input type="text" v-model="timestamp" />
+      <button class="toggleButtons" @click="submitDate">Submit</button>
     </div>
     <transition name="fade">
       <div v-if="toogle" :class="[darkMode ? 'dark-feedback' : 'feedback']">
@@ -63,6 +75,7 @@
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import apiClient from '../../services/api.js'
+import { getCookie } from '../../helper/CookieHelper.js'
 export default {
   props: ['card', 'darkMode'],
   emits: ['loadagain'],
@@ -71,6 +84,8 @@ export default {
       toogle: false,
       feedback: '',
       status: 'pending',
+      toogleSchedule: false,
+      timestamp: '',
       profile: 'http://[::1]:5173/storage/app/uploads/user.png'
     }
   },
@@ -93,6 +108,31 @@ export default {
         default:
           return ''
       }
+    },
+    submitDate() {
+      this.toogleSchedule = false
+      const resolverId = getCookie('resolverId')
+      const payload = {
+        timestamp: this.timestamp
+      }
+      apiClient
+        .post(
+          `api/messages/${resolverId}/notify/${this.card.data.attributes.user.data.user_id}`,
+          payload
+        )
+        .then((response) => {
+          console.log(response.data)
+          toast.success('Invitation sent !', {
+            autoClose: 1000
+          })
+          // this.$emit('loadagain')
+        })
+        .catch((error) => {
+          toast.error('Error occured,Please try again later', {
+            autoClose: 1000
+          })
+          console.log(error)
+        })
     },
     resolve() {
       this.status = 'resolved'
@@ -237,12 +277,39 @@ h2 {
 .chat {
   color: grey;
   margin: 1vmax 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-radius: 5px;
   padding: 0.5vmax 0;
-  width: 20%;
+  width: 100%;
 }
 .chat-image {
   height: 40px;
+}
+.toogleSchedule {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vmax;
+}
+.toogleSchedule > input {
+  width: 70%;
+  outline: none;
+  padding: 1vmax 1vmax;
+  border-radius: 8px;
+}
+.toggleButtons {
+  background-color: #3190f7;
+  padding: 0.8vmax 0.8vmax;
+  border-radius: 5px;
+  color: white;
+  transition: all 0.4s;
+}
+.toggleButtons:hover {
+  background-color: #004997;
+  cursor: pointer;
 }
 /* Dark mode */
 .dark-card-main-div {

@@ -71,7 +71,7 @@ function toggleMode() {
 }
 function newfunc() {
   getResolvedTickets()
-  toast.success('Successfully resolved', {
+  toast.success('Status updated successfully', {
     autoClose: 1000
   })
 }
