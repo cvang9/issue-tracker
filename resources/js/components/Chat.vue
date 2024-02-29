@@ -5,11 +5,11 @@
       <div class="container">
         <div class="flex justify-center items-center">
        
-          <div class="mt-25 ms-20" style="max-width: 30vw;">
+          <div class="mt-25 ms-20" style="width: 40vw;">
             <img src="https://preview.colorlib.com/theme/bootstrap/signup-form-07/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid" />
            </div>
     
-          <div style="max-width: 70vw;">
+          <div style="max-width: 60vw; min-width: 60vw;">
               <div style="margin-left: 250px; margin-top: 100px; " >
                 <div class="chat-log" id="chat-log">
                   <!-- Chat messages will appear here -->

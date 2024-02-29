@@ -13,7 +13,8 @@ import Chat from '../components/Chat.vue';
 
 import Tickets from '../components/User/Tickets.vue';
 import TicketDetail from '../components/User/TicketDetail.vue';
-import { getCookie } from "../helper/CookieHelper.js"; 
+import { deleteCookie, getCookie } from "../helper/CookieHelper.js"; 
+import NotFound from '../components/NotFound.vue';
 
 function isAdmin() {
     if( getCookie('role') === 'admin' ) {
@@ -35,6 +36,8 @@ function isUser() {
     }
     return false;
 }
+
+// function isLogin()
 
 
 export default createRouter({
@@ -59,7 +62,7 @@ export default createRouter({
                     }
                     else if( isUser() ) 
                     {
-                        const userId = getCookie('resolverId');
+                        const userId = getCookie('userId');
                         next('/users/' + userId );
                     }
                 }
@@ -86,7 +89,7 @@ export default createRouter({
                     }
                     else if( isUser() ) 
                     {
-                        const userId = getCookie('resolverId');
+                        const userId = getCookie('userId');
                         next('/users/' + userId );
                     }
                 }
@@ -113,7 +116,7 @@ export default createRouter({
                     }
                     else if( isUser() ) 
                     {
-                        const userId = getCookie('resolverId');
+                        const userId = getCookie('userId');
                         next('/users/' + userId );
                     }
                 }
@@ -126,11 +129,21 @@ export default createRouter({
             path: '/resolver/:id',
             component: Resolver,
             beforeEnter: ( to, from, next ) => {
+
                 if(isResolver()) {
                     next();
                 }
+                else if( isAdmin() ) {
+                    next('/admin');
+                }
+                else if( isUser() )
+                {
+                    const userId = getCookie('userId');
+                    next('/users/' + userId );
+                }
                 else {
-                    next('/error')
+                    deleteCookie('role');
+                    next('/')
                 }
             }
         },
@@ -138,11 +151,21 @@ export default createRouter({
             path: '/resolver-profile/:id',
             component: ResolverProfile,
             beforeEnter: ( to, from, next ) => {
+
                 if(isResolver()) {
                     next();
                 }
+                else if( isAdmin() ) {
+                    next('/admin');
+                }
+                else if( isUser() )
+                {
+                    const userId = getCookie('userId');
+                    next('/users/' + userId );
+                }
                 else {
-                    next('/error')
+                    deleteCookie('role');
+                    next('/')
                 }
 
             }
@@ -151,11 +174,21 @@ export default createRouter({
             path: '/users/:id',
             component: Tickets,
             beforeEnter: ( to, from, next ) => {
-                if(isUser()) {
+
+                if(isResolver()) {
+                    const resolverId = getCookie('resolverId');
+                    next('/resolver/' + resolverId );
+                }
+                else if( isAdmin() ) {
+                    next('/admin');
+                }
+                else if( isUser() )
+                {
                     next();
                 }
                 else {
-                    next('/error')
+                    deleteCookie('role');
+                    next('/')
                 }
 
             }
@@ -164,11 +197,21 @@ export default createRouter({
             path: '/TicketDetails/:id',
             component: TicketDetail, name: 'TicketDetail',
             beforeEnter: ( to, from, next ) => {
-                if(isUser()) {
+
+                if(isResolver()) {
+                    const resolverId = getCookie('resolverId');
+                    next('/resolver/' + resolverId );
+                }
+                else if( isAdmin() ) {
+                    next('/admin');
+                }
+                else if( isUser() )
+                {
                     next();
                 }
                 else {
-                    next('/error')
+                    deleteCookie('role');
+                    next('/')
                 }
 
             }
@@ -181,11 +224,22 @@ export default createRouter({
               title: 'Admin Dashboard'
             },
             beforeEnter: ( to, from, next ) => {
-                if(isAdmin()) {
+
+                if(isResolver()) {
+                    const resolverId = getCookie('resolverId');
+                    next('/resolver/' + resolverId );
+                }
+                else if( isAdmin() ) {
                     next();
                 }
+                else if( isUser() )
+                {
+                    const userId = getCookie('userId');
+                    next('/users/' + userId );
+                }
                 else {
-                    next('/error')
+                    deleteCookie('role');
+                    next('/')
                 }
 
             }
@@ -195,11 +249,22 @@ export default createRouter({
             name: 'tables',
             component: TablesView,
             beforeEnter: ( to, from, next ) => {
-                if(isAdmin()) {
+
+                if(isResolver()) {
+                    const resolverId = getCookie('resolverId');
+                    next('/resolver/' + resolverId );
+                }
+                else if( isAdmin() ) {
                     next();
                 }
+                else if( isUser() )
+                {
+                    const userId = getCookie('userId');
+                    next('/users/' + userId );
+                }
                 else {
-                    next('/error')
+                    deleteCookie('role');
+                    next('/')
                 }
 
             },
@@ -215,11 +280,22 @@ export default createRouter({
               title: 'Create Resolver'
             },
             beforeEnter: ( to, from, next ) => {
-                if(isAdmin()) {
+
+                if(isResolver()) {
+                    const resolverId = getCookie('resolverId');
+                    next('/resolver/' + resolverId );
+                }
+                else if( isAdmin() ) {
                     next();
                 }
+                else if( isUser() )
+                {
+                    const userId = getCookie('userId');
+                    next('/users/' + userId );
+                }
                 else {
-                    next('/error')
+                    deleteCookie('role');
+                    next('/')
                 }
 
             }
@@ -232,11 +308,23 @@ export default createRouter({
               title: 'Create Department'
             },
             beforeEnter: ( to, from, next ) => {
-                if(isAdmin()) {
+
+
+                if(isResolver()) {
+                    const resolverId = getCookie('resolverId');
+                    next('/resolver/' + resolverId );
+                }
+                else if( isAdmin() ) {
                     next();
                 }
+                else if( isUser() )
+                {
+                    const userId = getCookie('userId');
+                    next('/users/' + userId );
+                }
                 else {
-                    next('/error')
+                    deleteCookie('role');
+                    next('/')
                 }
 
             }
@@ -244,7 +332,29 @@ export default createRouter({
         {
             path: '/chat',
             name: 'queryChat',
-            component: Chat
+            component: Chat,
+            beforeEnter: ( to, from, next ) => {
+
+
+                if(isResolver()) {
+                    next();
+                }
+                else if( isUser() ) {
+                    next();
+                }
+                else if( isAdmin() ) {
+                    next('/admin');
+                }
+                else {
+                    deleteCookie('role');
+                    next('/')
+                }
+
+            }
+        },
+        {
+            path: '/:catchAll(.*)*',
+            component: NotFound
         }
 
     ]

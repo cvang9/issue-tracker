@@ -40,6 +40,7 @@
 </template>
 
 <script setup>
+import { setCookie, getCookie, deleteCookie } from '../../helper/CookieHelper.js';
 import IssueCard from './IssueCard.vue'
 import Loader from './Loader.vue';
 import { toast } from 'vue3-toastify'
@@ -48,7 +49,7 @@ import { useAuthStore } from '../../store/auth.js'
 import apiClient from '../../services/api.js'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
-import { deleteCookie } from '../../helper/CookieHelper.js'
+// import { deleteCookie } from '../../helper/CookieHelper.js'
 
 const loading = ref(false)
 const route = useRoute()
@@ -56,16 +57,18 @@ const loadingUser = ref(true)
 const loadingTickets = ref(true)
 const route1 = useRouter()
 const cards = ref([])
-const darkMode = ref(false)
+const darkMode = ref(getCookie('dark'))
 const user = ref(null)
 const profile = ref('http://[::1]:5173/storage/app/uploads/profile.png')
 const { authenticated, toggleState } = useAuthStore()
 function toggleMode() {
   darkMode.value = !darkMode.value
   if (darkMode.value) {
-    localStorage.setItem('dark', true)
+    setCookie('dark', true, 1 );
+    // localStorage.setItem('dark', true)
   } else {
-    localStorage.removeItem('dark')
+    // localStorage.removeItem('dark')
+    deleteCookie('dark');
   }
 }
 function newfunc() {
@@ -189,7 +192,7 @@ const getProcessingTickets = () => {
 }
 
 onMounted(() => {
-  if (localStorage.getItem('dark')) {
+  if (getCookie('dark') == true) {
     darkMode.value = true
   }
   if (!authenticated) {

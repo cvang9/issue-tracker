@@ -112,7 +112,7 @@ const handleFileChange = () => {
       >
         <div class="p-7">
             
-            <div class="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+            <div class="mb-5.5 flex flex-col gap-5.5 sm:flex-row dartext-white">
               <div class="w-full sm:w-1/2">
                 <label
                   class="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -122,7 +122,7 @@ const handleFileChange = () => {
                 <div class="relative">
                   <span class="absolute left-4.5 top-4">
                     <svg
-                      class="fill-current"
+                      class="fill-current dark:fill-white"
                       width="20"
                       height="20"
                       viewBox="0 0 20 20"
@@ -167,7 +167,7 @@ const handleFileChange = () => {
               <div class="relative">
                 <span class="absolute left-4.5 top-4">
                   <svg
-                    class="fill-current"
+                    class="fill-current dark:fill-white"
                     width="20"
                     height="20"
                     viewBox="0 0 20 20"
@@ -227,6 +227,7 @@ const handleFileChange = () => {
             <div class="relative z-20 bg-white dark:bg-form-input">
             <span class="absolute top-1/2 left-4 z-30 -translate-y-1/2">
                 <svg
+                class="fill-current dark:fill-white"
                 width="20"
                 height="20"
                 viewBox="0 0 20 20"
@@ -344,11 +345,11 @@ const handleFileChange = () => {
                     />
                   </svg>
                 </span>
-                <p class="text-sm font-medium">
-                  <span class="text-primary">Click to upload</span> or drag and drop
+                <p class="text-sm font-medium dark:text-white">
+                  <span class="text-blue-500">Click to upload</span> or drag and drop
                 </p>
-                <p class="mt-1.5 text-sm font-medium">SVG, PNG, JPG or GIF</p>
-                <p class="text-sm font-medium">(max, 800 X 800px)</p>
+                <p class="mt-1.5 text-sm font-medium dark:text-white">SVG, PNG, JPG or GIF</p>
+                <p class="text-sm font-medium dark:text-white">(max, 800 X 800px)</p>
               </div>
             </div>
             

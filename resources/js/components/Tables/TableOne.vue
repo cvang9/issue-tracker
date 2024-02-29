@@ -44,19 +44,19 @@ onMounted( function() {
     <div class="flex flex-col" v-if="!isLoading" >
       <div class="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
         <div class="p-2.5 xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Department Name</h5>
+          <p class="text-sm dark:text-white font-medium uppercase xsm:text-base">Department Name</p>
         </div>
         <div class="p-2.5 text-center xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base"> Total Issues</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base dark:text-white"> Total Issues</h5>
         </div>
         <div class="p-2.5 text-center xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Total Resolvers</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base dark:text-white">Total Resolvers</h5>
         </div>
         <div class="hidden p-2.5 text-center sm:block xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Issues Resolved</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base dark:text-white">Issues Resolved</h5>
         </div>
         <div class="hidden p-2.5 text-center sm:block xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Issues Unresolved</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base dark:text-white">Issues Unresolved</h5>
         </div>
       </div>
 

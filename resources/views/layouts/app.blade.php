@@ -12,6 +12,10 @@
             box-sizing: border-box;
             font-family: "Source Sans Pro", sans-serif;
         }
+
+        /* body {
+            background-color: #333;
+        } */
     </style>
     @yield('title')
     @vite(['resources/js/app.js'])

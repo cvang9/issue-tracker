@@ -37,19 +37,19 @@ onMounted( function() {
     <div class="flex flex-col" v-if="!isLoading">
       <div class="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
         <div class="p-2.5 xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Resolver Name</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base dark:text-white">Resolver Name</h5>
         </div>
         <div class="p-2.5 text-center xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base"> Department Name </h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base dark:text-white"> Department Name </h5>
         </div>
         <div class="p-2.5 text-center xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base"> Issues Resolved </h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base dark:text-white"> Issues Resolved </h5>
         </div>
         <div class="hidden p-2.5 text-center sm:block xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Issues Rejected </h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base dark:text-white">Issues Rejected </h5>
         </div>
         <div class="hidden p-2.5 text-center sm:block xl:p-5">
-          <h5 class="text-sm font-medium uppercase xsm:text-base">Issue Processing</h5>
+          <h5 class="text-sm font-medium uppercase xsm:text-base dark:text-white">Issue Processing</h5>
         </div>
       </div>
 

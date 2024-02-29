@@ -201,7 +201,7 @@ export default {
             <span class="block h-2.5 w-full max-w-2.5 rounded-full bg-primary"></span>
           </span>
           <div class="w-full">
-            <p class="font-semibold text-primary">Tickets Raised</p>
+            <p class="font-semibold text-primary ">Tickets Raised</p>
 
           </div>
         </div>

@@ -41,7 +41,7 @@ export default{
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="blue"
-                        class="h-8 w-8 ">
+                        class="h-8 w-8 dark:stroke-white">
                         <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
@@ -56,7 +56,7 @@ export default{
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="blue"
-                        class="h-8 w-8  ">
+                        class="h-8 w-8  dark:stroke-white">
                         <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
@@ -66,7 +66,7 @@ export default{
                         total: props.counts.tickets.rejected
                     },
                     {
-                        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6 ">
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6 dark:stroke-white">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
                     `,
@@ -101,7 +101,7 @@ export default{
                         
                     },
                     {
-                        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6">
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6 dark:stroke-white">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
                     `,
@@ -110,7 +110,7 @@ export default{
                         
                     },
                     {
-                        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6">
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6 dark:stroke-white">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
                     </svg>
                     `,
@@ -119,7 +119,7 @@ export default{
                         
                     },
                     {
-                        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6">
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6 dark:stroke-white">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                     </svg>
                     `,
@@ -142,7 +142,7 @@ export default{
   <div
     v-for="(item, index) in cardItems"
     :key="index"
-    class="rounded-sm border border-stroke bg-blue-100 py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark"
+    class="rounded-sm border border-stroke bg-blue-100 py-6 px-7.5 shadow-default dark:bg-boxdark dark:text-white"
   >
     <div
       class="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4"
@@ -152,7 +152,7 @@ export default{
     <div class="mt-4">
       <div class="flex justify-between items-center ms-3">
         <span class="text-title-sm text-black dark:text-white">{{ item.total }}</span>
-        <span class="text-sm font-medium pt-1">{{ item.title }}</span>
+        <p class="text-lg font-medium pt-1 text-blue-800 dark:text-blue-500 font-bold">{{ item.title }}</p>
       </div>
 
     </div>
