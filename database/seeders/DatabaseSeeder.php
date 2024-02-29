@@ -18,46 +18,51 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        User::factory()-> create([
+        User::factory()->create([
             'name' => 'Shivang',
             'role' => 'user',
-            'email' => 'user@mail.com'
+            'email' => 'user@mail.com',
         ]);
 
         User::factory()->create([
             'name' => 'dogesh',
             'role' => 'resolver',
-            'email' => 'resolver@mail.com'
+            'email' => 'resolver@mail.com',
         ]);
 
         User::factory()->create([
             'name' => 'DB Admin',
             'role' => 'admin',
-            'email' => 'admin@mail.com'
+            'email' => 'admin@mail.com',
         ]);
 
         Department::factory()->create([
-            'name' => 'Technical'
+            'name' => 'Technical',
         ]);
 
         Department::factory()->create([
-            'name' => 'Management'
+            'name' => 'Management',
         ]);
 
         Department::factory()->create([
-            'name' => 'Security'
+            'name' => 'Security',
         ]);
 
 
         Resolver::factory()->create([
             'user_id' => 2,
-            'department_id' => 2
+            'department_id' => 2,
         ]);
 
 
-        Ticket::factory()->create([
+        Ticket::factory(5)->create([
             'user_id' => 1,
-            'department_id' => 2
+            'department_id' => 2,
+        ]);
+
+        Ticket::factory(4)->create([
+            'user_id' => 1,
+            'department_id' => 1,
         ]);
 
     }
