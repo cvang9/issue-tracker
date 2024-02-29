@@ -39,8 +39,8 @@
       </div>
       <button @click="toogleSchedule = !toogleSchedule" class="toggleButtons">Schedule</button>
     </div>
-    <div class="toogleSchedule" v-if="toogleSchedule">
-      <input type="text" v-model="timestamp" />
+    <div :class="[darkMode ? 'dark-toogleSchedule' : 'toogleSchedule']" v-if="toogleSchedule">
+      <input type="text" v-model="timestamp" placeholder="schedule a date and time for chat" />
       <button class="toggleButtons" @click="submitDate">Submit</button>
     </div>
     <transition name="fade">
@@ -356,5 +356,20 @@ h2 {
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.2vmax;
   font-weight: 650;
+}
+.dark-toogleSchedule {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vmax;
+}
+.dark-toogleSchedule > input {
+  width: 70%;
+  outline: none;
+  padding: 1vmax 1vmax;
+  background-color: rgb(160, 159, 159);
+  color: white;
+  border-radius: 8px;
 }
 </style>
