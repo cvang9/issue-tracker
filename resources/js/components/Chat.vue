@@ -1,22 +1,32 @@
 <template>
     
+    <div v-if="isLoading" class="absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 ">
+         <div class=" ms-8 border-t-transparent border-solid animate-spin  rounded-full border-indigo-400 border-6 h-14 w-14"></div>
+         <h1 class="text-indigo-400 mt-5 text-xl font-semibold" > loading chats .... </h1>
+     </div>
   
-    <div class="content">
+    <div class="content" v-if="!isLoading">
       <div class="container">
         <div class="flex justify-center items-center">
        
-          <div class="mt-25 ms-20" style="width: 40vw;">
-            <img src="https://preview.colorlib.com/theme/bootstrap/signup-form-07/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid" />
-           </div>
-    
+          <!-- <div     class="mt-25 ms-20" style="width: 40vw;">
+            <img    src="https://preview.colorlib.com/theme/bootstrap/signup-form-07/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid" />
+          </div>    -->
+           
           <div style="max-width: 60vw; min-width: 60vw;">
-              <div style="margin-left: 250px; margin-top: 100px; " >
-                <div class="chat-log" id="chat-log">
+            <div style="margin-left: 250px; margin-top: 100px;">
+
+                <div align="center" class="mb-7">
+                   <span class="text-5xl text-indigo-500 me-2" > Chat</span> <span class="mb-7 text-5xl text-white bg-indigo-500 p-2 rounded-md" align="">Window</span>
+                </div>  
+                
+                <div class="chat-log" id="chat-log" ref="hasScrolledToBottom">
                   <!-- Chat messages will appear here -->
                   <p v-for="(message, idx) in messages" :key="idx" class="mt-2 p-3 rounded-2xl " :class=" (message.role == 'resolver') ? ' bg-indigo-400 me-10 text-slate-50' : 'ms-10 text-indigo-500 bg-slate-100' " >{{ message.message }}</p>
                 </div>
+
                 <div class="input-container">
-                    <input type="text" class="message-input" id="message-input" placeholder="Type your message..." v-model="newMessage" >
+                    <input type="text" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-indigo-500 placeholder:text-gray-40" id="message-input" placeholder="Type your message..." v-model="newMessage" >
                     <button class=" mx-3 px-3 py-2 bg-indigo-400 text-slate-50 rounded-md" id="send-button" v-on:click="addMessage" >  Send</button>
                 </div>
               </div>
@@ -27,7 +37,7 @@
     </div>
     </template>
     <script>
-        import { ref, onMounted } from 'vue';
+        import { ref, onUpdated } from 'vue';
         // import axios from 'axios';
         import {  getCookie } from '../helper/CookieHelper.js';
         import { useRouter } from 'vue-router'
@@ -42,6 +52,8 @@
                 const friendId = ref(route.currentRoute._value.query.friendId);
                 let messages = ref([])
                 let newMessage = ref('')
+                const isLoading = ref(true);
+                const hasScrolledToBottom = ref(null);
 
                 // Contains a user ID actually
                 const user = ref(null)
@@ -81,6 +93,11 @@
                         console.log(error);
                     });
                 }
+
+
+                onUpdated(() => {
+                    scrollBottom()
+                })
                 
                 // Generating hash
                function hashFunction(a, b) {
@@ -96,10 +113,24 @@
 
 
                 function fetchMessages() {
-                    apiClient.get('/api/messages/' + hash.value).then(response => {
-                        console.log(response.data);
+                    apiClient.get('/api/messages/' + hash.value)
+                    .then(response => {
+                        // console.log(response.data);
                         messages.value = response.data.data;
-                    });
+                        isLoading.value = false;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    })
+                }
+
+
+                function scrollBottom() {
+
+                    if(messages.value.length > 1){
+                        let el = hasScrolledToBottom.value;
+                          el.scrollTop = el.scrollHeight;
+                    }        	
                 }
 
 
@@ -145,7 +176,9 @@
                 return {
                     messages,
                     newMessage,
-                    addMessage
+                    addMessage,
+                    isLoading,
+                    hasScrolledToBottom
                 }
             }
         }
@@ -183,12 +216,12 @@
             margin-top: 20px;
           }
       
-          .message-input {
+          /* .message-input {
             flex-grow: 1;
             padding: 10px;
             border: none;
             border-radius: 5px;
-          }
+          } */
       
           .send-button {
             background-color: #97979c;
