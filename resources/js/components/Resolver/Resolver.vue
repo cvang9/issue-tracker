@@ -1,10 +1,8 @@
 <template>
-  <div v-if="loadingTickets" class="loading">
-    <div></div>
-  </div>
+  <PageLoader v-if="loadingTickets"/>
   <main v-else class="flex w-full h-full shadow-lg rounded-3xl section">
     <section class="flex flex-col w-2/12 bg-slate-800 rounded-l-3xl">
-      <div class="w-16 mx-auto mt-10 mb-15 p-4 bg-indigo-600 rounded-2xl text-white">
+      <div class="w-16 mx-auto mt-9 mb-9 p-4 bg-indigo-600 rounded-2xl text-white">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -18,6 +16,9 @@
             d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"
           />
         </svg>
+      </div>
+      <div class="ml-20">
+        <DarkModeSwitcher/>
       </div>
       <nav class="relative flex flex-col py-4 items-center">
         <div class="ml-1">
@@ -99,9 +100,10 @@
           </svg>
         </button>
       </div>
+      
         <router-link
         :to="`/resolver-profile/${$route.params.id}`"
-          class="w-13 p-2 border text-gray-700 bg-white rounded-2xl hover:bg-slate-300"
+          class="w-13 mr-4 p-2 border text-gray-700 bg-white rounded-2xl hover:bg-slate-300"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -125,11 +127,11 @@
         </router-link>
       </nav>
     </section>
-    <section class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll">
+    <section class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll dark:bg-black dark:text-white">
       <ul v-for="item in cards" :key="item" class="mt-5">
         <li  
         @click="() => setAttributes(item)"
-        class="py-5 border-b px-3 transition hover:bg-indigo-100">
+        class="py-5 border-b px-3 transition hover:bg-indigo-100 dark:hover:bg-slate-700 dark:hover:text-white">
           <p
             
             class="flex justify-between items-center outline-none"
@@ -143,21 +145,21 @@
         </li>
       </ul>
     </section>
-    <section v-show="username" class="w-6/12 px-4 flex flex-col bg-white rounded-r-3xl">
+    <section v-show="username" class="w-6/12 px-4 flex flex-col bg-white rounded-r-3xl dark:bg-black dark:text-white">
       <div class="flex justify-between items-center h-48 border-b-2 mb-8">
         <div class="flex space-x-4 items-center">
           <div class="h-12 w-12 rounded-full overflow-hidden">
             <img :src="profile" loading="lazy" class="h-full w-full object-cover" />
           </div>
-          <div class="flex flex-col">
-            <h3 class="font-semibold text-lg">{{ username }}</h3>
+          <div class="flex flex-col ">
+            <h3 class="font-semibold text-lg ">{{ username }}</h3>
             <p class="text-light text-gray-400">{{ email }}</p>
           </div>
         </div>
       </div>
       <section>
         <h1 class="font-bold text-2xl">Issue Regarding your department</h1>
-        <article class="mt-8 text-gray-500 leading-7 tracking-wider">
+        <article class="mt-8 text-gray-500 leading-7 tracking-wider dark:text-white">
           <p>Hi {{ username }},</p>
           <p>
             {{ body }}
@@ -212,7 +214,7 @@
           </li>
         </ul>
         <div v-if="toogle">
-          <input class="mt-2 mr-2 outline-none rounded-lg" type="text" v-model="chatDate" />
+          <input class="mt-2 mr-2 outline-none rounded-lg dark:bg-slate-400 dark:text-black-2" type="text" v-model="chatDate" />
           <button
             v-if="!chatDateLoading"
             @click="submitDate"
@@ -225,7 +227,7 @@
       </section>
       <section class="mt-6 border rounded-xl bg-gray-50 mb-3">
         <textarea
-          class="w-full bg-gray-50 p-2 rounded-xl"
+          class="w-full bg-gray-50 p-2 rounded-xl outline-none dark:bg-slate-400 dark:text-black-2"
           placeholder="Type your reply here..."
           rows="3"
           v-model="feedback"
@@ -234,7 +236,7 @@
           <button
             v-if="!feedbackLoader"
             @click="resolve"
-            class="bg-purple-600 text-white px-6 py-2 rounded-xl"
+            class="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-800"
           >
             Resolve
           </button>
@@ -242,14 +244,14 @@
           <button
             v-if="!feedbackLoader"
             @click="rejected"
-            class="bg-purple-600 text-white px-6 py-2 rounded-xl"
+            class="bg-blue-600 hover:bg-blue-800 text-white px-6 py-2 rounded-xl"
           >
             Reject
           </button>
           <button
             v-if="!feedbackLoader"
             @click="processing"
-            class="bg-purple-600 text-white px-6 py-2 rounded-xl"
+            class="bg-blue-600 hover:bg-blue-800 text-white px-6 py-2 rounded-xl"
           >
             Process
           </button>
@@ -259,6 +261,7 @@
   </main>
 </template>
 <script setup>
+import PageLoader from './PageLoader.vue'
 import apiClient from '../../services/api.js'
 import Loader from './Loader.vue'
 import { onMounted, ref } from 'vue'
@@ -267,6 +270,7 @@ import 'vue3-toastify/dist/index.css'
 import { useAuthStore } from '../../store/auth.js'
 import { useRoute, useRouter } from 'vue-router'
 import { getCookie } from '../../helper/CookieHelper.js'
+import DarkModeSwitcher from '../Header/DarkModeSwitcher.vue'
 const cards = ref([])
 const route = useRoute()
 const route1 = useRouter()
@@ -327,9 +331,6 @@ const setAttributes = (item) => {
   console.log(ticketId.value)
 }
 onMounted(() => {
-  if (localStorage.getItem('dark')) {
-    darkMode.value = true
-  }
   if (!authenticated) {
     route1.push('/')
   } else {
@@ -435,6 +436,7 @@ const rejected = () => {
     feedback: feedback.value,
     status: status.value
   }
+  feedback.value = ''
   apiClient
     .put(`/api/resolvers/${route.params.id}/tickets/${ticketId.value}`, payload)
     .then((response) => {
@@ -460,6 +462,7 @@ const processing = () => {
     feedback: feedback.value,
     status: status.value
   }
+  feedback.value = ''
   // this.toggle = !this.toggle
   apiClient
     .put(`/api/resolvers/${route.params.id}/tickets/${ticketId.value}`, payload)
@@ -481,27 +484,8 @@ const processing = () => {
 }
 </script>
 <style scoped>
-.loading {
-  width: 100vw;
-  height: 100vh;
-  background-color: whitesmoke;
-  display: grid;
-  place-items: center;
-  max-width: 100%;
-}
-.loading > div {
-  width: 15vmax;
-  border-bottom: 4px solid rgb(116, 84, 84);
-  border-radius: 50%;
-  height: 14vmax;
-  animation: loadingRouter 850ms linear infinite;
-}
-@keyframes loadingRouter {
-  to {
-    transform: rotateZ(-360deg);
-  }
-}
 .section {
+  /* Target the scrollbar track */
   height: 100vh;
 }
 </style>
