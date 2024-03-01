@@ -1,53 +1,147 @@
 <template>
-  <form v-if="user">
-    <div :class="[darkMode ? 'dark-profile-main-div shadow-2xl' : 'profile-main-div shadow-2xl']">
-      <div :class="[darkMode ? 'dark-profile-left-div' : ' profile-left-div']">
-        <p :class="[darkMode ? 'dark-heading' : 'heading']">My Profile</p>
-        <p>Name</p>
-        <input type="text" placeholder="name" readonly v-model="name" />
-        <p>Email</p>
-        <input type="email" placeholder="email" readonly v-model="email" />
-        <p>Department</p>
-        <input type="text" placeholder="department" readonly v-model="department" />
-        <div @click="goback" :class="[darkMode ? 'dark-edit-button' : 'edit-button']">
-          <button>Back to Issues</button>
-        </div>
-      </div>
-      <div :class="[darkMode ? 'dark-profile-right-div' : 'profile-right-div']">
-        <img :src="profile" alt="resolver" />
-        <P style="font-size: 2vmax">Department- {{ department }}</P>
-        <p style="color: green">
-          Ticket resolved -
-          {{ user?.data?.attributes?.counts?.resolved_tickets }}
-        </p>
-        <p style="color: red">
-          Ticket rejected -
-          {{ user?.data?.attributes?.counts?.rejected_tickets }}
-        </p>
-        <p>
-          Ticket processing -
-          {{ user?.data?.attributes?.counts?.processing_tickets }}
-        </p>
-      </div>
-    </div>
-  </form>
-  <div v-else :class="[darkMode ? 'dark-loading' : 'loading']">
+  <div v-if="loading" class="loading">
     <div></div>
   </div>
+  <main v-if="user" class="profile-page">
+    <section class="relative block h-500-px">
+      <div
+        class="absolute top-0 w-full h-full bg-center bg-cover"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80');
+        "
+      >
+        <span id="blackOverlay" class="w-full h-full absolute opacity-50 bg-black"></span>
+      </div>
+      <div
+        class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
+        style="transform: translateZ(0px)"
+      >
+        <svg
+          class="absolute bottom-0 overflow-hidden"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          version="1.1"
+          viewBox="0 0 2560 100"
+          x="0"
+          y="0"
+        >
+          <polygon class="text-blueGray-200 fill-current" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+      </div>
+    </section>
+    <section class="relative py-16 bg-blueGray-200">
+      <div class="container mx-auto px-4">
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64"
+        >
+          <div class="px-6">
+            <div class="flex flex-wrap justify-center">
+              <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+                <div class="relative">
+                  <img
+                    alt="..."
+                    :src="profile"
+                    class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+                  />
+                </div>
+              </div>
+              <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
+                <div class="py-6 px-3 mt-32 sm:mt-0">
+                  <Loader v-if="logoutLoading" />
+                  <button
+                    v-else
+                    @click="logout"
+                    class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                  >
+                    LogOut
+                  </button>
+                </div>
+              </div>
+              <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
+                <div class="py-6 px-3 mt-32 sm:mt-0"></div>
+              </div>
+              <div class="w-full lg:w-4/12 px-4 lg:order-1">
+                <div class="flex justify-center py-4 lg:pt-4 pt-8">
+                  <div class="mr-4 p-3 text-center">
+                    <span
+                      class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
+                      >{{ user?.data?.attributes?.counts?.resolved_tickets }}</span
+                    ><span class="text-sm text-blueGray-400">Resolved</span>
+                  </div>
+                  <div class="mr-4 p-3 text-center">
+                    <span
+                      class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
+                      >{{ user?.data?.attributes?.counts?.rejected_tickets }}</span
+                    ><span class="text-sm text-blueGray-400">Rejected</span>
+                  </div>
+                  <div class="lg:mr-4 p-3 text-center">
+                    <span
+                      class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
+                      >{{ user?.data?.attributes?.counts?.processing_tickets }}</span
+                    ><span class="text-sm text-blueGray-400">Processing</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center mt-12">
+              <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                {{ name }}
+              </h3>
+              <!-- <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                <i class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
+                Los Angeles, California
+              </div> -->
+              <div class="mb-2 text-blueGray-600 mt-10">
+                <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>Resolver -
+                {{ department }}
+              </div>
+              <div class="mb-2 text-blueGray-600">
+                <i class="fas fa-regular fa-envelope mr-2 text-lg text-blueGray-400"></i>Email-
+                {{ email }}
+              </div>
+            </div>
+            <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
+              <div class="flex flex-wrap justify-center">
+                <div class="w-full lg:w-9/12 px-4">
+                  <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
+                    An artist of considerable range, Jenna the name taken by Melbourne-raised,
+                    Brooklyn-based Nick Murphy writes, performs and records all of his own music,
+                    giving it a warm, intimate feel with a solid groove structure. An artist of
+                    considerable range.
+                  </p>
+                  <router-link
+                    :to="`/resolver/${route.params.id}`"
+                    class="font-normal text-pink-500"
+                    >Show Tickets</router-link
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </template>
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import apiClient from '../../services/api.js'
+import { useAuthStore } from '../../store/auth.js'
+import Loader from './Loader.vue'
 const user = ref('')
 const route = useRoute()
 const name = ref('')
 const profile = ref('http://[::1]:5173/storage/app/uploads/profile.png')
-const router = useRouter()
+const route1 = useRouter()
 const department = ref('')
 const darkMode = ref(false)
-const loading = ref(false)
+const loading = ref(true)
+const logoutLoading = ref(false)
 const email = ref('email')
+const { toggleState } = useAuthStore()
+import { deleteCookie } from '../../helper/CookieHelper.js'
 const loadUser = () => {
   loading.value = true
   apiClient
@@ -60,14 +154,12 @@ const loadUser = () => {
       if (user.value?.data?.attributes?.user?.data?.attributes?.img !== '') {
         profile.value = `http://[::1]:5173/storage/app/uploads/${user.value?.data?.attributes?.user?.data?.attributes?.img}`
       }
+      loading.value = false
     })
     .catch((error) => {
       console.log(error)
+      loading.value = false
     })
-  loading.value = false
-}
-function goback() {
-  router.push(`/resolver/${route.params.id}`)
 }
 onMounted(() => {
   if (localStorage.getItem('dark')) {
@@ -75,76 +167,29 @@ onMounted(() => {
   }
   loadUser()
 })
+const logout = () => {
+  logoutLoading.value = true
+  apiClient
+    .get('/api/logout')
+    .then((response) => {
+      toggleState()
+
+      deleteCookie('role')
+      deleteCookie('resolverId')
+
+      logoutLoading.value = false
+      route1.push('/')
+    })
+    .catch((error) => {
+      console.log(error)
+      toast.error('Error occured,Please try again later', {
+        autoClose: 1000
+      })
+      logoutLoading.value = false
+    })
+}
 </script>
 <style scoped>
-.profile-main-div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(243, 237, 237);
-  height: 100vh;
-  padding: 4vmax 4vmax;
-  gap: 4vmax;
-}
-.profile-left-div {
-  width: 50%;
-  background-color: white;
-  padding: 2vmax 2vmax;
-  border-radius: 15px;
-}
-.heading {
-  text-align: center;
-  font-weight: 600;
-  font-size: 1.8vmax;
-  color: rgb(133, 127, 127);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-.profile-left-div > input {
-  padding: 1vmax 1vmax;
-  color: black;
-  width: 100%;
-  border: 1px solid rgb(123, 123, 207);
-  border-radius: 5px;
-  outline: none;
-  margin: 0.5vmax 0;
-}
-.profile-left-div > {
-  outline: none;
-}
-.profile-right-div {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.profile-right-div > img {
-  margin-top: 2vmax;
-  margin-left: 2vmax;
-  width: 90%;
-  border-radius: 50%;
-  border: 1px solid rgb(123, 123, 207);
-  margin-bottom: 2vmax;
-}
-.edit-button {
-  padding: 0.8vmax 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgb(123, 123, 207);
-  background-color: rgb(123, 123, 207);
-  border-radius: 10px;
-  margin-top: 1vmax;
-  color: white;
-  font-size: 1.3vmax;
-  transition: all 0.5s;
-}
-.edit-button:hover {
-  background-color: white;
-  border: 1px solid rgb(123, 123, 207);
-  color: rgb(123, 123, 207);
-  cursor: pointer;
-}
 .loading {
   width: 100vw;
   height: 100vh;
@@ -166,76 +211,10 @@ onMounted(() => {
   }
 }
 
-/* dark mode */
-.dark-profile-main-div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: #3a3a3a;
-  height: 100vh;
-  padding: 4vmax 4vmax;
-  gap: 4vmax;
-  color: white;
-}
-.dark-profile-left-div {
-  width: 50%;
-  background-color: #727070;
-  padding: 2vmax 2vmax;
-  border-radius: 15px;
-}
-.dark-heading {
-  text-align: center;
-  font-weight: 600;
-  font-size: 1.8vmax;
-  color: white;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-.dark-profile-left-div > input {
-  padding: 1vmax 1vmax;
-  color: black;
-  width: 100%;
-  border: 1px solid #3a3a3a;
-  border-radius: 5px;
-  outline: none;
-  margin: 0.5vmax 0;
-}
-.dark-profile-left-div > {
-  outline: none;
-}
-.dark-profile-right-div {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.dark-profile-right-div > img {
-  margin-top: 2vmax;
-  margin-left: 2vmax;
-  width: 90%;
-  border-radius: 50%;
-  border: 1px solid #3a3a3a;
-  margin-bottom: 2vmax;
-}
-.dark-edit-button {
-  padding: 0.8vmax 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #3a3a3a;
-  background-color: white;
-  border-radius: 10px;
-  margin-top: 1vmax;
-  color: black;
-  font-size: 1.3vmax;
-  transition: all 0.5s;
-}
-.dark-edit-button:hover {
-  cursor: pointer;
-}
 .dark-loading {
   width: 100vw;
   height: 100vh;
+  /* background-color: whitesmoke; */
   background-color: #3a3a3a;
   display: grid;
   place-items: center;
