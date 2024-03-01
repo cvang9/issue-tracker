@@ -1,7 +1,8 @@
 <template>
-  <div v-if="loading" class="loading">
+  <!-- <div v-if="loading" class="loading">
     <div></div>
-  </div>
+  </div> -->
+  <PageLoader v-if="loading" />
   <main v-if="user" class="profile-page">
     <section class="relative block h-500-px">
       <div
@@ -32,7 +33,7 @@
     <section class="relative py-16 bg-blueGray-200">
       <div class="container mx-auto px-4">
         <div
-          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64"
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64 dark:bg-slate-700"
         >
           <div class="px-6">
             <div class="flex flex-wrap justify-center">
@@ -51,7 +52,7 @@
                   <button
                     v-else
                     @click="logout"
-                    class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    class="bg-red active:bg-red-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                     type="button"
                   >
                     LogOut
@@ -65,54 +66,58 @@
                 <div class="flex justify-center py-4 lg:pt-4 pt-8">
                   <div class="mr-4 p-3 text-center">
                     <span
-                      class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
+                      class="text-xl font-bold block uppercase tracking-wide text-blueGray-600 dark:text-white"
                       >{{ user?.data?.attributes?.counts?.resolved_tickets }}</span
-                    ><span class="text-sm text-blueGray-400">Resolved</span>
+                    ><span class="text-sm text-blueGray-400 dark:text-white">Resolved</span>
                   </div>
                   <div class="mr-4 p-3 text-center">
                     <span
-                      class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
+                      class="text-xl font-bold block uppercase tracking-wide text-blueGray-600 dark:text-white"
                       >{{ user?.data?.attributes?.counts?.rejected_tickets }}</span
-                    ><span class="text-sm text-blueGray-400">Rejected</span>
+                    ><span class="text-sm text-blueGray-400 dark:text-white">Rejected</span>
                   </div>
                   <div class="lg:mr-4 p-3 text-center">
                     <span
-                      class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
+                      class="text-xl font-bold block uppercase tracking-wide text-blueGray-600 dark:text-white"
                       >{{ user?.data?.attributes?.counts?.processing_tickets }}</span
-                    ><span class="text-sm text-blueGray-400">Processing</span>
+                    ><span class="text-sm text-blueGray-400 dark:text-white">Processing</span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="text-center mt-12">
-              <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+              <h3
+                class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2 dark:text-white"
+              >
                 {{ name }}
               </h3>
               <!-- <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                 <i class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
                 Los Angeles, California
               </div> -->
-              <div class="mb-2 text-blueGray-600 mt-10">
-                <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>Resolver -
+              <div class="mb-2 text-blueGray-600 mt-10 dark:text-white">
+                <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400 dark:text-white"></i
+                >Resolver -
                 {{ department }}
               </div>
-              <div class="mb-2 text-blueGray-600">
-                <i class="fas fa-regular fa-envelope mr-2 text-lg text-blueGray-400"></i>Email-
+              <div class="mb-2 text-blueGray-600 dark:text-white">
+                <i
+                  class="fas fa-regular fa-envelope mr-2 text-lg text-blueGray-400 dark:text-white"
+                ></i
+                >Email-
                 {{ email }}
               </div>
             </div>
             <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
               <div class="flex flex-wrap justify-center">
                 <div class="w-full lg:w-9/12 px-4">
-                  <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
+                  <p class="mb-4 text-lg leading-relaxed text-blueGray-700 dark:text-white">
                     An artist of considerable range, Jenna the name taken by Melbourne-raised,
                     Brooklyn-based Nick Murphy writes, performs and records all of his own music,
                     giving it a warm, intimate feel with a solid groove structure. An artist of
                     considerable range.
                   </p>
-                  <router-link
-                    :to="`/resolver/${route.params.id}`"
-                    class="font-normal text-pink-500"
+                  <router-link :to="`/resolver/${route.params.id}`" class="font-normal text-red"
                     >Show Tickets</router-link
                   >
                 </div>
@@ -126,6 +131,7 @@
 </template>
 <script setup>
 import { onMounted, ref } from 'vue'
+import PageLoader from './PageLoader.vue'
 import { useRoute, useRouter } from 'vue-router'
 import apiClient from '../../services/api.js'
 import { useAuthStore } from '../../store/auth.js'
@@ -190,46 +196,4 @@ const logout = () => {
 }
 </script>
 <style scoped>
-.loading {
-  width: 100vw;
-  height: 100vh;
-  background-color: whitesmoke;
-  display: grid;
-  place-items: center;
-  max-width: 100%;
-}
-.loading > div {
-  width: 15vmax;
-  border-bottom: 4px solid rgb(116, 84, 84);
-  border-radius: 50%;
-  height: 14vmax;
-  animation: loadingRouter 850ms linear infinite;
-}
-@keyframes loadingRouter {
-  to {
-    transform: rotateZ(-360deg);
-  }
-}
-
-.dark-loading {
-  width: 100vw;
-  height: 100vh;
-  /* background-color: whitesmoke; */
-  background-color: #3a3a3a;
-  display: grid;
-  place-items: center;
-  max-width: 100%;
-}
-.dark-loading > div {
-  width: 15vmax;
-  border-bottom: 4px solid white;
-  border-radius: 50%;
-  height: 14vmax;
-  animation: loadingRouter 850ms linear infinite;
-}
-@keyframes loadingRouter {
-  to {
-    transform: rotateZ(-360deg);
-  }
-}
 </style>
