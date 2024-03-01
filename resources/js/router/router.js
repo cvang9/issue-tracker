@@ -334,10 +334,6 @@ export default createRouter({
             }
         },
         {
-            path: '/test',
-            component: TestComponent
-        },
-        {
             path: '/:catchAll(.*)*',
             component: NotFound
         }
