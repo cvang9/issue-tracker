@@ -134,11 +134,11 @@
             
             class="flex justify-between items-center outline-none"
           >
+        </p>
             <h3 class="text-lg font-semibold">
               {{ item.data.attributes.user.data.attributes.name }}
             </h3>
             <!-- <p class="text-md text-gray-400 text-right">23m ago</p> -->
-          </p>
           <div class="text-md italic text-gray-400">See the ticket status !</div>
         </li>
       </ul>
@@ -327,8 +327,8 @@ const setAttributes = (item) => {
   console.log(ticketId.value)
 }
 onMounted(() => {
-  if (localStorage.getItem('dark')) {
-    darkMode.value = true
+  if (getCookie('dark')) {
+    // darkMode.value = true
   }
   if (!authenticated) {
     route1.push('/')
