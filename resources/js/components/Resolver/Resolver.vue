@@ -2,9 +2,9 @@
   <div v-if="loadingTickets" class="loading">
     <div></div>
   </div>
-  <main v-else class="flex w-full h-full shadow-lg rounded-3xl">
-    <section class="flex flex-col w-2/12 bg-white rounded-l-3xl">
-      <div class="w-16 mx-auto mt-12 mb-20 p-4 bg-indigo-600 rounded-2xl text-white">
+  <main v-else class="flex w-full h-full shadow-lg rounded-3xl section">
+    <section class="flex flex-col w-2/12 bg-slate-800 rounded-l-3xl">
+      <div class="w-16 mx-auto mt-10 mb-15 p-4 bg-indigo-600 rounded-2xl text-white">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -20,44 +20,56 @@
         </svg>
       </div>
       <nav class="relative flex flex-col py-4 items-center">
-        <button @click="getResolvedTickets" class="w-12 p-3 border text-gray-700 rounded-2xl mb-4">
-          <svg
+        <div class="ml-1">
+          <p class="text-white">
+            Resolved
+          </p>
+          <button @click="getResolvedTickets" class="w-10 p-1 border text-gray-700 bg-white rounded-2xl mb-4 hover:bg-slate-300">
+            <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-          >
+            >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1"
+            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
             />
           </svg>
         </button>
+      </div>
+      <div class="ml-3">
+        <p class="text-white">
+          Processed
+        </p>
         <button
-          @click="getProcessingTickets"
-          class="w-12 p-3 border text-gray-700 rounded-2xl mb-4"
+        @click="getProcessingTickets"
+        class="w-10 p-1 border text-gray-700 rounded-2xl bg-white mb-4 hover:bg-slate-300"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-        </button>
-        <button @click="getPendingTickets" class="w-12 p-3 border text-gray-700 rounded-2xl mb-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
+        <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        >
+        <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1"
+        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+        />
+      </svg>
+    </button>
+  </div>  
+  <div>
+    <p class="text-white">Pending</p>
+    <button @click="getPendingTickets" class="w-10 p-1 border bg-white text-gray-700 rounded-2xl mb-4 hover:bg-slate-300">
+      <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
             stroke="currentColor"
           >
             <path
@@ -65,27 +77,31 @@
               stroke-linejoin="round"
               stroke-width="1"
               d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-            />
-          </svg>
-        </button>
-        <button @click="getRejectedTickets" class="w-12 p-3 border text-gray-700 rounded-2xl mb-24">
-          <svg
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="ml-1">
+          <p class="text-white">Rejected</p>
+          <button @click="getRejectedTickets" class="w-10 p-1 border text-gray-700 bg-white rounded-2xl mb-24 hover:bg-slate-300">
+            <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-          >
+            >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
             />
           </svg>
         </button>
+      </div>
         <router-link
-          :to="`/resolver-profile/${$route.params.id}`"
-          class="w-16 p-4 border text-gray-700 rounded-2xl"
+        :to="`/resolver-profile/${$route.params.id}`"
+          class="w-13 p-2 border text-gray-700 bg-white rounded-2xl hover:bg-slate-300"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -109,8 +125,8 @@
         </router-link>
       </nav>
     </section>
-    <section class="flex flex-col pt-3 w-4/12 bg-gray-50 h-full overflow-y-scroll">
-      <ul v-for="item in cards" :key="item" class="mt-6 h-full">
+    <section class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll">
+      <ul v-for="item in cards" :key="item" class="mt-5">
         <li  
         @click="() => setAttributes(item)"
         class="py-5 border-b px-3 transition hover:bg-indigo-100">
@@ -118,11 +134,11 @@
             
             class="flex justify-between items-center outline-none"
           >
-        </p>
             <h3 class="text-lg font-semibold">
               {{ item.data.attributes.user.data.attributes.name }}
             </h3>
             <!-- <p class="text-md text-gray-400 text-right">23m ago</p> -->
+          </p>
           <div class="text-md italic text-gray-400">See the ticket status !</div>
         </li>
       </ul>
@@ -311,8 +327,8 @@ const setAttributes = (item) => {
   console.log(ticketId.value)
 }
 onMounted(() => {
-  if (getCookie('dark')) {
-    // darkMode.value = true
+  if (localStorage.getItem('dark')) {
+    darkMode.value = true
   }
   if (!authenticated) {
     route1.push('/')
@@ -484,5 +500,8 @@ const processing = () => {
   to {
     transform: rotateZ(-360deg);
   }
+}
+.section {
+  height: 100vh;
 }
 </style>
