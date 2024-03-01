@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from '../pages/Auth/LoginPage.vue';
 import LoginAs from '../pages/Auth/LoginAsPage.vue';
 import Signup from '../pages/Auth/SignupPage.vue';
-import Resolver from '../components/Resolver/MainPage.vue';
+import Resolver from '../components/Resolver/Resolver.vue';
 import ResolverProfile from '../components/Resolver/ResolverProfile.vue';
 
 import AdminDashboard from '@/views/Dashboard/AdminDashboard.vue'
@@ -15,6 +15,7 @@ import Tickets from '../components/User/Tickets.vue';
 import TicketDetail from '../components/User/TicketDetail.vue';
 import { deleteCookie, getCookie } from "../helper/CookieHelper.js"; 
 import NotFound from '../components/NotFound.vue';
+import TestComponent from '../components/TestComponent.vue';
 
 function isAdmin() {
     if( getCookie('role') === 'admin' ) {
@@ -351,6 +352,10 @@ export default createRouter({
                 }
 
             }
+        },
+        {
+            path: '/test',
+            component: TestComponent
         },
         {
             path: '/:catchAll(.*)*',

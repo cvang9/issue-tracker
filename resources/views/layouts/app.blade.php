@@ -17,6 +17,8 @@
             background-color: #333;
         } */
     </style>
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
     @yield('title')
     @vite(['resources/js/app.js'])
 </head>
@@ -25,6 +27,6 @@
         <main>
             @yield('content')
         </main>
-    </div>
+        </div>
 </body>
 </html>
