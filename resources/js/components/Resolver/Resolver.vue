@@ -1,30 +1,18 @@
 <template>
-  <main class="flex w-full h-full shadow-lg rounded-3xl section">
-    <section class="flex flex-col w-2/12 bg-slate-800 rounded-l-3xl dark:z-10">
-      <div class="w-16 mx-auto mt-9 mb-9 p-4 bg-indigo-600 rounded-2xl text-white">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
-            d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"
-          />
-        </svg>
-      </div>
+  <main class="flex w-full h-full shadow-lg section">
+    <section class="flex flex-col w-3/12 bg-slate-800  dark:z-10">
+        <div class="w-16 ms-5 mt-9 mb-9 pt-3 py-2  px-10 bg-blue-600 rounded-2xl rounded-ee-5xl text-white">
+            <p class="mt-1 text-3xl font-bold dark:text-white ms-6 mb-4"> RESOLVER PANEL </p>
+            <div class="ms-13">
+                <DarkModeSwitcher :role="'resolver'" />
+            </div>
+        </div>
       <div class="ml-20">
-        <DarkModeSwitcher/>
       </div>
+
       <nav class="relative flex flex-col py-4 items-center">
-        <div class="ml-1">
-          <p class="text-white">
-            Resolved
-          </p>
-          <button @click="getResolvedTickets" class="w-10 p-1 border text-gray-700 bg-white rounded-2xl mb-4 hover:bg-slate-300">
+        <div class="flex  space-x-3 items-center justify-center pt-4 border-t-2 border-b-2 w-90  h-20  border-white dark:border-blue-500 my-2">
+          <button @click="getResolvedTickets" class="w-10 p-1 border text-gray-700 bg-white rounded-2xl mb-4 dark:bg-blue-500">
             <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -39,51 +27,56 @@
             />
           </svg>
         </button>
+          <p class="text-white text-xl mb-4">
+            Resolved Tickets
+          </p>
       </div>
-      <div class="ml-3">
-        <p class="text-white">
-          Processed
-        </p>
-        <button
-        @click="getProcessingTickets"
-        class="w-10 p-1 border text-gray-700 rounded-2xl bg-white mb-4 hover:bg-slate-300"
-        >
-        <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        >
-        <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1"
-        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-        />
-      </svg>
+
+        <div class="flex space-x-3 items-center justify-center pt-4 border-b-2 w-90  h-20  border-white dark:border-blue-500 my-2 me-1">
+            <button
+            @click="getProcessingTickets"
+            class="w-10 p-1 border text-gray-700 rounded-2xl bg-white mb-4 dark:bg-blue-500"
+            >
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            >
+            <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1"
+            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+        </svg>
     </button>
+    <p class="text-white text-xl mb-4">
+      Processd Tickets
+    </p>
   </div>  
-  <div>
-    <p class="text-white">Pending</p>
-    <button @click="getPendingTickets" class="w-10 p-1 border bg-white text-gray-700 rounded-2xl mb-4 hover:bg-slate-300">
-      <svg
-      xmlns="http://www.w3.org/2000/svg"
+
+  <div class="flex space-x-3 items-center justify-center pt-4 border-b-2 w-90  h-20  border-white dark:border-blue-500 my-2 me-1">
+        <button @click="getPendingTickets" class="w-10 p-1 border bg-white text-gray-700 rounded-2xl mb-4 dark:bg-blue-500">
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
+      stroke="currentColor"
+      >
+      <path
+      stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="1"
               d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
               />
             </svg>
-          </button>
-        </div>
-        <div class="ml-1">
-          <p class="text-white">Rejected</p>
-          <button @click="getRejectedTickets" class="w-10 p-1 border text-gray-700 bg-white rounded-2xl mb-24 hover:bg-slate-300">
+        </button>
+        <p class="text-white text-xl mb-4"> Pending Tickets </p>
+    </div>
+
+    <div class="flex space-x-3 items-center justify-center pt-4 border-b-2 w-90  h-20  border-white dark:border-blue-500 my-2 me-1">
+        <button @click="getPendingTickets" class="w-10 p-1 border bg-white text-gray-700 rounded-2xl mb-4 dark:bg-blue-500">
             <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -96,35 +89,29 @@
             stroke-width="1"
             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
             />
-          </svg>
+        </svg>
         </button>
-      </div>
+        <p class="text-white text-xl mb-4"> Rejected Tickets </p>
+    </div>
+
       
-        <router-link
-        :to="`/resolver-profile/${$route.params.id}`"
-          class="w-13 mr-4 p-2 border text-gray-700 bg-white rounded-2xl hover:bg-slate-300"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
-        </router-link>
-      </nav>
+</nav>
+    <router-link
+    :to="`/resolver-profile/${$route.params.id}`"
+    class=" mt-2 text-white text-lg font-bold hover:text-blue-500 "
+    >
+    <div class="flex ms-4 items-center mt-3 space-x-3">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 ">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+        </svg>
+        <p>
+            <u>Visit my profile</u>
+        </p>
+    </div>
+
+    
+    </router-link>  
     </section>
     <PageLoader v-if="loadingTickets"/>
     <section v-if="!loadingTickets" class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll dark:bg-black dark:text-white">
@@ -275,6 +262,8 @@ import { useAuthStore } from '../../store/auth.js'
 import { useRoute, useRouter } from 'vue-router'
 import { getCookie } from '../../helper/CookieHelper.js'
 import DarkModeSwitcher from '../Header/DarkModeSwitcher.vue'
+
+
 const cards = ref([])
 const route = useRoute()
 const route1 = useRouter()
@@ -292,6 +281,8 @@ const ticketId = ref('')
 const profile = ref('http://[::1]:5173/storage/app/uploads/profile.png')
 const loadingTickets = ref(true)
 const feedbackLoader = ref(false)
+
+
 toast.success('Welcome back', {
   autoClose: 1000
 })

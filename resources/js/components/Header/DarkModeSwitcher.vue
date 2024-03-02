@@ -1,15 +1,30 @@
-<script setup>
+
+<script>
 import { useDarkModeStore } from '@/store/darkMode.js';
 
-const darkModeStore = useDarkModeStore()
+export default {
+    props: ['role'],
+    setup(props) {
+        
+        const darkModeStore = useDarkModeStore();
+
+        return {
+            darkModeStore,
+            resolver: ( props.role == 'resolver' ? true : false ) 
+        }
+    },
+}
 </script>
 
+
 <template>
-  <label
-    :class="{ 'bg-primary': darkModeStore.darkMode, 'bg-stroke': !darkModeStore.darkMode }"
+
+  <label v-if="resolver"
+    :class="{ 'bg-blue-600': darkModeStore.darkMode && resolver, 'bg-primary' : darkModeStore.darkMode && !resolver  , 'bg-stroke': !darkModeStore.darkMode }"
     class="relative m-0 block h-7.5 w-14 rounded-full"
     @click="darkModeStore.toggleDarkMode"
   >
+  
     <input type="checkbox" class="absolute top-0 z-50 m-0 h-full w-full cursor-pointer opacity-0" />
     <span
       :class="{ 'right-1 translate-x-full': darkModeStore.darkMode }"
