@@ -1,7 +1,6 @@
 <template>
-  <PageLoader v-if="loadingTickets"/>
-  <main v-else class="flex w-full h-full shadow-lg rounded-3xl section">
-    <section class="flex flex-col w-2/12 bg-slate-800 rounded-l-3xl">
+  <main class="flex w-full h-full shadow-lg rounded-3xl section">
+    <section class="flex flex-col w-2/12 bg-slate-800 rounded-l-3xl dark:z-10">
       <div class="w-16 mx-auto mt-9 mb-9 p-4 bg-indigo-600 rounded-2xl text-white">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +126,8 @@
         </router-link>
       </nav>
     </section>
-    <section class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll dark:bg-black dark:text-white">
+    <PageLoader v-if="loadingTickets"/>
+    <section v-if="!loadingTickets" class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll dark:bg-black dark:text-white">
       <ul v-for="item in cards" :key="item" class="mt-5">
         <li  
         @click="() => setAttributes(item)"
@@ -145,7 +145,7 @@
         </li>
       </ul>
     </section>
-    <section v-show="username" class="w-6/12 px-4 flex flex-col bg-white rounded-r-3xl dark:bg-black dark:text-white">
+    <section v-if="!loadingTickets" class="w-6/12 px-4 flex flex-col bg-white rounded-r-3xl overflow-y-auto dark:bg-black dark:text-white">
       <div class="flex justify-between items-center h-48 border-b-2 mb-8">
         <div class="flex space-x-4 items-center">
           <div class="h-12 w-12 rounded-full overflow-hidden">
@@ -169,9 +169,10 @@
             <p>{{ username }}</p>
           </footer>
         </article>
-        <ul class="flex space-x-4 mt-12">
+        <ul class="flex space-x-10 mt-10 mb-10">
+          
           <li
-            class="w-10 h-10 border rounded-lg p-1 cursor-pointer transition duration-200 text-pink-400 hover:bg-blue-100"
+            class="w-10 h-10 rounded-lg p-1 cursor-pointer transition duration-200 text-blue-400 hover:bg-blue-100"
           >
             <svg
               @click="changeRoute"
@@ -187,12 +188,14 @@
                 d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"
               />
             </svg>
+           <p class="mt-1 mb-1">Chat</p> 
           </li>
           <li
-            class="w-10 h-10 border rounded-lg p-1 cursor-pointer transition duration-200 text-yellow-500 hover:bg-blue-100"
+            class="w-30 h-10 rounded-lg p-1 cursor-pointer transition duration-200 text-blue-400 hover:bg-blue-100"
           >
             <svg
               @click="toogle = !toogle"
+              class="w-8"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -211,14 +214,15 @@
                 d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
               />
             </svg>
+            <p class="mt-1 mb-1 ">Schedule Chat</p>
           </li>
         </ul>
         <div v-if="toogle">
-          <input class="mt-2 mr-2 outline-none rounded-lg dark:bg-slate-400 dark:text-black-2" type="text" v-model="chatDate" />
+          <input class="mt-8 mr-2 outline-none rounded-lg dark:bg-slate-400 dark:text-black-2" type="text" v-model="chatDate" />
           <button
             v-if="!chatDateLoading"
             @click="submitDate"
-            class="bg-purple-600 text-white px-6 py-2 rounded-xl"
+            class="bg-blue-500 hover:bg-blue-800 text-white px-6 py-2 rounded-xl"
           >
             Schedule
           </button>

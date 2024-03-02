@@ -87,7 +87,7 @@
             </div>
             <div class="text-center mt-12">
               <h3
-                class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2 dark:text-white"
+                class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 dark:text-white"
               >
                 {{ name }}
               </h3>
