@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Department;
+use App\Models\Resolver;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -31,6 +33,24 @@ class ResolverTest extends TestCase
     //test case for fetch a particular resolver
     public function test_fetch_a_particular_resolver(): void
     {
-
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create([
+            'name' => 'name',
+            'email' => 'email@mail.com',
+            'password' => 'P4assword',
+            'role' => 'resolver',
+            'img' => 'file',
+        ]);
+        $department = Department::factory()->create([
+            'name' => 'management',
+        ]);
+        $resolver = Resolver::factory()->create([
+            'user_id' => $user->id,
+            'department_id' => $department->id,
+        ]);
+        $this->assertCount(1, Resolver::all());
+        $this->actingAs($user, 'sanctum');
+        $response = $this->get('/api/resolvers/' . $resolver->id);
+        $response->assertStatus(200);
     }
 }
