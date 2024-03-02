@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Department;
 use App\Models\Resolver;
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -51,6 +52,38 @@ class ResolverTest extends TestCase
         $this->assertCount(1, Resolver::all());
         $this->actingAs($user, 'sanctum');
         $response = $this->get('/api/resolvers/' . $resolver->id);
+        $response->assertStatus(200);
+    }
+
+    //test case for updating ticket
+    public function test_update_a_ticket_status(): void
+    {
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create([
+            'name' => 'name',
+            'email' => 'email@mail.com',
+            'password' => 'P4assword',
+            'role' => 'resolver',
+            'img' => 'file',
+        ]);
+        $anotherUser = User::factory()->create([
+            'role' => 'user',
+        ]);
+        $department = Department::factory()->create([
+            'name' => 'management',
+        ]);
+        $resolver = Resolver::factory()->create([
+            'user_id' => $user->id,
+            'department_id' => $department->id,
+        ]);
+        $ticket = Ticket::factory()->create([
+            'body' => 'body',
+            'status' => 'pending',
+            'user_id' => $anotherUser->id,
+            'department_id' => $department->id,
+        ]);
+        $this->actingAs($user, 'sanctum');
+        $response = $this->get('/resolvers/' . $resolver->id . '/tickets/' . $ticket->id);
         $response->assertStatus(200);
     }
 }
