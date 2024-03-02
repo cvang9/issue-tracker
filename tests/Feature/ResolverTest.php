@@ -86,4 +86,27 @@ class ResolverTest extends TestCase
         $response = $this->get('/resolvers/' . $resolver->id . '/tickets/' . $ticket->id);
         $response->assertStatus(200);
     }
+
+    //test case for get department ticket
+    public function test_get_the_department_ticket(): void
+    {
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create([
+            'name' => 'name',
+            'email' => 'email@mail.com',
+            'password' => 'P4assword',
+            'role' => 'resolver',
+            'img' => 'file',
+        ]);
+        $department = Department::factory()->create([
+            'name' => 'management',
+        ]);
+        $resolver = Resolver::factory()->create([
+            'user_id' => $user->id,
+            'department_id' => $department->id,
+        ]);
+        $this->actingAs($user, 'sanctum');
+        $response = $this->get('/resolvers/' . $resolver->id . '/tickets');
+        $response->assertStatus(200);
+    }
 }
