@@ -53,10 +53,12 @@ const name = inject('adminName', ref('Admin'));
       <span class="hidden text-right lg:block">
         <span class="block text-sm font-medium text-black dark:text-white">{{ adminState.name }}</span>
         <span class="block text-xs font-medium dark:text-white">Admin</span>
+        <!-- <span class="block text-xs font-medium dark:text-white">{{ '../../../../storage/app/uploads/'+ adminState.img }}</span> -->
       </span>
 
-      <span class="h-12 w-12 rounded-full">
-        <!-- <img src="@/assets/images/user/user-01.png" alt="User" /> -->
+      <span class="h-12 w-12 rounded-full" v-if="adminState.img != null">
+        
+        <!-- <img :src="adminState.img"  /> -->
       </span>
 
       <svg

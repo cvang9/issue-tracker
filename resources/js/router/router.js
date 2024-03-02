@@ -10,6 +10,7 @@ import SettingsView from '@/views/Pages/SettingsView.vue'
 import CreateDepartment from '@/views/Pages/CreateDepartment.vue'
 import TablesView from '@/views/TablesView.vue'
 import Chat from '../components/Chat.vue';
+import AdminProfile from '../pages/admin/AdminProfile.vue';
 
 import Tickets from '../components/User/Tickets.vue';
 import TicketDetail from '../components/User/TicketDetail.vue';
@@ -287,6 +288,31 @@ export default createRouter({
             meta: {
                 title: 'Create Department'
             },
+            beforeEnter: (to, from, next) => {
+
+
+                if (isResolver()) {
+                    const resolverId = getCookie('resolverId');
+                    next('/resolver/' + resolverId);
+                }
+                else if (isAdmin()) {
+                    next();
+                }
+                else if (isUser()) {
+                    const userId = getCookie('userId');
+                    next('/users/' + userId);
+                }
+                else {
+                    deleteCookie('role');
+                    next('/')
+                }
+
+            }
+        },
+        {
+            path: '/admin-profile',
+            name: 'adminProfile',
+            component: AdminProfile,
             beforeEnter: (to, from, next) => {
 
 

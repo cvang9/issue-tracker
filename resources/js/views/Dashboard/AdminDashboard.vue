@@ -4,7 +4,7 @@ import ChartOne from '@/components/Charts/ChartOne.vue'
 import ChartTwo from '@/components/Charts/ChartTwo.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import apiClient from '../../services/api.js';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useAdminStore } from '../../store/admin.js';
 
 
@@ -15,16 +15,17 @@ const bool = ref(false);
 const isLoading = ref(true);
 const name = ref(null);
 const adminState = useAdminStore();
-const { setName } = adminState;
+const { setData } = adminState;
+
 
 apiClient.get('/api/admin')
 .then(function(response) {
-    setName(response.data.data.attributes.name);
+    console.log(response.data.data.attributes);
+    setData(response.data.data.attributes);
 })
 .catch(function(error){
     console.log(error);
 })
-
 
 
 apiClient.get('/api/admin/data')
@@ -33,16 +34,13 @@ apiClient.get('/api/admin/data')
     yearlyCount.value = response.data.data.attributes.stats.yearly;
     weeklyCount.value = response.data.data.attributes.stats.weekly;
     bool.value = true;
-
-    setTimeout(function() {
     isLoading.value = false;
-    }, 100 )
-
-
+    
 })
 .catch(function(error) {
     console.log(error);
 })
+
 
 
 </script>

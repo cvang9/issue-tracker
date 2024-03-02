@@ -11,11 +11,7 @@ onMounted( function() {
     .then(function(response) {
         console.log(response.data.data);
         deptData.value = response.data.data;
-
-        setTimeout(function() {
-            isLoading.value = false;
-        }, 100 )
-
+        isLoading.value = false;
     })
     .catch(function(error) {
         console.log(error);
