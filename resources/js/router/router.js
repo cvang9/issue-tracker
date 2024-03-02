@@ -15,7 +15,6 @@ import Tickets from '../components/User/Tickets.vue';
 import TicketDetail from '../components/User/TicketDetail.vue';
 import { deleteCookie, getCookie } from "../helper/CookieHelper.js";
 import NotFound from '../components/NotFound.vue';
-import TestComponent from '../components/TestComponent.vue';
 
 function isAdmin() {
     if (getCookie('role') === 'admin') {
@@ -176,7 +175,7 @@ export default createRouter({
                     deleteCookie('role');
                     next('/')
                 }
-
+      
             }
         },
         {
@@ -210,11 +209,11 @@ export default createRouter({
             },
             beforeEnter: (to, from, next) => {
 
-                if (isResolver()) {
+                if (isResolver()) { 
                     const resolverId = getCookie('resolverId');
                     next('/resolver/' + resolverId);
                 }
-                else if (isAdmin()) {
+                else if (isAdmin()) { 
                     next();
                 }
                 else if (isUser()) {
@@ -225,8 +224,7 @@ export default createRouter({
                     deleteCookie('role');
                     next('/')
                 }
-
-            }
+            }  
         },
         {
             path: '/tables',
