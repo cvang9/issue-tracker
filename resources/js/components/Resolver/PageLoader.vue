@@ -5,7 +5,7 @@
     <div
       class="ms-8 border-t-transparent border-solid animate-spin rounded-full border-blue-600 border-6 h-24 w-24"
     ></div>
-</div>
+  </div>
 </template>
 <style scoped>
 .loading {

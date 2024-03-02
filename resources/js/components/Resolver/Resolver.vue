@@ -1,150 +1,175 @@
 <template>
   <main class="flex w-full h-full shadow-lg section">
-    <section class="flex flex-col w-3/12 bg-slate-800  dark:z-10">
-        <div class="w-16 ms-5 mt-9 mb-9 pt-3 py-2  px-10 bg-blue-600 rounded-2xl rounded-ee-5xl text-white">
-            <p class="mt-1 text-3xl font-bold dark:text-white ms-6 mb-4"> RESOLVER PANEL </p>
-            <div class="ms-13">
-                <DarkModeSwitcher :role="'resolver'" />
-            </div>
-        </div>
-      <div class="ml-20">
-      </div>
-
-      <nav class="relative flex flex-col py-4 items-center">
-        <div class="flex  space-x-3 items-center justify-center pt-4 border-t-2 border-b-2 w-90  h-20  border-white dark:border-blue-500 my-2">
-          <button @click="getResolvedTickets" class="w-10 p-1 border text-gray-700 bg-white rounded-2xl mb-4 dark:bg-blue-500">
-            <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            >
-            <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
-            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-            />
-          </svg>
-        </button>
-          <p class="text-white text-xl mb-4">
-            Resolved Tickets
-          </p>
-      </div>
-
-        <div class="flex space-x-3 items-center justify-center pt-4 border-b-2 w-90  h-20  border-white dark:border-blue-500 my-2 me-1">
-            <button
-            @click="getProcessingTickets"
-            class="w-10 p-1 border text-gray-700 rounded-2xl bg-white mb-4 dark:bg-blue-500"
-            >
-            <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            >
-            <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
-            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-        </svg>
-    </button>
-    <p class="text-white text-xl mb-4">
-      Processd Tickets
-    </p>
-  </div>  
-
-  <div class="flex space-x-3 items-center justify-center pt-4 border-b-2 w-90  h-20  border-white dark:border-blue-500 my-2 me-1">
-        <button @click="getPendingTickets" class="w-10 p-1 border bg-white text-gray-700 rounded-2xl mb-4 dark:bg-blue-500">
-            <svg
-            xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
+    <section class="flex flex-col w-3/12 bg-slate-800 dark:z-10">
+      <div
+        class="w-16 ms-5 mt-8 mb-9 pt-3 py-2 px-10 bg-blue-600 rounded-2xl rounded-ee-5xl text-white"
       >
-      <path
-      stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+        <p class="mt-1 text-3xl font-bold dark:text-white ms-6 mb-4">RESOLVER PANEL</p>
+        <div class="ms-13">
+          <DarkModeSwitcher :role="'resolver'" />
+        </div>
+      </div>
+      <div class="ml-20"></div>
+
+      <nav class="relative flex flex-col items-center">
+        <div
+          class="flex space-x-3 items-center justify-center pt-4 border-t-2 border-b-2 w-full h-18 border-white dark:border-blue-500 my-2 me-1"
+        >
+          <button
+            @click="getResolvedTickets"
+            class="w-10 p-1 border text-gray-700 bg-white hover:bg-slate-400 rounded-2xl mb-4 dark:bg-blue-500"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
               />
             </svg>
-        </button>
-        <p class="text-white text-xl mb-4"> Pending Tickets </p>
-    </div>
+          </button>
+          <p class="text-white text-xl mb-4">Resolved Tickets</p>
+        </div>
 
-    <div class="flex space-x-3 items-center justify-center pt-4 border-b-2 w-90  h-20  border-white dark:border-blue-500 my-2 me-1">
-        <button @click="getPendingTickets" class="w-10 p-1 border bg-white text-gray-700 rounded-2xl mb-4 dark:bg-blue-500">
+        <div
+          class="flex space-x-3 items-center justify-center pt-2 border-b-2 w-full h-15 border-white dark:border-blue-500 my-2 me-1"
+        >
+          <button
+            @click="getProcessingTickets"
+            class="w-10 p-1 border text-gray-700 rounded-2xl bg-white hover:bg-slate-400 mb-4 dark:bg-blue-500"
+          >
             <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+          </button>
+          <p class="text-white text-xl mb-4">Processd Tickets</p>
+        </div>
+
+        <div
+          class="flex space-x-3 items-center justify-center pt-2 border-b-2 w-full h-15 border-white dark:border-blue-500 my-2 me-3"
+        >
+          <button
+            @click="getPendingTickets"
+            class="w-10 p-1 border bg-white hover:bg-slate-500 text-gray-700 rounded-2xl mb-4 dark:bg-blue-500"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+              />
+            </svg>
+          </button>
+          <p class="text-white text-xl mb-4">Pending Tickets</p>
+        </div>
+
+        <div
+          class="flex space-x-3 items-center justify-center pt-2 border-b-2 w-full h-15 border-white dark:border-blue-500 my-2 me-2.5"
+        >
+          <button
+            @click="getRejectedTickets"
+            class="w-10 p-1 border bg-white text-gray-700 hover:bg-slate-500 rounded-2xl mb-4 dark:bg-blue-500"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </button>
+          <p class="text-white text-xl mb-4">Rejected Tickets</p>
+        </div>
+      </nav>
+      <router-link
+        :to="`/resolver-profile/${$route.params.id}`"
+        class="mt-2 text-white text-lg font-bold hover:text-blue-500"
+      >
+        <div class="flex ms-4 items-center mt-5 space-x-3">
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
+            stroke-width="1.5"
             stroke="currentColor"
-            >
-            <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
-            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-            />
-        </svg>
-        </button>
-        <p class="text-white text-xl mb-4"> Rejected Tickets </p>
-    </div>
-
-      
-</nav>
-    <router-link
-    :to="`/resolver-profile/${$route.params.id}`"
-    class=" mt-2 text-white text-lg font-bold hover:text-blue-500 "
-    >
-    <div class="flex ms-4 items-center mt-3 space-x-3">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 ">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-        </svg>
-        <p>
-            <u>Visit my profile</u>
-        </p>
-    </div>
-
-    
-    </router-link>  
-    </section>
-    <PageLoader v-if="loadingTickets"/>
-    <section v-if="!loadingTickets" class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll dark:bg-black dark:text-white">
-      <ul v-for="item in cards" :key="item" class="mt-5">
-        <li  
-        @click="() => setAttributes(item)"
-        class="py-5 border-b px-3 transition hover:bg-indigo-100 dark:hover:bg-slate-700 dark:hover:text-white">
-          <p
-            
-            class="flex justify-between items-center outline-none"
+            class="w-10 h-10"
           >
-        </p>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+          </svg>
+          <p>
+            <u>Visit my profile</u>
+          </p>
+        </div>
+      </router-link>
+    </section>
+    <PageLoader v-if="loadingTickets" />
+    <section
+      v-if="!loadingTickets"
+      class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll dark:bg-black dark:text-white"
+    >
+      <ul v-for="item in cards" :key="item" class="mt-5">
+        <li
+          @click="() => setAttributes(item)"
+          class="py-5 border-b px-3 transition hover:bg-indigo-100 dark:hover:bg-slate-700 dark:hover:text-white"
+        >
+          <div class="flex justify-between items-center">
             <h3 class="text-lg font-semibold">
               {{ item.data.attributes.user.data.attributes.name }}
             </h3>
-            <!-- <p class="text-md text-gray-400 text-right">23m ago</p> -->
-          <div class="text-md italic text-gray-400">See the ticket status !</div>
+            <p class="text-md text-gray-400 text-right">{{ item.data.attributes?.created_at }}</p>
+          </div>
+          <div class="text-md italic text-gray-400">Click to see more details !</div>
         </li>
       </ul>
+      <div v-if="cards.length === 0" class="mt-5">No Ticket in This Category</div>
     </section>
-    <section v-if="!loadingTickets" class="w-6/12 px-4 flex flex-col bg-white rounded-r-3xl overflow-y-auto dark:bg-black dark:text-white">
-      <div class="flex justify-between items-center h-48 border-b-2 mb-8">
+    <section
+      v-if="!loadingTickets"
+      class="w-6/12 px-4 flex flex-col bg-white rounded-r-3xl overflow-y-auto dark:bg-black dark:text-white"
+    >
+      <div v-show="username" class="flex justify-between items-center h-48 border-b-2 mb-8">
         <div class="flex space-x-4 items-center">
           <div class="h-12 w-12 rounded-full overflow-hidden">
             <img :src="profile" loading="lazy" class="h-full w-full object-cover" />
           </div>
-          <div class="flex flex-col ">
-            <h3 class="font-semibold text-lg ">{{ username }}</h3>
+          <div class="flex flex-col">
+            <h3 class="font-semibold text-lg">{{ username }}</h3>
             <p class="text-light text-gray-400">{{ email }}</p>
           </div>
         </div>
       </div>
-      <section>
+      <section v-show="username">
         <h1 class="font-bold text-2xl">Issue Regarding your department</h1>
         <article class="mt-8 text-gray-500 leading-7 tracking-wider dark:text-white">
           <p>Hi {{ username }},</p>
@@ -157,7 +182,6 @@
           </footer>
         </article>
         <ul class="flex space-x-10 mt-10 mb-10">
-          
           <li
             class="w-10 h-10 rounded-lg p-1 cursor-pointer transition duration-200 text-blue-400 hover:bg-blue-100"
           >
@@ -175,7 +199,7 @@
                 d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"
               />
             </svg>
-           <p class="mt-1 mb-1">Chat</p> 
+            <p class="mt-1 mb-1">Chat</p>
           </li>
           <li
             class="w-30 h-10 rounded-lg p-1 cursor-pointer transition duration-200 text-blue-400 hover:bg-blue-100"
@@ -201,11 +225,15 @@
                 d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
               />
             </svg>
-            <p class="mt-1 mb-1 ">Schedule Chat</p>
+            <p class="mt-1 mb-1">Schedule Chat</p>
           </li>
         </ul>
         <div v-if="toogle">
-          <input class="mt-8 mr-2 outline-none rounded-lg dark:bg-slate-400 dark:text-black-2" type="text" v-model="chatDate" />
+          <input
+            class="mt-8 mr-2 outline-none rounded-lg dark:bg-slate-400 dark:text-black-2"
+            type="text"
+            v-model="chatDate"
+          />
           <button
             v-if="!chatDateLoading"
             @click="submitDate"
@@ -216,7 +244,7 @@
           <Loader v-if="chatDateLoading"></Loader>
         </div>
       </section>
-      <section class="mt-6 border rounded-xl bg-gray-50 mb-3">
+      <section v-show="username" class="mt-6 border rounded-xl bg-gray-50 mb-3">
         <textarea
           class="w-full bg-gray-50 p-2 rounded-xl outline-none dark:bg-slate-400 dark:text-black-2"
           placeholder="Type your reply here..."
@@ -263,7 +291,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { getCookie } from '../../helper/CookieHelper.js'
 import DarkModeSwitcher from '../Header/DarkModeSwitcher.vue'
 
-
 const cards = ref([])
 const route = useRoute()
 const route1 = useRouter()
@@ -281,7 +308,6 @@ const ticketId = ref('')
 const profile = ref('http://[::1]:5173/storage/app/uploads/profile.png')
 const loadingTickets = ref(true)
 const feedbackLoader = ref(false)
-
 
 toast.success('Welcome back', {
   autoClose: 1000
@@ -482,5 +508,23 @@ const processing = () => {
 .section {
   /* Target the scrollbar track */
   height: 100vh;
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 }
 </style>
