@@ -58,7 +58,7 @@ const name = inject('adminName', ref('Admin'));
 
       <span class="h-12 w-12 rounded-full" v-if="adminState.img != null">
         
-        <!-- <img :src="adminState.img"  /> -->
+        <img :src="`http://[::1]:5173/storage/app/uploads/${adminState.img}`"  />
       </span>
 
       <svg

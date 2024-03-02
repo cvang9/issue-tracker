@@ -23,7 +23,8 @@ class TicketResource extends JsonResource
                     'status' => $this->status,
                     'feedback' => $this->feedback ?? '',
                     'user' => new UserResource($this->user),
-                    'department' => new DepartmentResource($this->department)
+                    'department' => new DepartmentResource($this->department),
+                    'created_at' => $this->created_at,
                 ]
             ]
         ];

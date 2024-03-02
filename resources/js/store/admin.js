@@ -6,6 +6,7 @@ export const useAdminStore = defineStore( 'admin', function(){
     // state
     const name = ref(null);
     const img = ref(null);
+    const joined = ref(null);
     // const adminData = ref(null);
 
     // getters
@@ -18,9 +19,10 @@ export const useAdminStore = defineStore( 'admin', function(){
         // console.log(adminData);adminData; 
         name.value = adminData.name
         img.value = adminData.img
+        joined.value = adminData.created_at
     }
 
 
-    return { name, img, getName, setData }
+    return { name, img, joined, getName, setData }
 } );
 
