@@ -1,7 +1,4 @@
 <template>
-  <!-- <div v-if="loading" class="loading">
-    <div></div>
-  </div> -->
   <PageLoader v-if="loading" />
   <main v-if="user" class="profile-page">
     <section class="relative block h-500-px">
@@ -38,7 +35,7 @@
           <div class="px-6">
             <div class="flex flex-wrap justify-center">
               <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                <div class="relative">
+                <div class="relative border">
                   <img
                     alt="..."
                     :src="profile"
