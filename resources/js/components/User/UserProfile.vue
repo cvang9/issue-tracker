@@ -2,7 +2,50 @@
 <div class="cont">
   <side-bar></side-bar>
 <div class="body-cont">
-    <div class="container">
+
+    <div
+    >
+      <div class="z-20 h-35 md:h-65">
+        <img
+          src="../../assets/img/cover-02.jpg"
+          alt="profile cover"
+          class="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
+        />
+        <div class="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
+        </div>
+      </div>
+      <div class="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
+        <div
+          class="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3"
+        >
+          <div class="relative drop-shadow-2">
+
+            <img :src="`http://[::1]:5173/storage/app/uploads/user-06.png`" />
+
+          </div>
+        </div>
+        <div class="mt-4">
+          <h3 class="mb-1.5 text-2xl font-medium text-black dark:text-white">User</h3>
+          <!-- <p class="font-medium dark:text-white"></p> -->
+          <p class="font-medium dark:text-white">Joined us: last year</p>
+          <div
+            class="mx-auto mt-4.5 mb-5.5  max-w-94 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]"
+          >
+          <span class="font-semibold text-black dark:text-white">User ( Issue Tracking System ) </span>
+          </div>
+  
+          <div class="mx-auto max-w-180">
+            <h4 class="font-medium text-black dark:text-white">About Admin Powers</h4>
+            <p class="mt-4.5 text-sm font-normal dark:text-white">
+                Hey there! So, um, being an admin for the ticket thingy is kind of like being the superhero of computer stuff. You have to read messages from people who need help with their techy problems and then decide who's gonna save the day. It's like being the boss of a super cool tech team! You make sure everyone gets their jobs and high-fives when they fix things. Oh, and you have to keep a super-duper organized list of all the problems and make sure everything runs super smoothly. It's like having a magical wand for computer troubles, and you get to make everything better! Being a ticket admin is like being the wizard of the tech world!
+            </p>
+          </div>
+  
+          
+        </div>
+      </div>
+    </div>
+    <!-- <div class="container">
         <temp-file head="Hi User :"></temp-file>
     </div>
 
@@ -31,7 +74,7 @@
         <div id="chart">
         <vue-apex-charts type="bar" height="150" :options="chartOptions" :series="series"></vue-apex-charts>
       </div>
-    </div>
+    </div> -->
 </div>
 
 </div>

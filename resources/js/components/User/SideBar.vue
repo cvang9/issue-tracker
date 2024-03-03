@@ -74,7 +74,7 @@ const menuGroups = ref([
                   </defs>
                 </svg>`,
         label: 'Profile',
-        route: `/user/${getCookie('userId')}`
+        route: `/users/${getCookie('userId')}`
       },
     ]
   }

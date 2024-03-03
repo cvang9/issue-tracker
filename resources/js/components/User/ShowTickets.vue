@@ -164,7 +164,7 @@ function getAMPM(hours) {
 <style scoped>
 .cont {
   display: flex;
-  background: #e2e2e2;
+  background: white;
 }
 
 .contain {
