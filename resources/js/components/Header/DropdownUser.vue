@@ -52,16 +52,18 @@ const name = inject('adminName', ref('Admin'));
     >
       <span class="hidden text-right lg:block">
         <span class="block text-sm font-medium text-black dark:text-white">{{ adminState.name }}</span>
-        <span class="block text-xs font-medium">Admin</span>
+        <span class="block text-xs font-medium dark:text-white">Admin</span>
+        <!-- <span class="block text-xs font-medium dark:text-white">{{ '../../../../storage/app/uploads/'+ adminState.img }}</span> -->
       </span>
 
-      <!-- <span class="h-12 w-12 rounded-full">
-        <img src="@/assets/images/user/user-01.png" alt="User" />
-      </span> -->
+      <span class="h-12 w-12 rounded-full" v-if="adminState.img != null">
+        
+        <img :src="`http://[::1]:5173/storage/app/uploads/${adminState.img}`"  />
+      </span>
 
       <svg
         :class="dropdownOpen && 'rotate-180'"
-        class="hidden fill-current sm:block"
+        class="hidden fill-current sm:block dark:text-white"
         width="12"
         height="8"
         viewBox="0 0 12 8"
@@ -84,10 +86,10 @@ const name = inject('adminName', ref('Admin'));
     >
     
       <button v-on:click="handleLogout"
-        class="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+        class="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base dark:text-white"
       >
         <svg
-          class="fill-current"
+          class="fill-current dark:text-white"
           width="22"
           height="22"
           viewBox="0 0 22 22"

@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <div class="login-box-signup" v-if="role == 'user'">
+      <div class="login-box-signup " v-if="role == 'user'">
         Don't have an account? <router-link to="/user-signup">Sign Up</router-link>
       </div>
       <div class="login-box-login">

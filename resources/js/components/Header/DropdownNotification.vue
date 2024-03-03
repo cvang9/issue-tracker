@@ -83,7 +83,7 @@ apiClient.get('/api/admin/notifications')
         <h5 class="text-sm font-medium text-bodydark2">Notifications</h5>
       </div>
 
-      <ul class="flex h-auto flex-col overflow-y-auto">
+      <ul class="flex h-auto flex-col overflow-y-auto dark:text-white">
         <template v-for="(nots, index) in notificationItems" :key="index">
           <li>
             <div

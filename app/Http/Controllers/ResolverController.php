@@ -28,20 +28,20 @@ class ResolverController extends Controller
             'email' => 'required',
             'password' => 'required',
             'department' => 'required',
-            'file' => 'required|file'
+            'file' => 'required|file',
         ]);
 
-        $department = Department::where('name', '=', $validated['department'] )->first();
+        $department = Department::where('name', '=', $validated['department'])->first();
         $file = request()->file('file');
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $file->storeAs('uploads', $fileName); 
+        $file->storeAs('uploads', $fileName);
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
             'role' => 'resolver',
-            'img' => $fileName
+            'img' => $fileName,
         ]);
 
 
@@ -49,14 +49,14 @@ class ResolverController extends Controller
 
         $resolver = Resolver::create([
             'user_id' => $user->id,
-            'department_id' => $department->id
+            'department_id' => $department->id,
         ]);
 
         return response([
             'success' => 'Successfully created a resolver',
-            'id' => $resolver->id
-        ], 201 );
-    }                                                       
+            'id' => $resolver->id,
+        ], 201);
+    }
 
     public function show($resolver_id)
     {
@@ -67,34 +67,34 @@ class ResolverController extends Controller
     public function update($resolver_id)
     {
         $validated = request()->validate([
-            'department' => 'required'
+            'department' => 'required',
         ]);
 
         $resolver = Resolver::findOrFail($resolver_id);
 
-        $department = Department::where('name', '=', $validated['department'] )->first();
+        $department = Department::where('name', '=', $validated['department'])->first();
 
         $resolver->update([
-            'department_id' => $department->id
+            'department_id' => $department->id,
         ]);
 
-        return response(['Success' => 'Successfully updated resolver '], 200 );
+        return response(['Success' => 'Successfully updated resolver '], 200);
     }
 
     public function destroy($resolver_id)
     {
         $resolver = Resolver::findOrFail($resolver_id);
-        
+
         $resolver->delete();
 
         return response(['success' => 'Successfully deleted resolver'], 200);
     }
 
-    public function updateTicket( $resolver_id, $ticket_id )
+    public function updateTicket($resolver_id, $ticket_id)
     {
         $validated = request()->validate([
             'feedback' => 'required',
-            'status' => 'required'
+            'status' => 'required',
         ]);
 
         $ticket = Ticket::findOrFail($ticket_id);
@@ -102,7 +102,7 @@ class ResolverController extends Controller
         $ticket->update([
             'feedback' => $validated['feedback'],
             'status' => $validated['status'],
-            'resolver_id' => (int)$resolver_id
+            'resolver_id' => (int) $resolver_id
         ]);
 
         $resolver = Resolver::findOrFail($resolver_id);

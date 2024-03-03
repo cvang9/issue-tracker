@@ -159,6 +159,6 @@ class AdminController extends Controller
     {
         $admin = User::where('role', '=', 'admin' )->first();
 
-        return new UserResource($admin);
+        return new UserResource($admin);  
     }
 }

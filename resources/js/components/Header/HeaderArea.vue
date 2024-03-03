@@ -1,5 +1,6 @@
 <script setup >
 import { useSidebarStore } from '@/store/sidebar'
+import DarkModeSwitcher from './DarkModeSwitcher.vue'
 import DropdownNotification from './DropdownNotification.vue'
 import DropdownUser from './DropdownUser.vue'
 
@@ -56,7 +57,7 @@ const { isSidebarOpen, toggleSidebar } = useSidebarStore()
         <ul class="flex items-center gap-2 2xsm:gap-4">
           <!-- <li> -->
             <!-- Dark Mode Toggler -->
-            <!-- <DarkModeSwitcher /> -->
+            <DarkModeSwitcher />
             <!-- Dark Mode Toggler -->
           <!-- </li> -->
 

@@ -15,8 +15,12 @@ export function getCookie(name) {
         return cookieValue;
       }
     }
-    return null;
+    return null;                  
 }
+ 
+
+ 
+
 
 
 export function deleteCookie(name) {
