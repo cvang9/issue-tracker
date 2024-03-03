@@ -1,26 +1,37 @@
 <template>
   <div class="query-form">
+    <h2>Create New Ticket</h2>
     <form @submit.prevent="submitQuery">
-      <input type="text" v-model="title" placeholder="Enter the title...">
-      <textarea v-model="query" placeholder="Enter your query..." rows="6"></textarea>
+      <div class="entry">
+        <fieldset>
+          <legend>Title</legend>
+          <input type="text" v-model="title" placeholder="Enter the title...">
+        </fieldset>
+        <fieldset>
+          <legend>Issue</legend>
+      <textarea v-model="query" placeholder="Enter your issue..." rows="6"></textarea>
+        </fieldset>
+      </div>
+      <div class="btm">
       <div class="category-buttons">
         <button type="button" @click="selectCategory('Security')" :class="{ active: selectedCategory === 'Security' }">Security</button>
         <button type="button" @click="selectCategory('Technical')" :class="{ active: selectedCategory === 'Technical' }">Technical</button>
         <button type="button" @click="selectCategory('Management')" :class="{ active: selectedCategory === 'Management' }">Management</button>
       </div>
       <button type="submit">Submit</button>
+
+      </div>
     </form>
   </div>
 </template>
 
-<script>
-import { ref, defineEmits } from 'vue';
+<script setup>
+import { ref,} from 'vue';
 import apiClient from '../../services/api';
+import { getCookie } from '../../helper/CookieHelper.js'
 
-export default {
-  emits: defineEmits(['formSubmitted']),
+  const emit = defineEmits(['formSubmitted'])
 
-  setup(_, {emit}) {
     const title = ref('');
     const query = ref('');
     const selectedCategory = ref(null);
@@ -35,7 +46,7 @@ export default {
         'department': selectedCategory.value
       }
 
-      apiClient.post("/api/users/4/tickets", payload)
+      apiClient.post(`/api/users/${getCookie('userId')}/tickets`, payload)
         .then((res) => {
           console.log(res);
         })
@@ -53,43 +64,67 @@ export default {
     const selectCategory = (category) => {
       selectedCategory.value = category;
     };
-
-    return {
-      title,
-      query,
-      selectedCategory,
-      submitQuery,
-      selectCategory
-    };
-  }
-};
 </script>
 
 <style scoped>
+fieldset {
+  border: 1px dotted black;
+  margin-bottom: 2rem;
+}
+legend {
+  font-size: 30px;
+  text-transform: uppercase;
+}
+h2 {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 1rem;
+}
+
 .query-form {
-  width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
+  /* width: 1000px; */
+  /* margin: auto 10rem; */
+  padding: 0 40px;
+  background-color: #e2e2e2;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: rgb(28 36 52);
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.644); */
 }
 
 form {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
+  justify-content: space-around;
 }
 
+.entry {
+  display: flex;
+  flex-direction: column;
+}
+.btm {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 input[type="text"], textarea {
   padding: 10px;
   margin-bottom: 15px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 4px;
+  width: 500px;
+  color: gray;
+  background-color: #e2e2e2;
+}
+input[type="text"], textarea:focus {
+  outline: none;
+  
+  /* background-color: rgb(249, 244, 234); */
 }
 
 textarea {
-  resize: vertical;
+  resize: none;
 }
 
 .category-buttons {
@@ -109,7 +144,7 @@ textarea {
 }
 
 .category-buttons button.active {
-  background-color: #007bff;
+  background-color: rgb(28 36 52);
   color: #fff;
 }
 
@@ -118,10 +153,12 @@ button[type="submit"] {
   font-size: 16px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: rgb(28 36 52);
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin: 1rem 0;
+  width: 100%;
 }
 
 button[type="submit"]:hover {
