@@ -109,4 +109,21 @@ class ResolverTest extends TestCase
         $response = $this->get('/resolvers/' . $resolver->id . '/tickets');
         $response->assertStatus(200);
     }
+
+    //
+    public function test_create_a_resolver(): void
+    {
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create([
+            'name' => 'name',
+            'email' => 'email@mail.com',
+            'password' => 'P4assword',
+            'role' => 'admin',
+            'img' => 'file',
+        ]);
+
+        $this->actingAs($user, 'sanctum');
+        $response = $this->get('/resolvers');
+        $response->assertStatus(200);
+    }
 }
