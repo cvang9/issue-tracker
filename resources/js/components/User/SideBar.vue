@@ -8,12 +8,15 @@ import profile from "./profile.png"
 import { useRouter } from 'vue-router'
 import apiClient from '../../services/api.js'
 import Loader from '../Resolver/Loader.vue'
+import { useAuthStore } from '../../store/auth.js'
 
 const target = ref(null)
 const router = useRouter();
 
 const sidebarStore = useSidebarStore()
 const loading = ref(false)
+
+const { toggleState } = useAuthStore();
 
 onClickOutside(target, () => {
   sidebarStore.isSidebarOpen = false
@@ -88,6 +91,7 @@ const logoutHandler = () => {
       deleteCookie('userId');
       deleteCookie('role');
       loading.value = false
+      toggleState()
       router.push('/')
     })
     .catch((error) => {
