@@ -9,11 +9,10 @@
           <DarkModeSwitcher :role="'resolver'" />
         </div>
       </div>
-      <div class="ml-20"></div>
 
       <nav class="relative flex flex-col items-center">
         <div
-          class="flex space-x-3 items-center justify-center pt-4 border-t-2 border-b-2 w-90 h-18 border-white dark:border-blue-500 my-2 me-1"
+          class="flex space-x-3 items-center justify-center pt-4 border-t-2 border-b-2 w-full h-18 border-white dark:border-blue-500 my-2 me-1"
         >
           <button
             @click="getResolvedTickets"
@@ -158,7 +157,7 @@
     </section>
     <section
       v-if="!loadingTickets"
-      class="w-6/12 px-4 flex flex-col bg-white rounded-r-1xl overflow-y-auto dark:bg-black dark:text-white"
+      class="w-5/12 px-4 flex flex-col bg-white rounded-r-1xl overflow-y-auto dark:bg-black dark:text-white"
     >
       <!-- <div v-if="!username" class="flex justify-between items-center h-full text-3xl ml-8">
         No Ticket Selected
