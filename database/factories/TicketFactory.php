@@ -18,7 +18,8 @@ class TicketFactory extends Factory
     {
         return [
             'body' => fake()->sentence(10),
-            'status' => 'pending'
+            'title' => fake()->sentence(10),
+            'status' => 'pending',
         ];
     }
 }

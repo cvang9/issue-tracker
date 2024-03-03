@@ -19,6 +19,7 @@ class TicketResource extends JsonResource
                 'type' => 'tickets',
                 'ticket_id' => $this->id,
                 'attributes' => [
+                    'title' => $this->title,
                     'body' => $this->body,
                     'status' => $this->status,
                     'feedback' => $this->feedback ?? '',
