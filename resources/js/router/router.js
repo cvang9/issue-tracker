@@ -12,8 +12,8 @@ import TablesView from '@/views/TablesView.vue'
 import Chat from '../components/Chat.vue';
 import AdminProfile from '../pages/admin/AdminProfile.vue';
 
-import Tickets from '../components/User/Tickets.vue';
-import TicketDetail from '../components/User/TicketDetail.vue';
+import Tickets from '../components/User/ShowTickets.vue';
+import UserProfile from '../components/User/UserProfile.vue';
 import { deleteCookie, getCookie } from "../helper/CookieHelper.js";
 import NotFound from '../components/NotFound.vue';
 
@@ -106,7 +106,7 @@ export default createRouter({
                     }
                     else if (isUser()) {
                         const userId = getCookie('userId');
-                        next('/users/' + userId);
+                        next('/dashboard/' + userId);
                     }
                 }
                 else {
@@ -158,7 +158,7 @@ export default createRouter({
             }
         },
         {
-            path: '/users/:id',
+            path: '/dashboard/:id',
             component: Tickets,
             beforeEnter: (to, from, next) => {
 
@@ -180,8 +180,8 @@ export default createRouter({
             }
         },
         {
-            path: '/TicketDetails/:id',
-            component: TicketDetail, name: 'TicketDetail',
+            path: '/user/:id',
+            component: UserProfile, name: 'UserProfile',
             beforeEnter: (to, from, next) => {
 
                 if (isResolver()) {
