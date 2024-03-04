@@ -551,6 +551,7 @@ const getProcessingTickets = () => {
     })
     .catch((error) => {
       console.log(error)
+      loadingTickets.value = false
     })
 }
 const resolve = () => {
@@ -566,7 +567,7 @@ const resolve = () => {
     .then((response) => {
       console.log(response.data)
       feedbackLoader.value = false
-      toast.success('Successfullt updated', {
+      toast.success('Successfully updated', {
         autoClose: 1000
       })
       getResolvedTickets()
@@ -593,7 +594,7 @@ const rejected = () => {
     .put(`/api/resolvers/${route.params.id}/tickets/${ticketId.value}`, payload)
     .then((response) => {
       console.log(response.data)
-      toast.success('Successfullt updated', {
+      toast.success('Successfully updated', {
         autoClose: 1000
       })
       feedbackLoader.value = false
@@ -621,7 +622,7 @@ const processing = () => {
     .put(`/api/resolvers/${route.params.id}/tickets/${ticketId.value}`, payload)
     .then((response) => {
       console.log(response.data)
-      toast.success('Successfullt updated', {
+      toast.success('Successfully updated', {
         autoClose: 1000
       })
       feedbackLoader.value = false
