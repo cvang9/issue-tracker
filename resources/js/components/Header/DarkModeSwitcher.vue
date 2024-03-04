@@ -10,7 +10,7 @@ export default {
 
         return {
             darkModeStore,
-            resolver: ( props.role == 'resolver' ? true : false ) 
+            resolver:  (props.role === 'resolver') ? true : false 
         }
     },
 }
@@ -20,7 +20,7 @@ export default {
 <template>
 
   <label v-if="resolver"
-    :class="{ 'bg-blue-600': darkModeStore.darkMode && resolver, 'bg-primary' : darkModeStore.darkMode && !resolver  , 'bg-stroke': !darkModeStore.darkMode }"
+    :class="{ 'bg-blue-600': darkModeStore.darkMode && resolver, 'bg-blue-700' : darkModeStore.darkMode && !resolver  , 'bg-stroke': !darkModeStore.darkMode }"
     class="relative m-0 block h-7.5 w-14 rounded-full"
     @click="darkModeStore.toggleDarkMode"
   >

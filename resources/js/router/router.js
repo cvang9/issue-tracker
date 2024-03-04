@@ -180,7 +180,7 @@ export default createRouter({
             }
         },
         {
-            path: '/user/:id',
+            path: '/users/:id',
             component: UserProfile, name: 'UserProfile',
             beforeEnter: (to, from, next) => {
 

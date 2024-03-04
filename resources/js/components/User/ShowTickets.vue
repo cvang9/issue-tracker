@@ -29,19 +29,20 @@
           <span class="username">{{ issue.data.attributes.user.data.attributes.name }}</span>
         </div> -->
           <div class="issue-details">
-            <h2 class="issue-title">{{ issue.data.attributes.body }}</h2>
+            <!-- Title -->
+            <h2 class="issue-title">{{ issue.data.attributes.title }}</h2>
             <p class="issue-query">{{ issue.data.attributes.body }}</p>
             <div class="issue-meta">
               <button class="category">
                 {{ issue.data.attributes.department.data.attributes.name }}
               </button>
-              <span class="posted-at">{{ convertDT(issue.data.attributes.created_at) }}</span>
+              <span class="posted-at">{{ issue.data.attributes.created_at }}</span>
             </div>
           </div>
             <div class="view"  v-if="issue.data.attributes.feedback">
               <div class="feedback">
               <h2>Feedback</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p>{{ issue.data.attributes.feedback }}</p>
               </div>
             </div>
         </div>
@@ -164,7 +165,7 @@ function getAMPM(hours) {
 <style scoped>
 .cont {
   display: flex;
-  background: #e2e2e2;
+  background: white;
 }
 
 .contain {

@@ -156,7 +156,7 @@
       </div>
     </section>
     <section
-      v-if="!loadingTickets"
+      v-if="!loadingTickets && cards.length !== 0"
       class="w-5/12 px-4 flex flex-col bg-white rounded-r-1xl overflow-y-auto dark:bg-black dark:text-white"
     >
       <!-- <div v-if="!username" class="flex justify-between items-center h-full text-3xl ml-8">
@@ -176,14 +176,17 @@
       <section v-show="username">
         <h1 class="font-bold text-2xl">{{ title }}</h1>
         <article class="mt-8 text-gray-500 leading-7 tracking-wider dark:text-white">
-          <p>Hi {{ username }},</p>
           <p>
             {{ body }}
           </p>
-          <footer class="mt-12">
+          <footer class="mt-6">
             <p>Thanks & Regards,</p>
             <p>{{ username }}</p>
           </footer>
+          
+          <p class="text-black font-bold mt-8 text-xl dark:text-white"> Resolver resopnse </p>
+          <p class="text-black font-bold dark:text-white"> Feedback: {{ resolverFeedback }} </p>
+          <p class="text-black font-bold dark:text-white"> Name: {{ resolverName }} </p>
         </article>
         <ul class="flex space-x-10 mt-10 mb-10">
           <li
@@ -324,7 +327,9 @@ const userId = ref('')
 const title = ref('')
 const body = ref('')
 const ticketId = ref('')
-const profile = ref('http://[::1]:5173/storage/app/uploads/profile.png')
+const resolverName = ref(null)
+const resolverFeedback = ref(null)
+const profile = ref('')
 const loadingTickets = ref(true)
 const feedbackLoader = ref(false)
 
@@ -360,6 +365,7 @@ const changeRoute = () => {
   route1.push(`/chat?role=resolver&friendId=${userId.value}`)
 }
 const setAttributes = (item) => {
+    console.log(item);
   title.value = item.data.attributes.title
   username.value = item.data.attributes.user.data.attributes.name
   email.value = item.data.attributes.user.data.attributes.email
@@ -367,6 +373,7 @@ const setAttributes = (item) => {
   ticketStatus.value = item.data.attributes.status
   body.value = item.data.attributes.body
   userId.value = item.data.attributes.user.data.user_id
+
   if (item.data.attributes.user.data.attributes.img !== '') {
     profile.value = `http://[::1]:5173/storage/app/uploads/${item.data.attributes.user.data.attributes.img}`
   }
@@ -392,6 +399,9 @@ const getResolvedTickets = () => {
       ticketStatus.value = cards.value[0].data.attributes.status
       body.value = cards.value[0].data.attributes.body
       userId.value = cards.value[0].data.attributes.user.data.user_id
+      resolverName.value = cards.value[0].data.attributes.resolver
+      resolverFeedback.value = cards.value[0].data.attributes.title
+
       if (cards.value[0].data.attributes.user.data.attributes.img !== '') {
         profile.value = `http://[::1]:5173/storage/app/uploads/${cards.value[0].data.attributes.user.data.attributes.img}`
       }
@@ -442,6 +452,8 @@ const getRejectedTickets = () => {
       ticketStatus.value = cards.value[0].data.attributes.status
       body.value = cards.value[0].data.attributes.body
       userId.value = cards.value[0].data.attributes.user.data.user_id
+      resolverName.value = cards.value[0].data.attributes.resolver
+      resolverFeedback.value = cards.value[0].data.attributes.title
       if (cards.value[0].data.attributes.user.data.attributes.img !== '') {
         profile.value = `http://[::1]:5173/storage/app/uploads/${cards.value[0].data.attributes.user.data.attributes.img}`
       }
@@ -466,6 +478,8 @@ const getProcessingTickets = () => {
       ticketStatus.value = cards.value[0].data.attributes.status
       body.value = cards.value[0].data.attributes.body
       userId.value = cards.value[0].data.attributes.user.data.user_id
+      resolverName.value = cards.value[0].data.attributes.resolver
+      resolverFeedback.value = cards.value[0].data.attributes.title
       if (cards.value[0].data.attributes.user.data.attributes.img !== '') {
         profile.value = `http://[::1]:5173/storage/app/uploads/${cards.value[0].data.attributes.user.data.attributes.img}`
       }

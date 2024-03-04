@@ -4,9 +4,9 @@
             <div class="router-view">
                 <router-view></router-view>
             </div>
-            <!-- <div class="intro-box">
+            <div class="intro-box">
                 <intro-box></intro-box>
-            </div> -->
+            </div>
         </div>
         <div v-else >
             <router-view></router-view>
