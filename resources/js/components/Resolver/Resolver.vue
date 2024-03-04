@@ -188,7 +188,10 @@
           <div class="text-md italic text-gray-400">Click to see more details !</div>
         </li>
       </ul>
-      <div v-if="cards.length === 0" class="flex justify-between items-center h-full text-3xl ml-24 ">
+      <div
+        v-if="cards.length === 0"
+        class="flex justify-between items-center h-full text-3xl ml-24"
+      >
         No tickets are there :)
       </div>
     </section>
@@ -284,7 +287,7 @@
         </ul>
         <div v-if="toogle">
           <input
-            class="mt-8 mr-2 outline-none rounded-lg dark:bg-slate-400 dark:text-black-2"
+            class="mt-8 mb-4 mr-2 outline-none rounded-lg dark:bg-slate-400 dark:text-black-2"
             type="text"
             v-model="chatDate"
           />
@@ -339,7 +342,9 @@
       class="w-5/12 px-4 flex flex-col bg-white rounded-r-1xl overflow-y-auto dark:bg-black dark:text-white"
     ></section>
   </main>
-  <Modal v-if="on" role="resolver" :friendId="userId" @toogle="ModalClose" />
+  <transition name="fade">
+    <Modal v-if="on" role="resolver" :friendId="userId" @toogle="ModalClose" />
+  </transition>
 </template>
 <script setup>
 import PageLoader from './PageLoader.vue'
@@ -648,6 +653,14 @@ const processing = () => {
 }
 </script>
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 .section {
   /* Target the scrollbar track */
   height: 100vh;
