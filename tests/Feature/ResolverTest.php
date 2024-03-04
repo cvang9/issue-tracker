@@ -55,6 +55,8 @@ class ResolverTest extends TestCase
         $response->assertStatus(200);
     }
 
+
+    
     //test case for updating ticket
     public function test_update_a_ticket_status(): void
     {
