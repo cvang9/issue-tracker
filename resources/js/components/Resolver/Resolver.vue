@@ -334,6 +334,10 @@
         </div>
       </section>
     </section>
+    <section
+      v-else
+      class="w-5/12 px-4 flex flex-col bg-white rounded-r-1xl overflow-y-auto dark:bg-black dark:text-white"
+    ></section>
   </main>
 </template>
 <script setup>
@@ -367,7 +371,7 @@ const body = ref('')
 const ticketId = ref('')
 const resolverName = ref(null)
 const resolverFeedback = ref(null)
-const profile = ref('')
+const profile = ref('http://[::1]:5173/storage/app/uploads/profile.png')
 const loadingTickets = ref(true)
 const feedbackLoader = ref(false)
 
