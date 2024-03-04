@@ -11,7 +11,6 @@ import CreateDepartment from '@/views/Pages/CreateDepartment.vue'
 import TablesView from '@/views/TablesView.vue'
 import Chat from '../components/Chat.vue';
 import AdminProfile from '../pages/admin/AdminProfile.vue';
-import Modal from "../components/Resolver/Modal.vue";
 
 import Tickets from '../components/User/ShowTickets.vue';
 import UserProfile from '../components/User/UserProfile.vue';
@@ -46,7 +45,7 @@ export default createRouter({
 
     history: createWebHistory(),
     routes: [
-        { path: '/test', component: Modal },
+
         {
             path: '/',
             component: LoginAs,
