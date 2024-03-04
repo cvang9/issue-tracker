@@ -339,10 +339,12 @@
       class="w-5/12 px-4 flex flex-col bg-white rounded-r-1xl overflow-y-auto dark:bg-black dark:text-white"
     ></section>
   </main>
+  <Modal v-if="on" role="resolver" :friendId="userId" @toogle="ModalClose" />
 </template>
 <script setup>
 import PageLoader from './PageLoader.vue'
 import apiClient from '../../services/api.js'
+import Modal from './Modal.vue'
 import Loader from './Loader.vue'
 import { onMounted, ref } from 'vue'
 import { toast } from 'vue3-toastify'
@@ -357,6 +359,7 @@ const route = useRoute()
 const route1 = useRouter()
 const { authenticated, toggleState } = useAuthStore()
 const status = ref('')
+const on = ref(false)
 const toogle = ref(false)
 const chatDate = ref('')
 const chatDateLoading = ref('')
@@ -378,6 +381,10 @@ const feedbackLoader = ref(false)
 toast.success('Welcome back', {
   autoClose: 1000
 })
+const ModalClose = () => {
+  console.log('modal close')
+  on.value = !on.value
+}
 const logoutHandler = () => {
   logoutLoading.value = true
   apiClient
@@ -425,7 +432,9 @@ const submitDate = () => {
     })
 }
 const changeRoute = () => {
-  route1.push(`/chat?role=resolver&friendId=${userId.value}`)
+  // route1.push(`/chat?role=resolver&friendId=${userId.value}`)
+  on.value = !on.value
+  console.log(on.value)
 }
 const setAttributes = (item) => {
   console.log(item)
