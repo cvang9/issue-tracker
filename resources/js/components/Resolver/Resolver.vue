@@ -156,7 +156,7 @@
       </div>
     </section>
     <section
-      v-if="!loadingTickets"
+      v-if="!loadingTickets && cards.length !== 0"
       class="w-5/12 px-4 flex flex-col bg-white rounded-r-1xl overflow-y-auto dark:bg-black dark:text-white"
     >
       <!-- <div v-if="!username" class="flex justify-between items-center h-full text-3xl ml-8">
