@@ -107,30 +107,67 @@
           <p class="text-white text-xl mb-4">Rejected Tickets</p>
         </div>
       </nav>
-      <router-link
+      <!-- <router-link
         :to="`/resolver-profile/${$route.params.id}`"
         class="mt-2 text-white text-lg font-bold hover:text-blue-500"
       >
-        <div class="flex ms-4 items-center mt-5 space-x-3">
+        
+      </router-link> -->
+      <div
+        class="flex text-white justify-center space-x-2 bg-blue-500 hover:bg-blue-600 w-full mt-8 h-90 pt-2"
+      >
+        <div class="focus:outline-none focus:border-transparent mb-1">
+          <router-link :to="`/resolver-profile/${$route.params.id}`" class="w-full">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-8 w-8 text-white-500 dark:text-slate-800"
+              width="24"
+              height="24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+            </svg>
+          </router-link>
+        </div>
+        <div class="h-8 w-26 mt-1 text-lg dark:text-black-2">My Profile</div>
+      </div>
+      <div
+        v-if="!logoutLoading"
+        class="flex text-white justify-center space-x-2 bg-red w-full h-90 pt-1"
+      >
+        <button @click="logoutHandler" class="focus:outline-none focus:border-transparent mb-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-10 h-10"
+            class="h-8 w-8 text-white-500 dark:text-slate-800"
+            width="24"
+            height="24"
           >
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
-              d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
             />
           </svg>
-          <p>
-            <u>Visit my profile</u>
-          </p>
-        </div>
-      </router-link>
+        </button>
+        <div class="h-8 w-26 mt-1 text-lg dark:text-slate-900">LogOut</div>
+      </div>
+      <div
+        v-if="logoutLoading"
+        class="flex text-white justify-center space-x-2 bg-red w-full h-90 pt-1"
+      >
+        <Loader />
+      </div>
     </section>
     <PageLoader v-if="loadingTickets" />
     <section
@@ -183,10 +220,10 @@
             <p>Thanks & Regards,</p>
             <p>{{ username }}</p>
           </footer>
-          
-          <p class="text-black font-bold mt-8 text-xl dark:text-white"> Resolver resopnse </p>
-          <p class="text-black font-bold dark:text-white"> Feedback: {{ resolverFeedback }} </p>
-          <p class="text-black font-bold dark:text-white"> Name: {{ resolverName }} </p>
+
+          <p class="text-black font-bold mt-8 text-xl dark:text-white">Resolver resopnse</p>
+          <p class="text-black font-bold dark:text-white">Feedback: {{ resolverFeedback }}</p>
+          <p class="text-black font-bold dark:text-white">Name: {{ resolverName }}</p>
         </article>
         <ul class="flex space-x-10 mt-10 mb-10">
           <li
@@ -297,18 +334,24 @@
         </div>
       </section>
     </section>
+    <section
+      v-else
+      class="w-5/12 px-4 flex flex-col bg-white rounded-r-1xl overflow-y-auto dark:bg-black dark:text-white"
+    ></section>
   </main>
+  <Modal v-if="on" role="resolver" :friendId="userId" @toogle="ModalClose" />
 </template>
 <script setup>
 import PageLoader from './PageLoader.vue'
 import apiClient from '../../services/api.js'
+import Modal from './Modal.vue'
 import Loader from './Loader.vue'
 import { onMounted, ref } from 'vue'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useAuthStore } from '../../store/auth.js'
 import { useRoute, useRouter } from 'vue-router'
-import { getCookie } from '../../helper/CookieHelper.js'
+import { getCookie, deleteCookie } from '../../helper/CookieHelper.js'
 import DarkModeSwitcher from '../Header/DarkModeSwitcher.vue'
 
 const cards = ref([])
@@ -316,9 +359,11 @@ const route = useRoute()
 const route1 = useRouter()
 const { authenticated, toggleState } = useAuthStore()
 const status = ref('')
+const on = ref(false)
 const toogle = ref(false)
 const chatDate = ref('')
 const chatDateLoading = ref('')
+const logoutLoading = ref(false)
 const feedback = ref('')
 const ticketStatus = ref('')
 const username = ref('')
@@ -329,13 +374,38 @@ const body = ref('')
 const ticketId = ref('')
 const resolverName = ref(null)
 const resolverFeedback = ref(null)
-const profile = ref('')
+const profile = ref('http://[::1]:5173/storage/app/uploads/profile.png')
 const loadingTickets = ref(true)
 const feedbackLoader = ref(false)
 
 toast.success('Welcome back', {
   autoClose: 1000
 })
+const ModalClose = () => {
+  console.log('modal close')
+  on.value = !on.value
+}
+const logoutHandler = () => {
+  logoutLoading.value = true
+  apiClient
+    .get('/api/logout')
+    .then((response) => {
+      toggleState()
+
+      deleteCookie('role')
+      deleteCookie('resolverId')
+
+      logoutLoading.value = false
+      route1.push('/')
+    })
+    .catch((error) => {
+      console.log(error)
+      toast.error('Error occured,Please try again later', {
+        autoClose: 1000
+      })
+      logoutLoading.value = false
+    })
+}
 const submitDate = () => {
   chatDateLoading.value = true
   const resolverId = getCookie('resolverId')
@@ -362,10 +432,12 @@ const submitDate = () => {
     })
 }
 const changeRoute = () => {
-  route1.push(`/chat?role=resolver&friendId=${userId.value}`)
+  // route1.push(`/chat?role=resolver&friendId=${userId.value}`)
+  on.value = !on.value
+  console.log(on.value)
 }
 const setAttributes = (item) => {
-    console.log(item);
+  console.log(item)
   title.value = item.data.attributes.title
   username.value = item.data.attributes.user.data.attributes.name
   email.value = item.data.attributes.user.data.attributes.email
@@ -488,6 +560,7 @@ const getProcessingTickets = () => {
     })
     .catch((error) => {
       console.log(error)
+      loadingTickets.value = false
     })
 }
 const resolve = () => {
@@ -503,7 +576,7 @@ const resolve = () => {
     .then((response) => {
       console.log(response.data)
       feedbackLoader.value = false
-      toast.success('Successfullt updated', {
+      toast.success('Successfully updated', {
         autoClose: 1000
       })
       getResolvedTickets()
@@ -530,7 +603,7 @@ const rejected = () => {
     .put(`/api/resolvers/${route.params.id}/tickets/${ticketId.value}`, payload)
     .then((response) => {
       console.log(response.data)
-      toast.success('Successfullt updated', {
+      toast.success('Successfully updated', {
         autoClose: 1000
       })
       feedbackLoader.value = false
@@ -558,7 +631,7 @@ const processing = () => {
     .put(`/api/resolvers/${route.params.id}/tickets/${ticketId.value}`, payload)
     .then((response) => {
       console.log(response.data)
-      toast.success('Successfullt updated', {
+      toast.success('Successfully updated', {
         autoClose: 1000
       })
       feedbackLoader.value = false

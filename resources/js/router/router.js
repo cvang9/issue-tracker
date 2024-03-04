@@ -45,6 +45,7 @@ export default createRouter({
 
     history: createWebHistory(),
     routes: [
+
         {
             path: '/',
             component: LoginAs,
@@ -176,7 +177,7 @@ export default createRouter({
                     deleteCookie('role');
                     next('/')
                 }
-      
+
             }
         },
         {
@@ -210,11 +211,11 @@ export default createRouter({
             },
             beforeEnter: (to, from, next) => {
 
-                if (isResolver()) { 
+                if (isResolver()) {
                     const resolverId = getCookie('resolverId');
                     next('/resolver/' + resolverId);
                 }
-                else if (isAdmin()) { 
+                else if (isAdmin()) {
                     next();
                 }
                 else if (isUser()) {
@@ -225,7 +226,7 @@ export default createRouter({
                     deleteCookie('role');
                     next('/')
                 }
-            }  
+            }
         },
         {
             path: '/tables',
