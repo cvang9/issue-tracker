@@ -21,19 +21,22 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Shivang',
             'role' => 'user',
-            'email' => 'user@mail.com',
+            'email' => 'harshsaini5656@gmail.com',
+            'img' => '1709361193_original.jpeg'
         ]);
 
         User::factory()->create([
-            'name' => 'dogesh',
+            'name' => 'Rahul',
             'role' => 'resolver',
             'email' => 'resolver@mail.com',
+            'img' => 'resolver_img.jpg'
         ]);
 
         User::factory()->create([
-            'name' => 'DB Admin',
+            'name' => 'Raman Singh',
             'role' => 'admin',
             'email' => 'admin@mail.com',
+            'img' => 'user-06.png'
         ]);
 
         Department::factory()->create([
@@ -55,12 +58,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        Ticket::factory(5)->create([
+        Ticket::factory(1)->create([
             'user_id' => 1,
             'department_id' => 2,
         ]);
 
-        Ticket::factory(4)->create([
+        Ticket::factory(2)->create([
             'user_id' => 1,
             'department_id' => 1,
         ]);

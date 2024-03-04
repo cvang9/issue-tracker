@@ -24,8 +24,9 @@ class TicketResource extends JsonResource
                     'status' => $this->status,
                     'feedback' => $this->feedback ?? '',
                     'user' => new UserResource($this->user),
+                    'resolver' => $this->resolver->user->name ?? '',
                     'department' => new DepartmentResource($this->department),
-                    'created_at' => $this->created_at ? ($this->created_at)->diffForHumans() : "",
+                    'created_at' => $this->created_at->diffForHumans()
                 ],
             ],
         ];
