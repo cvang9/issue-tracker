@@ -111,12 +111,12 @@ const logoutHandler = () => {
     }"
     ref="target"
   >
-    <div class="img">
-    <img :src="profile" alt="">
+    <div >
+    <!-- <img :src="profile" alt=""> -->
 
     </div>
     <!-- SIDEBAR HEADER -->
-    <div class=" pl-8  pt-5">
+    <div class=" pl-8 pt-8">
         <p style="color: white; font-size: xx-large;"> <strong> USER PANEL </strong> </p>
     </div>
     <!-- SIDEBAR HEADER -->

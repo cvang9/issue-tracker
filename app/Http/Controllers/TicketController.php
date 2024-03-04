@@ -41,6 +41,7 @@ class TicketController extends Controller
     public function store( $user_id )
     {
         $validate = request()->validate([
+            'title' => 'required',
             'body' => 'required',
             'department' => 'required'
         ]);
@@ -48,6 +49,7 @@ class TicketController extends Controller
         $department = Department::where('name', '=', $validate['department'])->first();
 
         $ticket = Ticket::create([
+            'title' => $validate['title'],
             'body' => $validate['body'],
             'status' => 'pending',
             'user_id' => $user_id,

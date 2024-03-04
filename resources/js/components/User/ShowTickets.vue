@@ -11,10 +11,39 @@
       </div>
       <div v-if="!loading && issues.length == 0">No Issue raised yet</div>
       <div class="issue-cont" v-if="!loading">
-        <div class="issue" v-for="issue in issues" :key="issue.id">
-          <!-- <div class="state-badge" :class="getStateClass(issue.data.attributes.status)">
+
+        <div class="relative mx-16 my-4" v-for="issue in issues" :key="issue.id" >
+
+            <span class="absolute -z-10 w-full h-full inset-1 rounded-xl" > Hello </span>
+            <p class="absolute py-1 z-10 px-3 -left-8 -top-2 -rotate-[10deg] black_border text-white font-bold" :class="issue.data.attributes.status === 'processing' ? 'bg-blue-700' : issue.data.attributes.status === 'resolved' ?  'bg-green-500' : issue.data.attributes.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500' ">
+            {{ issue.data.attributes.status }}
+            </p>
+
+            <div class="p-8 border border-black  bg-white rounded-xl z-20" :class="issue.data.attributes.status === 'processing' ? 'purple_border' : issue.data.attributes.status === 'resolved' ?  'green_border' : issue.data.attributes.status === 'pending' ? 'yellow_border' : 'red_border' ">
+                <p class="font-mono  font-bold" :class="issue.data.attributes.status === 'processing' ? 'text-blue-700' : issue.data.attributes.status === 'resolved' ?  'text-green-500' : issue.data.attributes.status === 'pending' ? 'text-yellow-500' : 'text-red-500' ">{{ issue.data.attributes.title }} </p>
+                {{ issue.data.attributes.body }}
+                <div class="flex justify-between mt-4 mb-3">
+                    <div class=" rounded-md px-3 py-1 text-white" :class="issue.data.attributes.status === 'processing' ? 'bg-blue-700' : issue.data.attributes.status === 'resolved' ?  'bg-green-500' : issue.data.attributes.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500' ">
+                        {{ issue.data.attributes.department.data.attributes.name }}
+                    </div>
+                    <div>
+                        <span class="posted-at">{{ issue.data.attributes.created_at }}</span>
+                    </div>
+                </div>
+                <div class="view"  v-if="issue.data.attributes.feedback">
+                    <hr/>
+                    <div>
+                        <p class="mt-2 font-bold ">Resolver feedback</p>
+                        <p>{{ issue.data.attributes.feedback }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="issue" v-for="issue in issues" :key="issue.id">
+          <div class="state-badge" :class="getStateClass(issue.data.attributes.status)">
         {{ issue.data.attributes.status }}
-        </div> -->
+        </div>
           <div class="bar w-full bg-neutral-200 dark:bg-neutral-600">
             <div
               class="bg-black p-0.5 text-center text-xs font-medium leading-none text-primary-100"
@@ -23,13 +52,7 @@
               {{ CalcProgress(issue.data.attributes.status) }}
             </div>
           </div>
-          <!-- <Progress value={50} color="blue" /> -->
-          <!-- <div class="user-info">
-          <img :src="profile" :alt="issue.username" />
-          <span class="username">{{ issue.data.attributes.user.data.attributes.name }}</span>
-        </div> -->
           <div class="issue-details">
-            <!-- Title -->
             <h2 class="issue-title">{{ issue.data.attributes.title }}</h2>
             <p class="issue-query">{{ issue.data.attributes.body }}</p>
             <div class="issue-meta">
@@ -44,10 +67,12 @@
               <h2>Feedback</h2>
               <p>{{ issue.data.attributes.feedback }}</p>
               </div>
-            </div>
-        </div>
+            </div> 
+    
+        </div>-->
+    
       </div>
-    </div>
+    </div> 
     <button
       class="add-button"
       @mouseover="showRaiseIssueText"
@@ -60,8 +85,8 @@
 
     <div class="modal" v-if="showTicketForm">
       <div class="modal-content">
-        <span class="close-button" @click="showTicketForm = false">&times;</span>
-        <TicketForm @formSubmitted="handleFormSubmission" />
+        <!-- <span class="close-button" @click="showTicketForm = false">&times;</span> -->
+        <TicketForm @formSubmitted="handleFormSubmission"  @close="showTicketForm = false"/>
       </div>
     </div>
   </div>
@@ -490,10 +515,10 @@ h1 {
 
 .modal-content {
   position: relative;
-  background-color: #fefefe;
-  border-radius: 10px;
-  padding: 2rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* background-color: #fefefe; */
+  /* border-radius: 10px; */
+  /* padding: 2rem; */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 
 .close-button {
@@ -507,4 +532,25 @@ h1 {
   border-radius: 100%; */
   padding: 0;
 }
+
+.purple_border {
+    box-shadow: 4px 4px 1px rgb(34, 34, 206);
+}
+
+.green_border {
+    box-shadow: 4px 4px 1px rgb(34, 206, 45);
+}
+
+.yellow_border {
+    box-shadow: 4px 4px 1px rgb(207, 220, 27);
+}
+
+.red_border {
+    box-shadow: 4px 4px 1px rgb(206, 71, 34);
+}
+
+.black_border {
+    box-shadow: 4px 4px 1px rgb(0, 0, 0);
+}
+
 </style>

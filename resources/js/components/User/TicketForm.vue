@@ -1,5 +1,54 @@
 <template>
-  <div class="query-form">
+    <div class=" bg-white  flex flex-col justify-center shadow rounded-3xl sm:py-12">
+  <div class="relative  w-100 sm:max-w-xl sm:mx-auto">
+    <div class="relative px-4 py-10 bg-white mx-8 md:mx-0  sm:p-10">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center space-x-5">
+          <div class="h-14 w-14 bg-yellow-200 rounded-full flex flex-shrink-0 justify-center items-center text-yellow-500 text-2xl font-mono">i</div>
+          <div class="block pl-2 font-semibold text-xl self-start text-gray-700">
+            <h2 class="leading-relaxed">Create a Ticket </h2>
+            <p class="text-sm text-gray-500 font-normal leading-relaxed">Can raise your issue in this ticket form</p>
+          </div>
+        </div>
+        <div class="divide-y divide-gray-200">
+          <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+            <div class="flex flex-col">
+              <label class="leading-loose">Ticket Title</label>
+              <input type="text" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="...">
+            </div>
+    
+            <div class="flex flex-col">
+                <label class="leading-loose">Describe Your Issue </label>
+                <textarea v-model="query" rows="3" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="..."></textarea>
+                <!-- <textarea v-model="query" rows="3"></textarea> -->
+                <!-- <input type="text" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Optional"> -->
+            </div>
+        </div>
+        <!-- <p>Select Department </p> -->
+
+        <div>
+            <label class="leading-loose">Choose department </label>
+            <select
+                v-model="department"
+                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent pb-3 px-12  transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
+                >
+                <option :value="dept.data.attributes.name" class="text-body dark:text-bodydark" v-for="dept in departments" :key="dept.data.department_id" > {{ dept.data.attributes.name }}</option>
+            
+            </select>
+        </div>
+
+          <div class="pt-4 flex items-center space-x-4">
+              <button class="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none" v-on:click="handleClose">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Cancel
+              </button>
+              <button class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none" v-on:click="submitQuery">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- <div class="query-form">
     <h2>Create New Ticket</h2>
     <form @submit.prevent="submitQuery">
       <div class="entry">
@@ -22,28 +71,46 @@
 
       </div>
     </form>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
-import { ref,} from 'vue';
+
+import { ref, defineEmits, onMounted } from 'vue';
 import apiClient from '../../services/api';
 import { getCookie } from '../../helper/CookieHelper.js'
 
-  const emit = defineEmits(['formSubmitted'])
+  const emit = defineEmits(['formSubmitted', 'close' ]);
+
+  const departments = ref([]);
+  const department = ref(null);
+
+
+    onMounted(() => {
+    
+    apiClient.get('/api/departments')
+    .then(function(response) {
+        console.log(response.data.data);
+        departments.value = response.data.data;
+    })
+    .catch(function(error) {
+        console.log(error);
+    })
+
+    });
 
     const title = ref('');
     const query = ref('');
-    const selectedCategory = ref(null);
 
     const submitQuery = () => {
       console.log('Title:', title.value);
       console.log('Query:', query.value);
-      console.log('Category:', selectedCategory.value);
+      console.log('Category:', department.value);
 
       const payload = {
+        'title': title.value,
         'body': query.value,
-        'department': selectedCategory.value
+        'department': department.value
       }
 
       apiClient.post(`/api/users/${getCookie('userId')}/tickets`, payload)
@@ -61,107 +128,14 @@ import { getCookie } from '../../helper/CookieHelper.js'
       emit('formSubmitted');
     };
 
+    const handleClose = () => {
+      emit('close');
+    };
+
     const selectCategory = (category) => {
       selectedCategory.value = category;
     };
 </script>
 
-<style scoped>
-fieldset {
-  border: 1px dotted black;
-  margin-bottom: 2rem;
-}
-legend {
-  font-size: 30px;
-  text-transform: uppercase;
-}
-h2 {
-  text-align: center;
-  font-size: 40px;
-  margin-bottom: 1rem;
-}
 
-.query-form {
-  /* width: 1000px; */
-  /* margin: auto 10rem; */
-  padding: 0 40px;
-  background-color: #e2e2e2;
-  border-radius: 8px;
-  color: rgb(28 36 52);
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.644); */
-}
 
-form {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.entry {
-  display: flex;
-  flex-direction: column;
-}
-.btm {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-input[type="text"], textarea {
-  padding: 10px;
-  margin-bottom: 15px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  width: 500px;
-  color: gray;
-  background-color: #e2e2e2;
-}
-input[type="text"], textarea:focus {
-  outline: none;
-  
-  /* background-color: rgb(249, 244, 234); */
-}
-
-textarea {
-  resize: none;
-}
-
-.category-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.category-buttons button {
-  flex-grow: 1;
-  padding: 10px;
-  margin-right: 5px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.category-buttons button.active {
-  background-color: rgb(28 36 52);
-  color: #fff;
-}
-
-button[type="submit"] {
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  background-color: rgb(28 36 52);
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin: 1rem 0;
-  width: 100%;
-}
-
-button[type="submit"]:hover {
-  background-color: #0056b3;
-}
-</style>

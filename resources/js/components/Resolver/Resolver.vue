@@ -1,5 +1,5 @@
 <template>
-  <main class="flex w-full h-full shadow-lg section">
+  <main class="flex w-full h-full shadow-lg section dark:bg-black">
     <section class="flex flex-col w-3/12 bg-slate-800 dark:z-1">
       <div
         class="w-16 ms-5 mt-8 mb-9 pt-3 py-2 px-10 bg-blue-600 rounded-1xl rounded-ee-5xl text-white"
@@ -151,8 +151,8 @@
           <div class="text-md italic text-gray-400">Click to see more details !</div>
         </li>
       </ul>
-      <div v-if="cards.length === 0" class="flex justify-between items-center h-full text-3xl ml-8">
-        No Ticket in This Category
+      <div v-if="cards.length === 0" class="flex justify-between items-center h-full text-3xl ml-24 ">
+        No tickets are there :)
       </div>
     </section>
     <section
