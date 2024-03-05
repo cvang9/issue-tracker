@@ -203,6 +203,8 @@ export default {
           <div class="w-full">
             <p class="font-semibold text-primary ">Tickets Raised</p>
 
+            
+
           </div>
         </div>
         <div class="flex min-w-47.5">

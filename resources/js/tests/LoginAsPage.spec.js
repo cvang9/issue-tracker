@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import LoginAsPage from "../pages/Auth/LoginAsPage.vue"
 import { render, screen } from "@testing-library/vue";
+
+
 describe('LoginAsPage', () => {
     it("have all login option", () => {
         render(LoginAsPage);
@@ -11,4 +13,6 @@ describe('LoginAsPage', () => {
         expect(element2).toBeInTheDocument();
         expect(element3).toBeInTheDocument();
     })
-})
+});
+
+
