@@ -131,6 +131,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../store/auth.js';
+import { setCookie } from '../../helper/CookieHelper.js'
 
 export default {
     setup() {
