@@ -22,11 +22,19 @@ class ResolverTest extends TestCase
     public function test_fetch_all_resolver(): void
     {
         $this->withoutExceptionHandling();
+
         $user = User::factory()->create([
             'role' => 'resolver',
         ]);
-        $this->assertCount(1, User::all());
+        $department = Department::factory()->create([
+            'name' => 'management',
+        ]);
+        $resolver = Resolver::factory()->create([
+            'user_id' => $user->id,
+            'department_id' => $department->id,
+        ]);
         $this->actingAs($user, 'sanctum');
+
         $response = $this->get('/api/resolvers');
         $response->assertStatus(200);
     }
@@ -56,7 +64,7 @@ class ResolverTest extends TestCase
     }
 
 
-    
+
     //test case for updating ticket
     public function test_update_a_ticket_status(): void
     {
