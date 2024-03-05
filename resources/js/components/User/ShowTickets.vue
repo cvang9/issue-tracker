@@ -2,28 +2,37 @@
   <div class="cont">
     <side-bar :id="4"></side-bar>
     <div class="container">
-      <div class="contain">
+      <div class="contain ">
         <temp-file head="Your Issues :"></temp-file>
       </div>
       
       <div class="load">
         <Loader v-if="loading" />
       </div>
-      <div v-if="!loading && issues.length == 0">No Issue raised yet</div>
-      <div class="issue-cont" v-if="!loading">
+      <div v-if="!loading && showAllIssues.length == 0" class="issue-head">No Issue raised yet
+        <p>Raise one By clicking on below + </p>
+      </div>
+      <div class="issue-cont" v-if="!loading && showAllIssues.length">
+        <div class="btn-upper">
+          <button class="show" id="all" @click="showBtn('all')"><span>Show all Issues</span> {{showAllIssues.length}}</button>
+          <button class="show" id="resolve" @click="showBtn('resolve')"><span>Resolved Issues</span> {{resolveIssues.length}}</button>
+          <button class="show" id="processing" @click="showBtn('processing')"><span>Processing Issues</span> {{processingIssues.length}}</button>
+          <button class="show" id="pending" @click="showBtn('pending')"><span>Pending Issues</span> {{pendingIssues.length}}</button>
+          <button class="show" id="reject" @click="showBtn('reject')"><span>Rejected Issues</span> {{rejectedIssues.length}}</button>
+        </div>
+        <div class="issue-head" v-if="issues.length===0">No Issues in this state</div>
+        <div class="relative mx-8 my-1" v-for="issue in issues" :key="issue.id" >
 
-        <div class="relative mx-16 my-4" v-for="issue in issues" :key="issue.id" >
-
-            <span class="absolute -z-10 w-full h-full inset-1 rounded-xl" > Hello </span>
-            <p class="absolute py-1 z-10 px-3 -left-8 -top-2 -rotate-[10deg] black_border text-white font-bold" :class="issue.data.attributes.status === 'processing' ? 'bg-blue-700' : issue.data.attributes.status === 'resolved' ?  'bg-green-500' : issue.data.attributes.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500' ">
+            <!-- <span class="absolute -z-10 w-full h-full inset-1 rounded-xl" > Hello </span>
+            <p class="absolute py-1 z-10 px-3 -left-10 -top-2 -rotate-[10deg] black_border text-white font-bold" :class="issue.data.attributes.status === 'processing' ? 'bg-blue-700' : issue.data.attributes.status === 'resolve' ?  'bg-green-500' : issue.data.attributes.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500' ">
             {{ issue.data.attributes.status }}
-            </p>
+            </p> -->
 
-            <div class="p-8 border border-black  bg-white rounded-xl z-20" :class="issue.data.attributes.status === 'processing' ? 'purple_border' : issue.data.attributes.status === 'resolved' ?  'green_border' : issue.data.attributes.status === 'pending' ? 'yellow_border' : 'red_border' ">
-                <p class="font-mono  font-bold" :class="issue.data.attributes.status === 'processing' ? 'text-blue-700' : issue.data.attributes.status === 'resolved' ?  'text-green-500' : issue.data.attributes.status === 'pending' ? 'text-yellow-500' : 'text-red-500' ">{{ issue.data.attributes.title }} </p>
+            <div class="p-8 border border-black  bg-white rounded-xl z-20" :class="issue.data.attributes.status === 'processing' ? 'purple_border' : issue.data.attributes.status === 'resolve' ?  'green_border' : issue.data.attributes.status === 'pending' ? 'yellow_border' : 'red_border' ">
+                <p class="font-mono  font-bold" :class="issue.data.attributes.status === 'processing' ? 'text-blue-700' : issue.data.attributes.status === 'resolve' ?  'text-green-500' : issue.data.attributes.status === 'pending' ? 'text-yellow-500' : 'text-red-500' ">{{ issue.data.attributes.title }} </p>
                 {{ issue.data.attributes.body }}
                 <div class="flex justify-between mt-4 mb-3">
-                    <div class=" rounded-md px-3 py-1 text-white" :class="issue.data.attributes.status === 'processing' ? 'bg-blue-700' : issue.data.attributes.status === 'resolved' ?  'bg-green-500' : issue.data.attributes.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500' ">
+                    <div class=" rounded-md px-3 py-1 text-white" :class="issue.data.attributes.status === 'processing' ? 'bg-blue-700' : issue.data.attributes.status === 'resolve' ?  'bg-green-500' : issue.data.attributes.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500' ">
                         {{ issue.data.attributes.department.data.attributes.name }}
                     </div>
                     <div>
@@ -103,6 +112,11 @@ import TicketForm from './TicketForm.vue'
 // import { Progress } from "@material-tailwind/react";
 
 const issues = ref([])
+const showAllIssues = ref([])
+const resolveIssues = ref([])
+const processingIssues = ref([])
+const rejectedIssues = ref([])
+const pendingIssues = ref([])
 const showText = ref(false)
 const loading = ref(false)
 const showTicketForm = ref(false)
@@ -116,7 +130,23 @@ const fetchTickets = (str) => {
       console.log(res.data.data)
       issues.value = res.data.data
       issues.value.reverse()
+      showAllIssues.value = issues.value;
       loading.value = false
+
+      resolveIssues.value = [];
+      processingIssues.value = [];
+      rejectedIssues.value = [];
+      pendingIssues.value = [];
+      issues.value.forEach((e)=> {
+        if (e.data.attributes.status==='resolve')
+          resolveIssues.value.push(e);
+        if (e.data.attributes.status==='processing')
+          processingIssues.value.push(e);
+        if (e.data.attributes.status==='reject')
+          rejectedIssues.value.push(e);
+        if (e.data.attributes.status==='pending')
+          pendingIssues.value.push(e);
+      })
       // console.log(issues._rawValue);
       // console.log(issues.value[0]);
     })
@@ -143,8 +173,31 @@ const CalcProgress = (state) => {
   }
 }
 
+const showBtn = (val) => {
+  loading.value = true;
+  switch (val) {
+    case 'pending':
+      issues.value = pendingIssues.value
+      break
+    case 'reject':
+      issues.value = rejectedIssues.value;
+      break
+    case 'resolve':
+      issues.value = resolveIssues.value;
+      break
+    case 'processing':
+      issues.value = processingIssues.value
+      break
+    default:
+      issues.value = showAllIssues.value
+  }
+  loading.value = false
+}
+
 const handleFormSubmission = () => {
-  fetchTickets('0')
+  loading.value = true;
+  fetchTickets('0');
+  loading.value = false;
   showTicketForm.value = false
 }
 
@@ -190,7 +243,7 @@ function getAMPM(hours) {
 <style scoped>
 .cont {
   display: flex;
-  background: white;
+  background: rgba(216, 216, 216, 0.53);
 }
 
 .contain {
@@ -211,6 +264,7 @@ function getAMPM(hours) {
   font-weight: lighter;
   margin-bottom: 2rem;
   color: white;
+  text-shadow: 5px 5px 5px rgba(164, 164, 164, 0.338);
   /* text-transform: uppercase; */
 }
 
@@ -226,6 +280,49 @@ h1 {
   margin-bottom: 1rem;
   font-size: 2rem;
 }
+.btn-upper {
+  text-align: center;
+}
+.btn-upper button{
+  text-align: center;
+  padding: 1rem;
+  /* border: solid; */
+  margin: .5rem;
+  background-color: gray;
+  padding: .3rem 1rem .3rem 0rem;
+  color: white;
+  border-radius: .5rem;
+  text-shadow: 2px 1px rgba(0, 0, 0, 0.338);
+}
+
+.btn-upper button span{
+  padding: .5rem;
+  border-radius: .5rem;
+  box-shadow: 1px 1px 5px black;
+  margin-right: .5rem;
+  text-shadow: none;
+}
+
+#all span{
+  background-color: black;
+  color: white;
+}
+
+#pending span{
+  background-color: #ffc107; /* Yellow */
+}
+
+#reject span{
+  background-color: #dc3545; /* Red */
+}
+
+#resolve span{
+  background-color: #28a745; /* Green */
+}
+
+#processing span{
+  background-color: #007bff; /* Blue */
+}
 
 .issue-cont {
   display: flex;
@@ -236,6 +333,20 @@ h1 {
 .issue {
   position: relative;
   gap: 2rem;
+}
+
+.issue-head {
+  font-size: 35px;
+  border: dotted;
+  text-align: center;
+  padding: 2rem;
+  text-transform: uppercase;
+}
+
+.issue-head p {
+  font-size: 20px;
+  color: gray;
+  text-transform: lowercase;
 }
 
 .issue-details:hover {

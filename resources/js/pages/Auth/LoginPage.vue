@@ -117,8 +117,8 @@ export default {
                 if(response.status == 200) 
                 {
                     toggleState();
-                    localStorage.setItem('token',response.data.token )
-                    // setCookie('', 'user', 1 );
+                    // localStorage.setItem('token',response.data.token )
+                    setCookie('token', response.data.token, 1 );
 
                     if( role.value == 'user' ) {
                         setCookie('role', 'user', 1 );
@@ -134,7 +134,7 @@ export default {
                     
                     else if( role.value == 'admin' ) {
                         setCookie('role', 'admin', 1 );
-                        route.push('/admin');
+                        route.push('/admin/dashboard');
                     }
                 }
 

@@ -53,7 +53,7 @@ export default createRouter({
 
                 if (getCookie('role')) {
                     if (isAdmin()) {
-                        next('/admin');
+                        next('/admin/dashboard');
                     }
                     else if (isResolver()) {
                         const resolverId = getCookie('resolverId');
@@ -76,7 +76,7 @@ export default createRouter({
 
                 if (getCookie('role')) {
                     if (isAdmin()) {
-                        next('/admin');
+                        next('/admin/dashboard');
                     }
                     else if (isResolver()) {
                         const resolverId = getCookie('resolverId');
@@ -99,7 +99,7 @@ export default createRouter({
 
                 if (getCookie('role')) {
                     if (isAdmin()) {
-                        next('/admin');
+                        next('/admin/dashboard');
                     }
                     else if (isResolver()) {
                         const resolverId = getCookie('resolverId');
@@ -124,7 +124,7 @@ export default createRouter({
                     next();
                 }
                 else if (isAdmin()) {
-                    next('/admin');
+                    next('/admin/dashboard');
                 }
                 else if (isUser()) {
                     const userId = getCookie('userId');
@@ -145,7 +145,7 @@ export default createRouter({
                     next();
                 }
                 else if (isAdmin()) {
-                    next('/admin');
+                    next('/admin/dashboard');
                 }
                 else if (isUser()) {
                     const userId = getCookie('userId');
@@ -168,7 +168,7 @@ export default createRouter({
                     next('/resolver/' + resolverId);
                 }
                 else if (isAdmin()) {
-                    next('/admin');
+                    next('/admin/dashboard');
                 }
                 else if (isUser()) {
                     next();
@@ -190,7 +190,7 @@ export default createRouter({
                     next('/resolver/' + resolverId);
                 }
                 else if (isAdmin()) {
-                    next('/admin');
+                    next('/admin/dashboard');
                 }
                 else if (isUser()) {
                     next();
@@ -203,12 +203,9 @@ export default createRouter({
             }
         },
         {
-            path: '/admin',
+            path: '/admin/dashboard',
             name: 'adminDashboard',
             component: AdminDashboard,
-            meta: {
-                title: 'Admin Dashboard'
-            },
             beforeEnter: (to, from, next) => {
 
                 if (isResolver()) {
@@ -349,7 +346,7 @@ export default createRouter({
                     next();
                 }
                 else if (isAdmin()) {
-                    next('/admin');
+                    next('/admin/dashboard');
                 }
                 else {
                     deleteCookie('role');
