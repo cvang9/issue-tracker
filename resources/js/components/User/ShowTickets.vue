@@ -1,87 +1,95 @@
 <template>
-  <div class="cont">
+  <div class="cont" :class="showTicketForm ? 'cont-dis' : ''">
     <side-bar :id="4"></side-bar>
     <div class="container">
-      <div class="contain ">
+      <div class="contain">
         <temp-file head="Your Issues :"></temp-file>
       </div>
-      
+
       <div class="load">
         <Loader v-if="loading" />
       </div>
-      <div v-if="!loading && showAllIssues.length == 0" class="issue-head">No Issue raised yet
-        <p>Raise one By clicking on below + </p>
+      <div v-if="!loading && showAllIssues.length == 0" class="issue-head">
+        No Issue raised yet
+        <p>Raise one By clicking on below +</p>
       </div>
       <div class="issue-cont" v-if="!loading && showAllIssues.length">
         <div class="btn-upper">
-          <button class="show" id="all" @click="showBtn('all')"><span>Show all Issues</span> {{showAllIssues.length}}</button>
-          <button class="show" id="resolve" @click="showBtn('resolve')"><span>Resolved Issues</span> {{resolveIssues.length}}</button>
-          <button class="show" id="processing" @click="showBtn('processing')"><span>Processing Issues</span> {{processingIssues.length}}</button>
-          <button class="show" id="pending" @click="showBtn('pending')"><span>Pending Issues</span> {{pendingIssues.length}}</button>
-          <button class="show" id="reject" @click="showBtn('reject')"><span>Rejected Issues</span> {{rejectedIssues.length}}</button>
+          <button class="show" id="all" @click="showBtn('all')">
+            <span>Show all Issues</span> {{ showAllIssues.length }}
+          </button>
+          <button class="show" id="resolve" @click="showBtn('resolve')">
+            <span>Resolved Issues</span> {{ resolveIssues.length }}
+          </button>
+          <button class="show" id="processing" @click="showBtn('processing')">
+            <span>Processing Issues</span> {{ processingIssues.length }}
+          </button>
+          <button class="show" id="pending" @click="showBtn('pending')">
+            <span>Pending Issues</span> {{ pendingIssues.length }}
+          </button>
+          <button class="show" id="reject" @click="showBtn('reject')">
+            <span>Rejected Issues</span> {{ rejectedIssues.length }}
+          </button>
         </div>
-        <div class="issue-head" v-if="issues.length===0">No Issues in this state</div>
-        <div class="relative mx-8 my-1" v-for="issue in issues" :key="issue.id" >
-
-            <!-- <span class="absolute -z-10 w-full h-full inset-1 rounded-xl" > Hello </span>
-            <p class="absolute py-1 z-10 px-3 -left-10 -top-2 -rotate-[10deg] black_border text-white font-bold" :class="issue.data.attributes.status === 'processing' ? 'bg-blue-700' : issue.data.attributes.status === 'resolve' ?  'bg-green-500' : issue.data.attributes.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500' ">
-            {{ issue.data.attributes.status }}
-            </p> -->
-
-            <div class="p-8 border border-black  bg-white rounded-xl z-20" :class="issue.data.attributes.status === 'processing' ? 'purple_border' : issue.data.attributes.status === 'resolve' ?  'green_border' : issue.data.attributes.status === 'pending' ? 'yellow_border' : 'red_border' ">
-                <p class="font-mono  font-bold" :class="issue.data.attributes.status === 'processing' ? 'text-blue-700' : issue.data.attributes.status === 'resolve' ?  'text-green-500' : issue.data.attributes.status === 'pending' ? 'text-yellow-500' : 'text-red-500' ">{{ issue.data.attributes.title }} </p>
-                {{ issue.data.attributes.body }}
-                <div class="flex justify-between mt-4 mb-3">
-                    <div class=" rounded-md px-3 py-1 text-white" :class="issue.data.attributes.status === 'processing' ? 'bg-blue-700' : issue.data.attributes.status === 'resolve' ?  'bg-green-500' : issue.data.attributes.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500' ">
-                        {{ issue.data.attributes.department.data.attributes.name }}
-                    </div>
-                    <div>
-                        <span class="posted-at">{{ issue.data.attributes.created_at }}</span>
-                    </div>
-                </div>
-                <div class="view"  v-if="issue.data.attributes.feedback">
-                    <hr/>
-                    <div>
-                        <p class="mt-2 font-bold ">Resolver feedback</p>
-                        <p>{{ issue.data.attributes.feedback }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="issue" v-for="issue in issues" :key="issue.id">
-          <div class="state-badge" :class="getStateClass(issue.data.attributes.status)">
-        {{ issue.data.attributes.status }}
-        </div>
-          <div class="bar w-full bg-neutral-200 dark:bg-neutral-600">
-            <div
-              class="bg-black p-0.5 text-center text-xs font-medium leading-none text-primary-100"
-              :style="{ width: CalcProgress(issue.data.attributes.status) }"
+        <div class="issue-head" v-if="issues.length === 0">No Issues in this state</div>
+        <div class="relative mx-8 my-1" v-for="issue in issues" :key="issue.id">
+          <div
+            class="p-8 border border-black bg-white rounded-xl z-20"
+            :class="
+              issue.data.attributes.status === 'processing'
+                ? 'purple_border'
+                : issue.data.attributes.status === 'resolve'
+                  ? 'green_border'
+                  : issue.data.attributes.status === 'pending'
+                    ? 'yellow_border'
+                    : 'red_border'
+            "
+          >
+            <p
+              class="font-mono font-bold"
+              :class="
+                issue.data.attributes.status === 'processing'
+                  ? 'text-blue-700'
+                  : issue.data.attributes.status === 'resolve'
+                    ? 'text-green-500'
+                    : issue.data.attributes.status === 'pending'
+                      ? 'text-yellow-500'
+                      : 'text-red-500'
+              "
             >
-              {{ CalcProgress(issue.data.attributes.status) }}
-            </div>
-          </div>
-          <div class="issue-details">
-            <h2 class="issue-title">{{ issue.data.attributes.title }}</h2>
-            <p class="issue-query">{{ issue.data.attributes.body }}</p>
-            <div class="issue-meta">
-              <button class="category">
+              {{ issue.data.attributes.title }}
+            </p>
+            {{ issue.data.attributes.body }}
+            <div class="flex justify-between mt-4 mb-3">
+              <div
+                class="rounded-md px-3 py-1 text-white"
+                :class="
+                  issue.data.attributes.status === 'processing'
+                    ? 'bg-blue-700'
+                    : issue.data.attributes.status === 'resolve'
+                      ? 'bg-green-500'
+                      : issue.data.attributes.status === 'pending'
+                        ? 'bg-yellow-500'
+                        : 'bg-red-500'
+                "
+              >
                 {{ issue.data.attributes.department.data.attributes.name }}
-              </button>
-              <span class="posted-at">{{ issue.data.attributes.created_at }}</span>
+              </div>
+              <div>
+                <span class="posted-at">{{ issue.data.attributes.created_at }}</span>
+              </div>
+            </div>
+            <div class="view" v-if="issue.data.attributes.feedback">
+              <hr />
+              <div>
+                <p class="mt-2 font-bold">Resolver feedback</p>
+                <p>{{ issue.data.attributes.feedback }}</p>
+              </div>
             </div>
           </div>
-            <div class="view"  v-if="issue.data.attributes.feedback">
-              <div class="feedback">
-              <h2>Feedback</h2>
-              <p>{{ issue.data.attributes.feedback }}</p>
-              </div>
-            </div> 
-    
-        </div>-->
-    
+        </div>
       </div>
-    </div> 
+    </div>
     <button
       class="add-button"
       @mouseover="showRaiseIssueText"
@@ -95,7 +103,7 @@
     <div class="modal" v-if="showTicketForm">
       <div class="modal-content">
         <!-- <span class="close-button" @click="showTicketForm = false">&times;</span> -->
-        <TicketForm @formSubmitted="handleFormSubmission"  @close="showTicketForm = false"/>
+        <TicketForm @formSubmitted="handleFormSubmission" @close="showTicketForm = false" />
       </div>
     </div>
   </div>
@@ -127,28 +135,24 @@ const fetchTickets = (str) => {
   apiClient
     .get(`/api/users/${getCookie('userId')}/tickets`)
     .then((res) => {
-      console.log(res.data.data)
       issues.value = res.data.data
       issues.value.reverse()
-      showAllIssues.value = issues.value;
+      showAllIssues.value = issues.value
       loading.value = false
 
-      resolveIssues.value = [];
-      processingIssues.value = [];
-      rejectedIssues.value = [];
-      pendingIssues.value = [];
-      issues.value.forEach((e)=> {
-        if (e.data.attributes.status==='resolve')
-          resolveIssues.value.push(e);
-        if (e.data.attributes.status==='processing')
-          processingIssues.value.push(e);
-        if (e.data.attributes.status==='reject')
-          rejectedIssues.value.push(e);
-        if (e.data.attributes.status==='pending')
-          pendingIssues.value.push(e);
+      resolveIssues.value = []
+      processingIssues.value = []
+      rejectedIssues.value = []
+      pendingIssues.value = []
+      issues.value.forEach((e) => {
+        if (e.data.attributes.status === 'resolve') resolveIssues.value.push(e)
+        if (e.data.attributes.status === 'processing') processingIssues.value.push(e)
+        if (e.data.attributes.status === 'reject') rejectedIssues.value.push(e)
+        if (e.data.attributes.status === 'pending') pendingIssues.value.push(e)
       })
       // console.log(issues._rawValue);
       // console.log(issues.value[0]);
+      showTicketForm.value = false
     })
     .catch((error) => {
       console.log(error)
@@ -158,32 +162,17 @@ const fetchTickets = (str) => {
 
 fetchTickets()
 
-const CalcProgress = (state) => {
-  switch (state) {
-    case 'pending':
-      return '0%'
-    case 'reject':
-      return '100%'
-    case 'resolve':
-      return '100%'
-    case 'processing':
-      return '50%'
-    default:
-      return ''
-  }
-}
-
 const showBtn = (val) => {
-  loading.value = true;
+  loading.value = true
   switch (val) {
     case 'pending':
       issues.value = pendingIssues.value
       break
     case 'reject':
-      issues.value = rejectedIssues.value;
+      issues.value = rejectedIssues.value
       break
     case 'resolve':
-      issues.value = resolveIssues.value;
+      issues.value = resolveIssues.value
       break
     case 'processing':
       issues.value = processingIssues.value
@@ -195,10 +184,7 @@ const showBtn = (val) => {
 }
 
 const handleFormSubmission = () => {
-  loading.value = true;
-  fetchTickets('0');
-  loading.value = false;
-  showTicketForm.value = false
+  fetchTickets('0')
 }
 
 const showRaiseIssueText = () => {
@@ -208,42 +194,17 @@ const showRaiseIssueText = () => {
 const hideRaiseIssueText = () => {
   showText.value = false
 }
-
-const convertDT = (dateString) => {
-const date = new Date(dateString);
-const formattedDate = `${date.getDate()} ${getMonthName(date.getMonth())} ${date.getFullYear()} ${formatHours(date.getHours())}:${formatMinutes(date.getMinutes())} ${getAMPM(date.getHours())}`;
-
-return formattedDate;
-
-}
-
-function getMonthName(monthIndex) {
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  return months[monthIndex];
-}
-
-function formatHours(hours) {
-  return hours % 12 || 12; // Convert to 12-hour format
-}
-
-function formatMinutes(minutes) {
-  return minutes.toString().padStart(2, "0"); // Add leading zero if necessary
-}
-
-
-function getAMPM(hours) {
-  return hours < 12 ? "AM" : "PM";
-}
-
-// const closeTicketForm = () => {
-//   showTicketForm = false;
-// }
 </script>
 
 <style scoped>
 .cont {
   display: flex;
   background: rgba(216, 216, 216, 0.53);
+}
+
+.cont-dis {
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 .contain {
@@ -283,44 +244,44 @@ h1 {
 .btn-upper {
   text-align: center;
 }
-.btn-upper button{
+.btn-upper button {
   text-align: center;
   padding: 1rem;
   /* border: solid; */
-  margin: .5rem;
+  margin: 0.5rem;
   background-color: gray;
-  padding: .3rem 1rem .3rem 0rem;
+  padding: 0.3rem 1rem 0.3rem 0rem;
   color: white;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   text-shadow: 2px 1px rgba(0, 0, 0, 0.338);
 }
 
-.btn-upper button span{
-  padding: .5rem;
-  border-radius: .5rem;
+.btn-upper button span {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
   box-shadow: 1px 1px 5px black;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
   text-shadow: none;
 }
 
-#all span{
+#all span {
   background-color: black;
   color: white;
 }
 
-#pending span{
+#pending span {
   background-color: #ffc107; /* Yellow */
 }
 
-#reject span{
+#reject span {
   background-color: #dc3545; /* Red */
 }
 
-#resolve span{
+#resolve span {
   background-color: #28a745; /* Green */
 }
 
-#processing span{
+#processing span {
   background-color: #007bff; /* Blue */
 }
 
@@ -478,7 +439,7 @@ h1 {
 .category:hover {
   background-color: #f0f0f0;
   border-color: #999;
-  cursor:default;
+  cursor: default;
 }
 
 .posted-at {
@@ -645,23 +606,22 @@ h1 {
 }
 
 .purple_border {
-    box-shadow: 4px 4px 1px rgb(34, 34, 206);
+  box-shadow: 4px 4px 1px rgb(34, 34, 206);
 }
 
 .green_border {
-    box-shadow: 4px 4px 1px rgb(34, 206, 45);
+  box-shadow: 4px 4px 1px rgb(34, 206, 45);
 }
 
 .yellow_border {
-    box-shadow: 4px 4px 1px rgb(207, 220, 27);
+  box-shadow: 4px 4px 1px rgb(207, 220, 27);
 }
 
 .red_border {
-    box-shadow: 4px 4px 1px rgb(206, 71, 34);
+  box-shadow: 4px 4px 1px rgb(206, 71, 34);
 }
 
 .black_border {
-    box-shadow: 4px 4px 1px rgb(0, 0, 0);
+  box-shadow: 4px 4px 1px rgb(0, 0, 0);
 }
-
 </style>

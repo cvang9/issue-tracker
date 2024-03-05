@@ -4,7 +4,7 @@ import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
 import SidebarItem from '../Sidebar/SidebarItem.vue'
 import { deleteCookie, getCookie } from '../../helper/CookieHelper.js'
-import profile from "./profile.png"
+// import profile from "./profile.png"
 import { useRouter } from 'vue-router'
 import apiClient from '../../services/api.js'
 import Loader from '../Resolver/Loader.vue'
@@ -105,10 +105,6 @@ const logoutHandler = () => {
 <template>
   <aside
     class="absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0"
-    :class="{
-      'translate-x-0': sidebarStore.isSidebarOpen,
-      '-translate-x-full': !sidebarStore.isSidebarOpen
-    }"
     ref="target"
   >
     <div >
