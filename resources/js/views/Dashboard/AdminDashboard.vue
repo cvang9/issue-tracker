@@ -20,7 +20,6 @@ const { setData } = adminState;
 
 apiClient.get('/api/admin')
 .then(function(response) {
-    console.log(response.data.data.attributes);
     setData(response.data.data.attributes);
 })
 .catch(function(error){

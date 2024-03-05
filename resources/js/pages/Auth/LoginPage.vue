@@ -134,7 +134,7 @@ export default {
                     
                     else if( role.value == 'admin' ) {
                         setCookie('role', 'admin', 1 );
-                        route.push('/admin');
+                        route.push('/admin/dashboard');
                     }
                 }
 

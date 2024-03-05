@@ -40,7 +40,7 @@
         >
           <button
             @click="getProcessingTickets"
-            class="w-10 p-1 border text-gray-700 rounded-2xl bg-white hover:bg-slate-400 mb-4 dark:bg-blue-500"
+            class="w-10 p-1 ms-2 border text-gray-700 rounded-2xl bg-white hover:bg-slate-400 mb-4 dark:bg-blue-500"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +56,7 @@
               />
             </svg>
           </button>
-          <p class="text-white text-xl mb-4">Processd Tickets</p>
+          <p class="text-white text-xl mb-4">Processed Tickets</p>
         </div>
 
         <div
@@ -116,17 +116,17 @@
       <div
         class="flex text-white justify-center space-x-2 bg-blue-500 hover:bg-blue-600 w-full mt-8 h-90 pt-2"
       >
-        <div class="focus:outline-none focus:border-transparent mb-1">
+        <div class="focus:outline-none focus:border-transparent mt-3">
           <router-link :to="`/resolver-profile/${$route.params.id}`" class="w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              viewBox="0 0 24 24"
+              viewBox="0 0 22 22"
               stroke-width="1.5"
               stroke="currentColor"
               class="h-8 w-8 text-white-500 dark:text-slate-800"
-              width="24"
-              height="24"
+              width="36"
+              height="36"
             >
               <path
                 stroke-linecap="round"
@@ -136,11 +136,11 @@
             </svg>
           </router-link>
         </div>
-        <div class="h-8 w-26 mt-1 text-lg dark:text-black-2">My Profile</div>
+        <div class="h-8 w-26 mt-4 text-lg dark:text-black-2">My Profile</div>
       </div>
       <div
         v-if="!logoutLoading"
-        class="flex text-white justify-center space-x-2 bg-red w-full h-90 pt-1"
+        class="flex text-white justify-center items-center space-x-2 bg-red w-full h-90 pt-1"
       >
         <button @click="logoutHandler" class="focus:outline-none focus:border-transparent mb-1">
           <svg
@@ -160,7 +160,7 @@
             />
           </svg>
         </button>
-        <div class="h-8 w-26 mt-1 text-lg dark:text-slate-900">LogOut</div>
+        <div class="h-8 w-26 text-lg dark:text-slate-900">LogOut</div>
       </div>
       <div
         v-if="logoutLoading"
@@ -175,6 +175,7 @@
       class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll z-2 dark:bg-black dark:text-white"
     >
       <ul v-for="item in cards" :key="item" class="mt-5">
+        <p>{{  }}</p>
         <li
           @click="() => setAttributes(item)"
           class="py-5 border-b px-3 transition hover:bg-indigo-100 dark:hover:bg-slate-700 dark:hover:text-white"
@@ -183,9 +184,9 @@
             <h3 class="text-lg font-semibold">
               {{ item.data.attributes.user.data.attributes.name }}
             </h3>
-            <p class="text-md text-gray-400 text-right">{{ item.data.attributes?.created_at }}</p>
+            <p class="text-md text-gray-400 text-right mb-3">{{ item.data.attributes?.created_at }}</p>
           </div>
-          <div class="text-md italic text-gray-400">Click to see more details !</div>
+          <div class="text-md italic text-gray-400">{{ item.data.attributes.title }}</div>
         </li>
       </ul>
       <div
@@ -219,10 +220,10 @@
           <p>
             {{ body }}
           </p>
-          <footer class="mt-6">
+          <!-- <footer class="mt-6">
             <p>Thanks & Regards,</p>
             <p>{{ username }}</p>
-          </footer>
+          </footer> -->
 
           <p class="text-black font-bold mt-8 text-xl dark:text-white">Resolver resopnse</p>
           <p class="text-black font-bold dark:text-white">Feedback: {{ resolverFeedback }}</p>
@@ -287,9 +288,10 @@
         </ul>
         <div v-if="toogle">
           <input
-            class="mt-8 mb-4 mr-2 outline-none rounded-lg dark:bg-slate-400 dark:text-black-2"
+            class="mt-8 mb-4 mr-2 outline-none rounded-lg  dark:text-black-2 dark:placeholder:text-slate-600"
             type="text"
             v-model="chatDate"
+            placeholder="Enter date and time ..."
           />
           <button
             v-if="!chatDateLoading"
@@ -306,8 +308,8 @@
         class="mt-6 border rounded-xl bg-gray-50 mb-3"
       >
         <textarea
-          class="w-full bg-gray-50 p-2 rounded-xl outline-none dark:bg-slate-400 dark:text-black-2"
-          placeholder="Type your reply here..."
+          class="w-full bg-gray-50 p-2 rounded-xl outline-none dark:text-black-2 dark:placeholder:text-slate-600"
+          placeholder="Give your feedback here..."
           rows="3"
           v-model="feedback"
         ></textarea>
@@ -328,7 +330,7 @@
             Reject
           </button>
           <button
-            v-if="!feedbackLoader"
+            v-if="!feedbackLoader && !ticketStatus === 'processing' "
             @click="processing"
             class="bg-blue-600 hover:bg-blue-800 text-white px-6 py-2 rounded-xl"
           >

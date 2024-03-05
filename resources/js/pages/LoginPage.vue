@@ -153,7 +153,7 @@ export default {
             localStorage.setItem('id', response.data.id)
             route.push('/resolver/' + response.data.id)
           } else if (role.value == 'admin') {
-            route.push('/admin')
+            route.push('/admin/dashboard')
           }
         } else {
           invalidCreds.value = true
