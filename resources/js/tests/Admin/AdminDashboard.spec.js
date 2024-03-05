@@ -13,7 +13,9 @@ const setup = async () => {
             'tickets' : {
                 'pending' : 1,
                 'resolved' : 1,
-                
+                'rejected' : 1,
+                'processed': 1
+
             },
             'users' : {
                 'all_user': 1,
@@ -27,7 +29,7 @@ const setup = async () => {
 
 describe('Admin dashboard ', () => {
 
-    it("have pending tickets count", async () => {
+    it("have pending tickets count text", async () => {
 
         await setup();
         const element = screen.getByText("Pending Tickets");
@@ -35,13 +37,45 @@ describe('Admin dashboard ', () => {
 
     });
 
-    it("have resolved tickets count", async () => {
+    it("have resolved tickets count text", async () => {
 
         await setup();
         const element = screen.getByText("Resolved Tickets");
         expect(element).toBeInTheDocument();
 
-    } )
+    });
+
+    it("have rejected tickets count text", async () => {
+
+        await setup();
+        const element = screen.getByText("Resolved Tickets");
+        expect(element).toBeInTheDocument();
+
+    });
+
+    it("have all users count text", async () => {
+
+        await setup();
+        const element = screen.getByText("Total Users");
+        expect(element).toBeInTheDocument();
+
+    });
+
+    it("have all resolvers count text", async () => {
+
+        await setup();
+        const element = screen.getByText("Total Resolvers");
+        expect(element).toBeInTheDocument();
+
+    });
+
+    it("have all users but not resolvers count text", async () => {
+
+        await setup();
+        const element = screen.getByText("Users are not Resolver");
+        expect(element).toBeInTheDocument();
+
+    });
 
     it("have Chart one stats", () => {
         render(ChartOne);
