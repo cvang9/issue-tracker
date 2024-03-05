@@ -332,7 +332,7 @@
             Reject
           </button>
           <button
-            v-if="!feedbackLoader && !ticketStatus === 'processing'"
+            v-if="!feedbackLoader && !(ticketStatus === 'processing')"
             @click="processing"
             class="bg-blue-600 hover:bg-blue-800 text-white px-6 py-2 rounded-xl"
           >
