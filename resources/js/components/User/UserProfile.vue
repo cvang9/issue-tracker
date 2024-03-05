@@ -2,7 +2,6 @@
 <div class="cont">
   <side-bar></side-bar>
 <div class="body-cont">
-
     <div
     >
       <div class="z-20 h-35 md:h-65">
@@ -20,14 +19,18 @@
         >
           <div class="relative drop-shadow-2">
 
-            <img :src="`http://[::1]:5173/storage/app/uploads/user-06.png`" />
+            <img class="profile" :src="`http://[::1]:5173/storage/app/uploads/${UserImage}`" />
 
           </div>
         </div>
-        <div class="mt-4">
-          <h3 class="mb-1.5 text-2xl font-medium text-black dark:text-white">User</h3>
+    <div class="load">
+        <Loader v-if="loading" />
+      </div>
+        <div v-if="!loading" class="mt-4">
+          <h3 class=" text-2xl font-medium text-black dark:text-white">{{User.name}}</h3>
+          <p class="mb-1.5 text-l font-medium text-black dark:text-white">{{User.email}}</p>
           <!-- <p class="font-medium dark:text-white"></p> -->
-          <p class="font-medium dark:text-white">Joined us: last year</p>
+          <p class="font-medium dark:text-white">Joined us: {{User.created_at}}</p>
           <div
             class="mx-auto mt-4.5 mb-5.5  max-w-94 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]"
           >
@@ -35,9 +38,9 @@
           </div>
   
           <div class="mx-auto max-w-180">
-            <h4 class="font-medium text-black dark:text-white">About Admin Powers</h4>
+            <h4 class="font-medium text-black dark:text-white">About User Powers</h4>
             <p class="mt-4.5 text-sm font-normal dark:text-white">
-                Hey there! So, um, being an admin for the ticket thingy is kind of like being the superhero of computer stuff. You have to read messages from people who need help with their techy problems and then decide who's gonna save the day. It's like being the boss of a super cool tech team! You make sure everyone gets their jobs and high-fives when they fix things. Oh, and you have to keep a super-duper organized list of all the problems and make sure everything runs super smoothly. It's like having a magical wand for computer troubles, and you get to make everything better! Being a ticket admin is like being the wizard of the tech world!
+                Welcome to our organization's ticketing system! As a valued user, you have the ability to raise tickets for any issues you encounter within the organization. Simply submit a ticket to the relevant resolver department team, and our dedicated resolvers will work diligently to address your concerns. Rest assured that your issues will be promptly resolved or appropriately rejected if necessary. Our administrative team oversees all processes, ensuring smooth operations and providing support where needed. Thank you for being an integral part of our organization's problem-solving process.
             </p>
           </div>
   
@@ -113,11 +116,19 @@ const chartOptions = ref({
           })
 
 const User = ref({});
+const UserImage = ref("");
 const fetchUser = () => {
+  loading.value = true;
   apiClient
     .get(`/api/users/${getCookie('userId')}`)
     .then((res) => {
       User.value = res.data.data.attributes;
+      if(User.value.img!=="")
+        UserImage.value = User.value.img;
+      else
+        UserImage.value = "./profile.png";
+
+      loading.value = false;
     })
     .catch((error) => {
       console.log(error)
@@ -155,6 +166,10 @@ fetchUser();
         font-weight: lighter;
         color: white;
         /* text-transform: uppercase; */
+    }
+
+    .profile {
+      border-radius: 100%;
     }
 
     .img-cont {
