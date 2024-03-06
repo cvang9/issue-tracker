@@ -1,9 +1,8 @@
 <template>
-<div class="cont">
-  <side-bar></side-bar>
+<user-dashboard>
 <div class="body-cont">
   <div class="contain">
-        <temp-file v-if="!loading" :head="`Hi, ${name} :`"></temp-file>
+        <top-heading v-if="!loading" :head="`Hi, ${name} :`"></top-heading>
       </div>
     <div
     >
@@ -42,13 +41,12 @@
       </div>
     </div>
 </div>
-
-</div>
+</user-dashboard>
 </template>
 
 <script setup>
-import TempFile from './TempFile.vue'
-import SideBar from "./SideBar.vue"
+import TopHeading from './TopHeading.vue'
+import UserDashboard from './UserDashboard.vue'
 import { ref } from "vue"
 import { getCookie } from '../../helper/CookieHelper.js'
 import apiClient from '../../services/api.js'

@@ -1,9 +1,8 @@
 <template>
-  <div class="cont" :class="showTicketForm ? 'cont-dis' : ''">
-    <side-bar :id="4"></side-bar>
-    <div class="container">
+  <user-dashboard>
+    <div class="container" :class="showTicketForm?'cont-dis': ''">
       <div class="contain">
-        <temp-file head="Your Issues :"></temp-file>
+        <top-heading head="Your Issues :"></top-heading>
       </div>
 
       <div class="load">
@@ -106,18 +105,17 @@
         <TicketForm @formSubmitted="handleFormSubmission" @close="showTicketForm = false" />
       </div>
     </div>
-  </div>
+  </user-dashboard>
 </template>
 
 <script setup>
 // import axios from 'axios';
 import { ref } from 'vue'
+import UserDashboard from './UserDashboard.vue'
 import Loader from '../Resolver/Loader.vue'
-import SideBar from './SideBar.vue'
 import apiClient from '../../services/api.js'
-import TempFile from './TempFile.vue'
+import TopHeading from './TopHeading.vue'
 import TicketForm from './TicketForm.vue'
-// import { Progress } from "@material-tailwind/react";
 
 const issues = ref([])
 const showAllIssues = ref([])
