@@ -128,9 +128,9 @@ import { getCookie } from '../../helper/CookieHelper.js'
             
           }, 1000);
           console.log(res);
+          loading.value = false;
           title.value = '';
           query.value = '';
-          loading.value = false;
           // handleClose();
         })
         .catch((err) => {

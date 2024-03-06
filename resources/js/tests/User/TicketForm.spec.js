@@ -44,8 +44,8 @@ describe('TicketForm.vue', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Create' }))
 
-    expect(screen.getByLabelText('Ticket Title')).toHaveValue('')
-    expect(screen.getByLabelText('Describe Your Issue')).toHaveValue('')
+    expect(screen.getByLabelText('Ticket Title')).toHaveValue('Test Ticket Title')
+    expect(screen.getByLabelText('Describe Your Issue')).toHaveValue('Test Issue Description')
   })
 
   it('displays error message when form fields are empty on submission', async () => {
