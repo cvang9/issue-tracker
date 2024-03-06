@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p><span>{{ typingText }}</span><span class="cursor">)</span></p>
+    <p><span>{{ typingText }}</span><span data-testid="temp-file" class="cursor">)</span></p>
   </div>
 </template>
 
