@@ -2,24 +2,19 @@
 <div class="cont">
   <side-bar></side-bar>
 <div class="body-cont">
+  <div class="contain">
+        <temp-file v-if="!loading" :head="`Hi, ${name} :`"></temp-file>
+      </div>
     <div
     >
-      <div class="z-20 h-35 md:h-65">
-        <img
-          src="../../assets/img/cover-02.jpg"
-          alt="profile cover"
-          class="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
-        />
-        <div class="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
-        </div>
-      </div>
+      
       <div class="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
         <div
           class="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3"
         >
           <div class="relative drop-shadow-2">
 
-            <img class="profile" :src="`http://[::1]:5173/storage/app/uploads/${UserImage}`" />
+            <img v-if="!loading" class="profile" :src="`http://[::1]:5173/storage/app/uploads/${UserImage}`" />
 
           </div>
         </div>
@@ -43,80 +38,26 @@
                 Welcome to our organization's ticketing system! As a valued user, you have the ability to raise tickets for any issues you encounter within the organization. Simply submit a ticket to the relevant resolver department team, and our dedicated resolvers will work diligently to address your concerns. Rest assured that your issues will be promptly resolved or appropriately rejected if necessary. Our administrative team oversees all processes, ensuring smooth operations and providing support where needed. Thank you for being an integral part of our organization's problem-solving process.
             </p>
           </div>
-  
-          
         </div>
       </div>
     </div>
-    <!-- <div class="container">
-        <temp-file head="Hi User :"></temp-file>
-    </div>
-
-    <div class="img-cont"> 
-    <img :src="profile" alt=""> 
-
-    </div>
-    <div class="load">
-        <Loader v-if="loading" />
-      </div>
-    <div class="bottom-cont" v-if="!loading">
-        <div class="form-cont">
-            <div class="name">
-                <p>{{User.name}}</p>
-            </div>
-            <div class="email">
-                <p>{{User.email}}</p>
-            </div>
-        </div>
-        <div class="btm-right">
-            <div class="first" id="one">Total Raised Issues<p>100</p></div>
-            <div class="first" id="two">Resolved Issues<p>40</p></div>
-            <div class="first" id="three">Pending Issues<p>20</p></div>
-            <div class="first" id="four">Rejected Issues<p>40</p></div>
-        </div>
-        <div id="chart">
-        <vue-apex-charts type="bar" height="150" :options="chartOptions" :series="series"></vue-apex-charts>
-      </div>
-    </div> -->
 </div>
 
 </div>
 </template>
 
 <script setup>
-import profile from "./profile.png"
-import tempFile from "./TempFile.vue"
+import TempFile from './TempFile.vue'
 import SideBar from "./SideBar.vue"
-import VueApexCharts from 'vue3-apexcharts'
 import { ref } from "vue"
 import { getCookie } from '../../helper/CookieHelper.js'
 import apiClient from '../../services/api.js'
 import Loader from '../Resolver/Loader.vue'
-
-const series = ref([{data: [4, 3, 7]}])
 const loading = ref(false)
-const chartOptions = ref({
-            chart: {
-              type: 'bar',
-              height: 500
-            },
-            plotOptions: {
-              bar: {
-                borderRadius: 4,
-                horizontal: true,
-              }
-            },
-            dataLabels: {
-              enabled: false
-            },
-            xaxis: {
-              categories: ['Management', 'Technical', 'Security'
-              ],
-            }
-          })
 
 const User = ref({});
 const UserImage = ref("");
+const name = ref("");
 const fetchUser = () => {
   loading.value = true;
   apiClient
@@ -127,7 +68,8 @@ const fetchUser = () => {
         UserImage.value = User.value.img;
       else
         UserImage.value = "./profile.png";
-
+      
+      name.value = User.value.name;
       loading.value = false;
     })
     .catch((error) => {
@@ -149,12 +91,12 @@ fetchUser();
         width: 60%;
         margin: 0 auto;
     }
-    .container {
+    .contain {
   /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.644); */
         background-color: rgb(28 36 52);
         /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.644); */
         /* background-color: rgb(249, 244, 234); */
-        height: 18vh;
+        height: 25vh;
         width: 100%;
         /* border-radius: 0 0 5rem 5rem; */
         /* margin: auto; */
