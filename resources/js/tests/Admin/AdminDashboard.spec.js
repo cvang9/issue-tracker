@@ -1,20 +1,45 @@
-import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/vue";
 import ChartOne from '../../components/Charts/ChartOne.vue';
 import ChartTwo from '../../components/Charts/ChartTwo.vue';
-import DropdownUserVue from "../../components/Header/DropdownUser.vue";
-import DarkModeSwitcherVue from "../../components/Header/DarkModeSwitcher.vue";
+import { render, screen } from '@testing-library/vue'
+import { describe, expect, it, vi } from 'vitest'
+import DataStatsOneVue from '../../components/DataStats/DataStatsOne.vue';
 
-vi.mock('axios');
+
+const setup = async () => {
+    return render(DataStatsOneVue, {
+        props: {
+            counts: {
+                'tickets': {
+                    'pending': 1,
+                    'resolved': 1,
+
+                },
+                'users': {
+                    'all_user': 1,
+                }
+            }
+        }
+    })
+}
+
+
 
 describe('Admin dashboard ', () => {
 
-    it("has a User Dropdown", () => {
-        render(DropdownUserVue);
+    it("have pending tickets count", async () => {
 
-        expect(axios.get).toHaveBeenCalledWith('/api/logout', {
-            success: 'Successfully logged out'
-        });
+        await setup();
+        const element = screen.getByText("Pending Tickets");
+        expect(element).toBeInTheDocument();
+
+    });
+
+    it("have resolved tickets count", async () => {
+
+        await setup();
+        const element = screen.getByText("Resolved Tickets");
+        expect(element).toBeInTheDocument();
+
     })
 
     it("have Chart one stats", () => {
@@ -40,5 +65,3 @@ describe('Admin dashboard ', () => {
 
 
 });
-
-
