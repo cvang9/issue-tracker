@@ -114,9 +114,9 @@
         
       </router-link> -->
       <div
-        class="flex text-white justify-center space-x-2 bg-blue-500 hover:bg-blue-600 w-full mt-8 h-90 pt-2"
+        class="flex text-white justify-center space-x-2 bg-blue-500 hover:bg-blue-600 w-full mt-8 h-90"
       >
-        <div class="focus:outline-none focus:border-transparent mt-3">
+        <div class="focus:outline-none focus:border-transparent mt-2">
           <router-link :to="`/resolver-profile/${$route.params.id}`" class="w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +136,7 @@
             </svg>
           </router-link>
         </div>
-        <div class="h-8 w-26 mt-4 text-lg dark:text-black-2">My Profile</div>
+        <div class="h-8 w-26 mt-3 text-lg dark:text-black-2">My Profile</div>
       </div>
       <div
         v-if="!logoutLoading"
@@ -175,7 +175,7 @@
       class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll z-2 dark:bg-black dark:text-white"
     >
       <ul v-for="item in cards" :key="item" class="mt-5">
-        <p>{{  }}</p>
+        <p>{{}}</p>
         <li
           @click="() => setAttributes(item)"
           class="py-5 border-b px-3 transition hover:bg-indigo-100 dark:hover:bg-slate-700 dark:hover:text-white"
@@ -184,9 +184,13 @@
             <h3 class="text-lg font-semibold">
               {{ item.data.attributes.user.data.attributes.name }}
             </h3>
-            <p class="text-md text-gray-400 text-right mb-3">{{ item.data.attributes?.created_at }}</p>
+            <p class="text-md text-gray-400 text-right mb-3">
+              {{ item.data.attributes?.created_at }}
+            </p>
           </div>
-          <div class="text-md italic text-gray-400">{{ item.data.attributes.title }}</div>
+          <div class="text-md italic text-gray-400">
+            {{ item.data.attributes.title }}
+          </div>
         </li>
       </ul>
       <div
@@ -288,7 +292,7 @@
         </ul>
         <div v-if="toogle">
           <input
-            class="mt-8 mb-4 mr-2 outline-none rounded-lg  dark:text-black-2 dark:placeholder:text-slate-600"
+            class="mt-8 mb-4 mr-2 outline-none rounded-lg dark:text-black-2 dark:placeholder:text-slate-600"
             type="text"
             v-model="chatDate"
             placeholder="Enter date and time ..."
@@ -330,7 +334,7 @@
             Reject
           </button>
           <button
-            v-if="!feedbackLoader && !ticketStatus === 'processing' "
+            v-if="!feedbackLoader && !(ticketStatus === 'processing')"
             @click="processing"
             class="bg-blue-600 hover:bg-blue-800 text-white px-6 py-2 rounded-xl"
           >

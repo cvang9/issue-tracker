@@ -88,13 +88,12 @@
               >
                 {{ name }}
               </h3>
-              <!-- <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                <i class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                Los Angeles, California
-              </div> -->
+              <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                Resolver
+              </div>
               <div class="mb-2 text-blueGray-600 mt-10 dark:text-white">
                 <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400 dark:text-white"></i
-                >Resolver -
+                >Department -
                 {{ department }}
               </div>
               <div class="mb-2 text-blueGray-600 dark:text-white">
@@ -109,10 +108,12 @@
               <div class="flex flex-wrap justify-center">
                 <div class="w-full lg:w-9/12 px-4">
                   <p class="mb-4 text-lg leading-relaxed text-blueGray-700 dark:text-white">
-                    An artist of considerable range, Jenna the name taken by Melbourne-raised,
-                    Brooklyn-based Nick Murphy writes, performs and records all of his own music,
-                    giving it a warm, intimate feel with a solid groove structure. An artist of
-                    considerable range.
+                    The primary responsibility of a department resolver is to address and resolve
+                    issues that arise within their assigned department. These issues could range
+                    from employee conflicts and performance concerns to operational challenges and
+                    resource allocation problems. the role of a department resolver is crucial in
+                    maintaining smooth operations, fostering a positive work environment, and
+                    ensuring that departmental goals are met effectively within the organization.
                   </p>
                   <router-link :to="`/resolver/${route.params.id}`" class="font-normal text-red"
                     >Show Tickets</router-link
