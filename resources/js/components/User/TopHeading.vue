@@ -9,7 +9,6 @@ export default {
   props: ['head'],
   data() {
     return {
-      greeting: 'Hi User',
       text: this.head,
       typingText: '',
       typingSpeed: 150, // Typing speed in milliseconds
