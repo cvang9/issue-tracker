@@ -1,21 +1,12 @@
 import { render, screen } from '@testing-library/vue'
 import { describe, expect, it, vi } from 'vitest'
 import SidebarItemVue from '../../components/Sidebar/SidebarItem.vue';
+import SidebarArea from '../../components/Sidebar/SidebarArea.vue'
 import { createTestingPinia } from "@pinia/testing";
 import { useSidebarStore } from '@/store/sidebar';
-import SidebarItemVue from '../../components/Sidebar/SidebarItem.vue';
+import { createPinia } from 'pinia';
+import { storeToRefs } from 'pinia';
 
-
-
-vi.mock("@/store/sidebar", () => ({
-    useSidebarStore() {
-      return {
-        isSidebarOpen : 'aa',
-        selected : 'aa',
-        page : 'aa',
-      };
-    },
-  }));
   
   const setup = () => {
     return render(SidebarItemVue, {
@@ -26,14 +17,30 @@ vi.mock("@/store/sidebar", () => ({
                 route: '/'
             }
         },
-      global: {
-        plugins: [createTestingPinia({ createSpy: vi.fn })],
-      },
     });
   };
   
   afterEach(() => {
     vi.clearAllMocks();
   });
+
+  describe("Admin Sidebar", () => {
+
+    it("has a Admin Panel Text", () => {
+
+        const store = useSidebarStore(createPinia());
+
+        let { setDummy } = store;
+
+         setDummy();
+        //  render(SidebarArea);
+        setup()
+
+         const element = screen.getByText('ADMIN PANNEL');
+         expect(element).toBeInTheDocument();
+
+
+    })
+  })
 
 

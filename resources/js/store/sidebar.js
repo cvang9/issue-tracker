@@ -11,5 +11,11 @@ export const useSidebarStore = defineStore('sidebar', () => {
     isSidebarOpen.value = !isSidebarOpen.value
   }
 
-  return { isSidebarOpen, toggleSidebar, selected, page }
+  function setDummy() {
+    isSidebarOpen.value = 'text'
+    selected.value = 'text'
+    page.value = 'text'
+  }
+
+  return { isSidebarOpen, toggleSidebar, setDummy, selected, page }
 })
