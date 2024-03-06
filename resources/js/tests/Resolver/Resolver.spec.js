@@ -3,7 +3,7 @@ import Resolver from "../../components/Resolver/Resolver.vue";
 import { render, router, screen } from "../helper";
 
 
-describe('Resolver Profile ', () => {
+describe('Resolver issue page ', () => {
 
     //displays main page
     it("displays main page", async () => {
@@ -58,4 +58,14 @@ describe('Resolver Profile ', () => {
         const logout = screen.getByText('LogOut');
         expect(logout).toBeInTheDocument();
     })
+
+    //have chat option
+    // it('display chat button', async () => {
+    //     router.push('/resolver/1');
+    //     await router.isReady();
+    //     render(Resolver);
+
+    //     const chat = screen.getByText('Chat');
+    //     expect(chat).toBeInTheDocument();
+    // })
 });
