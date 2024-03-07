@@ -235,7 +235,7 @@ onMounted(() => {
             </span>
             <select
                 v-model="departmentUpdate"
-                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
+                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
             >
                 <option :value="dept.data.attributes.name" class="text-body dark:text-bodydark" v-for="dept in departments" :key="dept.data.department_id" > {{ dept.data.attributes.name }}</option>
             </select>
@@ -297,7 +297,7 @@ onMounted(() => {
             </span>
             <select
                 v-model="departmentDelete"
-                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
+                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                 name="department"
             >
                 <option :value="dept.data.attributes.name" class="text-body dark:text-bodydark" v-for="dept in departments" :key="dept.data.department_id" > {{ dept.data.attributes.name }}</option>

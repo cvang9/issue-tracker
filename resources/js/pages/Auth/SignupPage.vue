@@ -104,8 +104,7 @@
                 <p class="text-sm font-medium">
                   <span class="text-primary">Click to upload</span> or drag and drop
                 </p>
-                <p class="mt-1.5 text-sm font-medium">SVG, PNG, JPG or GIF</p>
-                <p class="text-sm font-medium">(max, 800 X 800px)</p>
+                <p class="mt-1.5 text-sm font-medium">PNG or JPG</p>
               </div>
             </div>
 
@@ -177,6 +176,7 @@ export default {
                     setCookie('userId', response.data.id , 1 );
                     route.push('/users/' + response.data.id );
                     button.value = false;
+                    error.value = true;
                 }
                 else {
                     error.value = true;
@@ -292,7 +292,8 @@ form > div {
   padding: 1.5em 0;
 }
 form > div input {
-  color: #bebebe;
+  /* color: #bebebe; */
+  color: black;
   width: 100%;
   padding: 1.5em 2em;
   border: 1px solid #bebebe;

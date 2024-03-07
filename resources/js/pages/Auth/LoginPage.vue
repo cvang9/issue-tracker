@@ -250,7 +250,8 @@ form > div {
   padding: 1.5em 0;
 }
 form > div input {
-  color: #bebebe;
+  /* color: #bebebe; */
+  color: black;
   width: 100%;
   padding: 1.5em 2em;
   border: 1px solid #bebebe;

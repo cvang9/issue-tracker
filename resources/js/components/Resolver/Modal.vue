@@ -174,7 +174,7 @@ export default {
     Echo.private('query-channel').listen('SendMessage', (e) => {
       // console.log(e);
 
-      if (e.user.id != user.value && e.message.friend_id == user.value) {
+      if (e.user.id != user.value && e.message.friend_id == user.value && e.user.id == friendId.value ) {
         messages.value.push({
           message: e.message.message,
           user_id: e.user.id,

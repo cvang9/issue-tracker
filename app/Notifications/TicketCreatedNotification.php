@@ -44,7 +44,7 @@ class TicketCreatedNotification extends Notification
             ->line('Ticket Details:')
             ->line('- Ticket ID: ' . $this->ticket->id)
             ->line('- Subject: ' . $this->ticket->body)
-            ->action('View Ticket', url('http://localhost:8000/resolvers/' . $notifiable->id))
+            ->action('View Ticket', url('http://localhost:8000/resolver/' . $notifiable->resolver->id))
             ->line('Thank you for using our application!');
     }
 
