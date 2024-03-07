@@ -17,7 +17,7 @@
           <button class="show" id="all" @click="showBtn('all')">
             <span>Show all Issues</span> {{ showAllIssues.length }}
           </button>
-          <button class="show" id="resolve" @click="showBtn('resolve')">
+          <button class="show" id="resolve" @click="showBtn('resolved')">
             <span>Resolved Issues</span> {{ resolveIssues.length }}
           </button>
           <button class="show" id="processing" @click="showBtn('processing')">
@@ -37,7 +37,7 @@
             :class="
               issue.data.attributes.status === 'processing'
                 ? 'purple_border'
-                : issue.data.attributes.status === 'resolve'
+                : issue.data.attributes.status === 'resolved'
                   ? 'green_border'
                   : issue.data.attributes.status === 'pending'
                     ? 'yellow_border'
@@ -49,7 +49,7 @@
               :class="
                 issue.data.attributes.status === 'processing'
                   ? 'text-blue-700'
-                  : issue.data.attributes.status === 'resolve'
+                  : issue.data.attributes.status === 'resolved'
                     ? 'text-green-500'
                     : issue.data.attributes.status === 'pending'
                       ? 'text-yellow-500'
@@ -65,7 +65,7 @@
                 :class="
                   issue.data.attributes.status === 'processing'
                     ? 'bg-blue-700'
-                    : issue.data.attributes.status === 'resolve'
+                    : issue.data.attributes.status === 'resolved'
                       ? 'bg-green-500'
                       : issue.data.attributes.status === 'pending'
                         ? 'bg-yellow-500'
@@ -169,7 +169,7 @@ const showBtn = (val) => {
     case 'reject':
       issues.value = rejectedIssues.value
       break
-    case 'resolve':
+    case 'resolved':
       issues.value = resolveIssues.value
       break
     case 'processing':
