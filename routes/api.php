@@ -36,7 +36,7 @@ Route::middleware('auth:sanctum')->group( function() {
 
     // DepartmentController
     Route::get('/departments', [DepartmentController::class, 'index' ] )->name('departments.index');
-    Route::get('/departments/{department_id}', [DepartmentController::class, 'show' ] )->name('departments.index');
+    Route::get('/departments/{department_id}', [DepartmentController::class, 'show' ] )->name('departments.show');
     Route::post('/departments', [DepartmentController::class, 'store'] )->middleware(['can:isAdmin'])->name('departments.store');
     Route::put('/departments', [DepartmentController::class, 'update'] )->middleware(['can:isAdmin'])->name('departments.update');
     Route::put('/departments/delete', [DepartmentController::class, 'destroy'] )->middleware(['can:isAdmin'])->name('departments.destroy');

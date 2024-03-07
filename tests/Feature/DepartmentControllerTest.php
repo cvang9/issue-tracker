@@ -7,7 +7,6 @@ use App\Models\Resolver;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class DepartmentControllerTest extends TestCase
@@ -15,7 +14,7 @@ class DepartmentControllerTest extends TestCase
 
     use RefreshDatabase;
 
-    public function test_get_all_departments()
+    public function test_fetch_all_departments()
     {
         $this->withoutExceptionHandling();
         
@@ -76,6 +75,42 @@ class DepartmentControllerTest extends TestCase
                         );
     }
 
+    public function test_show_a_department()
+    {
+
+        $this->withoutExceptionHandling();
+
+        $admin = User::factory()->create([
+            'role' => 'admin'
+        ]);
+
+        $this->actingAs($admin, 'sanctum' );
+
+        $department = Department::factory()->create([
+            'name' => 'Technical'
+        ]);
+
+        $response = $this->get('/api/departments/' . $department->id );
+
+        $response->assertStatus(200);
+
+        $response->assertJson([
+                    'data' => [
+                        'type' => 'department',
+                        'department_id' => $department->id,
+                        'attributes' => [
+                            'name' => $department->name,
+                            'counts' => [
+                                'issue' => 0,
+                                'resolver' => 0,
+                                'resolved_tickets' => 0,
+                                'unresolved_tickets' => 0
+                                ]
+                            ]
+                    ]
+        ]);
+    }
+
     public function test_store_a_department()
     {
 
@@ -99,7 +134,6 @@ class DepartmentControllerTest extends TestCase
                         [
                             'data' => [
                                 'type' => 'department',
-                                'department_id' => 1,
                                 'attributes' => [
                                     'name' => 'GPS Tracking',
                                     'counts' => [
@@ -114,6 +148,33 @@ class DepartmentControllerTest extends TestCase
                     ]
                 ]);
 
+    }
+
+    public function test_update_a_department()
+    {
+
+        $this->withoutExceptionHandling();
+
+        $admin = User::factory()->create([
+            'role' => 'admin'
+        ]);
+
+        $this->actingAs($admin, 'sanctum' );
+
+        $department = Department::factory()->create([
+            'name' => 'GPS'
+        ]);
+
+        $response = $this->put('/api/departments', [
+            'department' => 'GPS',
+            'name' => 'GPS Team'
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertJson([
+            'success' => 'Updated a department successfully'
+        ]);
     }
 
 

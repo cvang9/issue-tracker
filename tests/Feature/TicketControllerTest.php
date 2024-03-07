@@ -77,6 +77,51 @@ class TicketControllerTest extends TestCase
                 ]);
     }
 
+    public function test_fetch_all_user_ticket() 
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->create([
+            'role' => 'user'
+        ]);
+
+        $this->actingAs($user, 'sanctum' );
+        
+        $department = Department::factory()->create([
+            'name' => 'Security'
+        ]);
+        
+        $ticket2 = Ticket::factory()->create([
+            'user_id' => $user->id,
+            'department_id' => $department->id
+        ]);
+
+        $response = $this->get('/api/users/' . $user->id . '/tickets');
+        
+        $response->assertStatus(200);
+
+        $response->assertJson([
+
+            'data' => 
+            [
+            [
+                'data' => [
+                    'type' => 'tickets',
+                    'ticket_id' => $ticket2->id,
+                    'attributes' => [
+                        'title' => $ticket2->title,
+                        'body' => $ticket2->body,
+                        'status' => $ticket2->status,
+                        'feedback' => '',
+                        'resolver' => '',
+                        'created_at' => $ticket2->created_at->diffForHumans()
+                    ],
+                ]
+            ]
+            ]
+        ]);
+    }
+
     public function test_store_a_ticket()
     {
         $this->withoutExceptionHandling();
@@ -123,6 +168,49 @@ class TicketControllerTest extends TestCase
         $response = $this->delete('/api/users/'.$user->id.'/tickets/'.$ticket->id);
 
         $response->assertStatus(201);
+
+    }
+
+    public function test_show_a_ticket()
+    {
+
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->create([
+            'role' => 'user'
+        ]);
+
+        $department = Department::factory()->create([
+            'name' => 'Management'
+        ]);
+
+
+        $ticket2 = Ticket::factory()->create([
+            'user_id' => $user->id,
+            'department_id' => $department->id
+        ]);
+        
+        $this->actingAs($user, 'sanctum' );
+
+        $response = $this->get('/api/tickets/'. $ticket2->id );
+
+        $response->assertStatus(200);
+
+        $response->assertJson([
+            'data' => [
+                'type' => 'tickets',
+                'ticket_id' => $ticket2->id,
+                'attributes' => [
+                    'title' => $ticket2->title,
+                    'body' => $ticket2->body,
+                    'status' => $ticket2->status,
+                    'feedback' => '',
+                    'resolver' => '',
+                    'created_at' => $ticket2->created_at->diffForHumans()
+                ],
+            ]
+        ]);
+
 
     }
 }

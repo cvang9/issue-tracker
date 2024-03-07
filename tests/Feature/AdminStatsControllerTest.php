@@ -76,7 +76,7 @@ public function test_fetch_data_by_admin()
                             'weekly' => [
                                 'created' =>
                                        array (
-                                         'Monday' =>
+                                         'Thursday' =>
                                          array (
                                            'ticket_count' => 1,
                                          ),
@@ -137,6 +137,38 @@ public function test_fetch_data_by_admin()
                         ]
                     ]
         ]);
+    }
+
+    public function test_admin_data()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->create([
+            'role' => 'admin'
+        ]);
+
+        $this->actingAs($user, 'sanctum' );
+
+        $response = $this->get('/api/admin/');
+
+        $response->assertStatus(200)
+                 ->assertJson(
+                    [
+                        'data' => [
+                            'type' => 'users',
+                            'user_id' => $user->id,
+                            'attributes' => [
+                                'name' => $user->name,
+                                'email' => $user->email,
+                                'role' => $user->role,
+                                'img' => $user->img ?? '',
+                                'created_at' => $user->created_at->diffForHumans(),
+                                ]
+                            ],
+                            'links' => [
+                                'self' => "/users/".$user->id
+                                ]
+                 ]);
     }
 }
 

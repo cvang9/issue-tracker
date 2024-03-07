@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import LoginAsPage from "../pages/Auth/LoginAsPage.vue"
+import LoginAsPage from "../../pages/Auth/LoginAsPage.vue"
 import { render, screen } from "@testing-library/vue";
 
 
