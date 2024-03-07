@@ -174,8 +174,8 @@
       v-if="!loadingTickets"
       class="flex flex-col pt-3 w-4/12 bg-grey-100 h-full overflow-y-scroll z-2 dark:bg-black dark:text-white"
     >
+    <p class="text-xl font-semibold mt-2" align="center">{{ ticketStatus !== '' ? capitalizeFirstLetter(ticketStatus) + ' Tickets' : '' }}  </p>
       <ul v-for="item in cards" :key="item" class="mt-5">
-        <p>{{}}</p>
         <li
           @click="() => setAttributes(item)"
           class="py-5 border-b px-3 transition hover:bg-indigo-100 dark:hover:bg-slate-700 dark:hover:text-white"
@@ -236,24 +236,10 @@
           </div>
           
         </article>
-        <ul class="flex space-x-10 mt-10 mb-10">
+        <ul class="flex space-x-10 mt-10 mb-10" v-if="ticketStatus !== 'rejected' && ticketStatus !== 'resolved'">
           <li
             class="w-10 h-10 rounded-lg p-1 cursor-pointer transition duration-200 text-blue-400 hover:bg-blue-100"
           >
-            <!-- <svg
-              @click="changeRoute"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1"
-                d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"
-              />
-            </svg> -->
             <svg
               @click="changeRoute"
               xmlns="http://www.w3.org/2000/svg"
@@ -473,6 +459,7 @@ onMounted(() => {
   }
 })
 const getResolvedTickets = () => {
+  ticketStatus.value = '';
   loadingTickets.value = true
   apiClient
     .get(`/api/resolvers/${route.params.id}/tickets`)
@@ -501,6 +488,7 @@ const getResolvedTickets = () => {
 }
 
 const getPendingTickets = () => {
+    ticketStatus.value = '';
   loadingTickets.value = true
   apiClient
     .get(`/api/resolvers/${route.params.id}/tickets`)
@@ -525,7 +513,18 @@ const getPendingTickets = () => {
     })
 }
 
+const  capitalizeFirstLetter = (str) => {
+        // Check if the input string is not empty
+        if (str.length === 0) {
+            return str;
+        }
+
+        // Capitalize the first letter and concatenate the rest of the string
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
 const getRejectedTickets = () => {
+    ticketStatus.value = '';
   loadingTickets.value = true
   apiClient
     .get(`/api/resolvers/${route.params.id}/tickets`)
@@ -552,6 +551,7 @@ const getRejectedTickets = () => {
     })
 }
 const getProcessingTickets = () => {
+    ticketStatus.value = '';
   loadingTickets.value = true
   apiClient
     .get(`/api/resolvers/${route.params.id}/tickets`)
@@ -659,6 +659,8 @@ const processing = () => {
       feedbackLoader.value = false
       console.log(error)
     })
+
+
 }
 </script>
 <style scoped>
