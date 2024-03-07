@@ -1,7 +1,7 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 <!-- <img src="https://ibb.co/8sMncnt" ></img> -->
 <div align="center">
-<img src="https://i.ibb.co/sRjpHpz/ER-Diagram-ITS.png" align="center" alt="ER-Diagram-ITS"  />
+<img src="https://github.com/cvang9/issue-tracker/blob/main/ER_Diagram%20(ITS).png" align="center" alt="ER-Diagram-ITS"  />
 </div>
 
 #  Issue Tracking System
