@@ -1,66 +1,112 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<!-- <img src="https://ibb.co/8sMncnt" ></img> -->
+<div align="center">
+<img src="https://i.ibb.co/sRjpHpz/ER-Diagram-ITS.png" align="center" alt="ER-Diagram-ITS"  />
+</div>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+#  Issue Tracking System
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Clone repo: 
+```sh
+git clone https://github.com/cvang9/issue-tracker.git
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+###  Authentication
 
-## Learning Laravel
+- In order to utilise the application one must have to login.
+- Users can create thier personal account by signing up or can directly login if they had already created an account.
+- Resolvers can take thier credentials from Admin then after they can login into the system.
+- Application developers provide admin creds to admin through which admin can login into the system. 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+###  Authorization
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Users, Resolvers, Admin are only allowed to fetch the data which is related to them only.
 
-## Laravel Sponsors
+- The Access Control is maintained in the backend using Gates and in the frontend using Navigation Guards. Still if anyone try to access unauthorized page then they will be redirected to thier respective page according to thier role.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+###  User  
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- User on its dashboard can able to check thier ticket status whether it is still pending, processing, resolved or rejected.
 
-## Contributing
+- User can navigate to any category easily by utilising the Navigation buttons at the top.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Flexibility to choose the department from the list where user thinks that the issue is belongs to.
 
-## Code of Conduct
+- The tickets categories are distributed on the basis of colors.
+   Green represents Resolved, Red represents Rejected, Blue represents Processing and Yellow represents Pending.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- For all categories other then pending users can see a response feedback sent by resolver regarding thier ticket. 
 
-## Security Vulnerabilities
+- User will recieve mail regarding the updates of thier tickets if any resolver has updated your ticket.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- User will get a chat session mail if resolver needs more information regarding the issue, where user can directly redirected to the chat page via the start chat button in the mail.
+ 
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+###  Multifunctional Resolver 
+
+- Resolver on thier dashboard can see a lot of options like in the side bar resolver can navigate to all types of ticket categories.  For ex: if resolver clicks to Resolved tickets then he can able to see all the resolved tickets that belongs to same department of resolver.   
+
+- After selecting a particular ticket resolver can see the details regarding the issue with a short title and description, as well as details of user like username and email.
+
+- On the ticket dashboard resolver can update the ticket status to processing, resolved, rejected with a feedback regarding the update.
+
+- On updating the status of ticket a mail is automatically is sent to the respective user.
+
+- Also if resolver is required for more information regarding the issue then resolver can schedule a chat session whith user by providing date and time in the input box. 
+
+- On scheduled time resolver can start an instant chat with user, also the chat history will be maintained in the database.
+
+- Resolver will be notified on mail if any new ticket is raised that belongs to same department of resolver.
+
+- Resolver also can visit thier profile and check thier overall status and analyse itself using the statistics.
+
+
+###  Admin 
+
+- Admin on thier dashboard can see the overall tickets statistics regarding the tickets like: no. of pending tickets, no. of resolved tickets, no. of processing tickets, and no of rejected tickets.
+
+- Along with this user can see the net of users, resolvers and departments on the dashboard.
+
+- Below that Admin can see two graphs that compares resolved tickets vs Raised tickets. The first graph is on the basis of current year and second one is on the basis of current week. 
+
+- Admin has powers to create Resolver as well as department on top of the system.
+
+- In the Tables section admin can view two lists. The first list is department list which displays all department with thier total count of issue raised, resolved, rejected and processing. Whereas  the second list belongs to resolver which displays the information regarding the resolver like no of issues resolved, processed and rejected.
+
+- With these admin can control the whole system seamlessly.
+
+- Admin will get a small notification icon in its navbar which will contains the latest 5 updates of system. 
+
+### Extra backend features 
+
+- Caching
+- Mail Notifications using Queue
+- Asyncronous execution using Queue
+- Web Sockets For realtime chat
+- Authentication
+- Authorization
+- Test cases
+
+
+
+### Extra frontend features 
+
+- SPA
+- Dark mode for Resolver and Admin
+- Composition API
+- Pinia store for state management
+- Navigation guards
+- Test cases
+
+
+
+### Contributors
+ - Shivang Saini
+- Shivam Teotia
+- Nakshatra
