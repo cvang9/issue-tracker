@@ -26,7 +26,7 @@
           <button class="show" id="pending" @click="showBtn('pending')">
             <span>Pending Issues</span> {{ pendingIssues.length }}
           </button>
-          <button class="show" id="reject" @click="showBtn('reject')">
+          <button class="show" id="rejected" @click="showBtn('rejected')">
             <span>Rejected Issues</span> {{ rejectedIssues.length }}
           </button>
         </div>
@@ -145,7 +145,7 @@ const fetchTickets = (str) => {
       issues.value.forEach((e) => {
         if (e.data.attributes.status === 'resolve') resolveIssues.value.push(e)
         if (e.data.attributes.status === 'processing') processingIssues.value.push(e)
-        if (e.data.attributes.status === 'reject') rejectedIssues.value.push(e)
+        if (e.data.attributes.status === 'rejected') rejectedIssues.value.push(e)
         if (e.data.attributes.status === 'pending') pendingIssues.value.push(e)
       })
       // console.log(issues._rawValue);
@@ -166,7 +166,7 @@ const showBtn = (val) => {
     case 'pending':
       issues.value = pendingIssues.value
       break
-    case 'reject':
+    case 'rejected':
       issues.value = rejectedIssues.value
       break
     case 'resolved':
@@ -271,7 +271,7 @@ h1 {
   background-color: #ffc107; /* Yellow */
 }
 
-#reject span {
+#rejected span {
   background-color: #dc3545; /* Red */
 }
 
@@ -364,7 +364,7 @@ h1 {
   background-color: #ffc107; /* Yellow */
 }
 
-.reject {
+.rejected {
   background-color: #dc3545; /* Red */
 }
 
