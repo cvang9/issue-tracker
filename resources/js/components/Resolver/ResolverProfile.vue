@@ -5,7 +5,7 @@
       <div
         class="absolute top-0 w-full h-full bg-center bg-cover"
         style="
-          background-image: url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80');
+          background-image: url('https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9');
         "
       >
         <span id="blackOverlay" class="w-full h-full absolute opacity-50 bg-black"></span>
@@ -82,7 +82,7 @@
                 </div>
               </div>
             </div>
-            <div class="text-center mt-12">
+            <div class="text-center mt-8">
               <h3
                 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 dark:text-white"
               >
@@ -90,6 +90,9 @@
               </h3>
               <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                 Resolver
+              </div>
+              <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                Joinded :-{{ user.data.attributes.user.data.attributes.created_at }}
               </div>
               <div class="mb-2 text-blueGray-600 mt-10 dark:text-white">
                 <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400 dark:text-white"></i
@@ -159,6 +162,7 @@ const loadUser = () => {
         profile.value = `http://[::1]:5173/storage/app/uploads/${user.value?.data?.attributes?.user?.data?.attributes?.img}`
       }
       loading.value = false
+      console.log(user.value)
     })
     .catch((error) => {
       console.log(error)
