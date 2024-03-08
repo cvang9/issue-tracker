@@ -3,7 +3,7 @@
     <div class="relative w-100 sm:max-w-xl sm:mx-auto">
       <div
         v-if="invalid"
-        class="flex w-full border-l-6 border-[#F87171] bg-[#F87171] bg-opacity-[15%] px-7 py-2 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-5"
+        class="flex w-full border-l-6 border-[#F87171] bg-[#F87171] bg-opacity-[15%] px-7 py-2 shadow-md  md:p-5"
       >
         <div
           class="mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg bg-[#F87171]"
@@ -63,7 +63,7 @@
                   id="desc"
                   v-model="query"
                   rows="3"
-                  class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                   placeholder="..."
                 ></textarea>
               </div>
@@ -74,11 +74,11 @@
               <select
                 v-model="department"
                 id="dept"
-                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent pt-3 pb-3 px-12 transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
+                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent pt-3 pb-3 px-12 transition focus:border-primary active:border-primary"
               >
                 <option
                   :value="dept.data.attributes.name"
-                  class="text-body dark:text-bodydark"
+                  class="text-body"
                   v-for="dept in departments"
                   :key="dept.data.department_id"
                 >

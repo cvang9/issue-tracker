@@ -20,20 +20,20 @@
           <Loader v-if="loading" />
         </div>
         <div class="mt-4">
-          <h3 class="text-2xl font-medium text-black dark:text-white">{{ User.name }}</h3>
-          <p class="mb-1.5 text-l font-medium text-black dark:text-white">{{ User.email }}</p>
-          <p class="font-medium dark:text-white">Joined us: {{ User.created_at }}</p>
+          <h3 class="text-2xl font-medium text-black ">{{ User.name }}</h3>
+          <p class="mb-1.5 text-l font-medium text-black ">{{ User.email }}</p>
+          <p class="font-medium ">Joined us: {{ User.created_at }}</p>
           <div
-            class="mx-auto mt-4.5 mb-5.5 max-w-94 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]"
+            class="mx-auto mt-4.5 mb-5.5 max-w-94 rounded-md border border-stroke py-2.5 shadow-1"
           >
-            <span class="font-semibold text-black dark:text-white"
+            <span class="font-semibold text-black"
               >User ( Issue Tracking System )
             </span>
           </div>
 
           <div class="mx-auto max-w-180">
-            <h4 class="font-medium text-black dark:text-white">About User Powers</h4>
-            <p class="mt-4.5 text-sm font-normal dark:text-white">
+            <h4 class="font-medium text-black">About User Powers</h4>
+            <p class="mt-4.5 text-sm font-normal">
               Welcome to our organization's ticketing system! As a valued user, you have the ability
               to raise tickets for any issues you encounter within the organization. Simply submit a
               ticket to the relevant resolver department team, and our dedicated resolvers will work

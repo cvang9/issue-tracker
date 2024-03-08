@@ -37,15 +37,15 @@ class TicketUpdatedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('You Ticket Has Been Updated')
+            ->subject('Your Ticket Has Been Updated')
             ->line('Hello ' . $notifiable->name . ',')
             ->line('Your ticket has been taken under action and updated by our resolvers.')
             ->line('Ticket Details:')
             ->line('- Ticket ID: ' . $this->ticket->id)
             ->line('- Subject: ' . $this->ticket->body)
             ->line('- Status: ' . $this->ticket->status)
-            ->line('- Subject: ' . $this->ticket->feedback)
-            ->action('View Ticket', url('/users/' . $notifiable->id))
+            ->line('- Resolver feedback: ' . $this->ticket->feedback)
+            ->action('View Ticket', url('http://localhost:8000/users/' . $notifiable->id))
             ->line('Thank you for using our application!');
     }
 

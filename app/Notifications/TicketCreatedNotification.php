@@ -38,12 +38,12 @@ class TicketCreatedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('New Ticket Created in Your Department')
+            ->subject('A new Ticket is created in your department')
             ->line('Hello ' . $notifiable->name . ',')
             ->line('A new ticket has been created in your department.')
             ->line('Ticket Details:')
             ->line('- Ticket ID: ' . $this->ticket->id)
-            ->line('- Subject: ' . $this->ticket->body)
+            ->line('- issue: ' . $this->ticket->body)
             ->action('View Ticket', url('http://localhost:8000/resolver/' . $notifiable->resolver->id))
             ->line('Thank you for using our application!');
     }

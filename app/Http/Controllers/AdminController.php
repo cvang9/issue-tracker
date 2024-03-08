@@ -47,6 +47,8 @@ class AdminController extends Controller
             ->keyBy('month') 
             ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
             ->toArray();
+
+            cache()->put('all_tickets_by_month', $ticketsByMonth, 3600 );
             
         }
 
@@ -67,6 +69,7 @@ class AdminController extends Controller
             ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
             ->toArray();
             
+            cache()->put('resolved_tickets_by_month', $resolvedTicketsByMonth, 3600 );
         }
 
 
@@ -90,6 +93,9 @@ class AdminController extends Controller
                 ->keyBy('day_of_week') 
                 ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
                 ->toArray();
+
+
+                cache()->put('tickets_by_day', $ticketsByDay, 3600 );
             }
         
         if( cache()->has('resolved_tickets_by_day') )
@@ -110,6 +116,8 @@ class AdminController extends Controller
                 ->keyBy('day_of_week') 
                 ->map(fn ($item) => ['ticket_count' => $item->ticket_count])
                 ->toArray();
+
+                cache()->put('resolved_tickets_by_day', $resolvedTicketsByDay, 3600 );
                 
             }
 

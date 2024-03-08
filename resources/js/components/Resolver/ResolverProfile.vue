@@ -92,7 +92,7 @@
                 Resolver
               </div>
               <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                Joinded :-{{ user.data.attributes.user.data.attributes.created_at }}
+                Joined: {{ user.data.attributes.user.data.attributes.created_at }}
               </div>
               <div class="mb-2 text-blueGray-600 mt-10 dark:text-white">
                 <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400 dark:text-white"></i
