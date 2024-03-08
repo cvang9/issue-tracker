@@ -1,6 +1,6 @@
 <template>
   <user-dashboard>
-    <div class="container" :class="showTicketForm?'cont-dis': ''">
+    <div class="container" :class="showTicketForm ? 'cont-dis' : ''">
       <div class="contain">
         <top-heading head="Your Issues :"></top-heading>
       </div>
@@ -17,7 +17,7 @@
           <button class="show" id="all" @click="showBtn('all')">
             <span>Show all Issues</span> {{ showAllIssues.length }}
           </button>
-          <button class="show" id="resolve" @click="showBtn('resolved')">
+          <button class="show" id="resolved" @click="showBtn('resolved')">
             <span>Resolved Issues</span> {{ resolveIssues.length }}
           </button>
           <button class="show" id="processing" @click="showBtn('processing')">
@@ -101,21 +101,20 @@
 
     <div class="modal" v-if="showTicketForm">
       <div class="modal-content">
-        <!-- <span class="close-button" @click="showTicketForm = false">&times;</span> -->
-        <TicketForm @formSubmitted="handleFormSubmission" @close="showTicketForm = false" />
+        <TicketForm @formSubmitted="handleFormSubmitted" @close="showTicketForm = false" />
       </div>
     </div>
   </user-dashboard>
 </template>
 
 <script setup>
-// import axios from 'axios';
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import UserDashboard from './UserDashboard.vue'
 import Loader from '../Resolver/Loader.vue'
 import apiClient from '../../services/api.js'
 import TopHeading from './TopHeading.vue'
 import TicketForm from './TicketForm.vue'
+import { toast } from 'vue3-toastify'
 
 const issues = ref([])
 const showAllIssues = ref([])
@@ -135,30 +134,36 @@ const fetchTickets = (str) => {
     .then((res) => {
       issues.value = res.data.data
       issues.value.reverse()
-      showAllIssues.value = issues.value
-      loading.value = false
 
+      showAllIssues.value = issues.value
       resolveIssues.value = []
       processingIssues.value = []
       rejectedIssues.value = []
       pendingIssues.value = []
       issues.value.forEach((e) => {
-        if (e.data.attributes.status === 'resolve') resolveIssues.value.push(e)
+        if (e.data.attributes.status === 'resolved') resolveIssues.value.push(e)
         if (e.data.attributes.status === 'processing') processingIssues.value.push(e)
         if (e.data.attributes.status === 'rejected') rejectedIssues.value.push(e)
         if (e.data.attributes.status === 'pending') pendingIssues.value.push(e)
       })
-      // console.log(issues._rawValue);
-      // console.log(issues.value[0]);
+    })
+    .then(() => {
       showTicketForm.value = false
+      if (str == '0') {
+        toast.success('Issue Created Successfully', {
+          autoClose: 1000
+        })
+      }
+      loading.value = false
     })
     .catch((error) => {
       console.log(error)
       loading.value = false
     })
 }
-
-fetchTickets()
+onMounted(() => {
+  fetchTickets()
+})
 
 const showBtn = (val) => {
   loading.value = true
@@ -181,7 +186,7 @@ const showBtn = (val) => {
   loading.value = false
 }
 
-const handleFormSubmission = () => {
+const handleFormSubmitted = () => {
   fetchTickets('0')
 }
 
@@ -206,32 +211,23 @@ const hideRaiseIssueText = () => {
 }
 
 .contain {
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.644); */
   background-color: rgb(28 36 52);
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.644); */
-  /* background-color: rgb(249, 244, 234); */
   height: 18vh;
   width: 100%;
   margin: auto;
-  /* border-radius: 0 0 5rem 5rem; */
-  /* margin: auto; */
-  /* text-align: center; */
   display: flex;
-  /* align-items: center; */
   justify-content: center;
   font-size: 75px;
   font-weight: lighter;
   margin-bottom: 2rem;
   color: white;
   text-shadow: 5px 5px 5px rgba(164, 164, 164, 0.338);
-  /* text-transform: uppercase; */
 }
 
 .container {
   position: relative;
   width: 60%;
   margin: 0 auto;
-  /* padding: 20px; */
 }
 
 h1 {
@@ -245,7 +241,6 @@ h1 {
 .btn-upper button {
   text-align: center;
   padding: 1rem;
-  /* border: solid; */
   margin: 0.5rem;
   background-color: gray;
   padding: 0.3rem 1rem 0.3rem 0rem;
@@ -275,7 +270,7 @@ h1 {
   background-color: #dc3545; /* Red */
 }
 
-#resolve span {
+#resolved span {
   background-color: #28a745; /* Green */
 }
 
@@ -324,9 +319,7 @@ h1 {
   color: white;
   border: 5px solid white;
   box-shadow: 1px 1px 5px black inset;
-  /* border-radius: 2px; */
   background-color: white;
-  /* transform: rotate(270deg); */
 }
 
 .logout {
@@ -368,7 +361,7 @@ h1 {
   background-color: #dc3545; /* Red */
 }
 
-.resolve {
+.resolved {
   background-color: #28a745; /* Green */
 }
 
@@ -446,8 +439,6 @@ h1 {
 
 .view {
   position: relative;
-  /* bottom: -1rem; */
-  /* top: 5rem; */
   width: 100%;
   height: 100%;
 }
@@ -475,7 +466,6 @@ h1 {
   height: 60px;
   border: none;
   border-radius: 50%;
-  /* background-color: #007bff; */
   color: #fff;
   font-size: 2.5rem;
   cursor: pointer;
@@ -491,7 +481,6 @@ h1 {
 
 .profile-button:hover {
   transform: translateY(-10px) scale(1.05);
-  /* transform: scale(1.05); */
 }
 
 .add-button {
@@ -585,10 +574,6 @@ h1 {
 
 .modal-content {
   position: relative;
-  /* background-color: #fefefe; */
-  /* border-radius: 10px; */
-  /* padding: 2rem; */
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 
 .close-button {
@@ -596,10 +581,7 @@ h1 {
   top: 0px;
   right: 15px;
   cursor: pointer;
-  /* padding: .5rem; */
   font-size: 2rem;
-  /* background: #0056b3;
-  border-radius: 100%; */
   padding: 0;
 }
 

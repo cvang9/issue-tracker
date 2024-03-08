@@ -1,22 +1,21 @@
-<script setup >
+<script setup>
 import { useSidebarStore } from '@/store/sidebar'
 import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
 import SidebarItem from '../Sidebar/SidebarItem.vue'
 import { deleteCookie, getCookie } from '../../helper/CookieHelper.js'
-// import profile from "./profile.png"
 import { useRouter } from 'vue-router'
 import apiClient from '../../services/api.js'
 import Loader from '../Resolver/Loader.vue'
 import { useAuthStore } from '../../store/auth.js'
 
 const target = ref(null)
-const router = useRouter();
+const router = useRouter()
 
 const sidebarStore = useSidebarStore()
 const loading = ref(false)
 
-const { toggleState } = useAuthStore();
+const { toggleState } = useAuthStore()
 
 onClickOutside(target, () => {
   sidebarStore.isSidebarOpen = false
@@ -78,7 +77,7 @@ const menuGroups = ref([
                 </svg>`,
         label: 'Profile',
         route: `/users/${getCookie('userId')}`
-      },
+      }
     ]
   }
 ])
@@ -88,18 +87,17 @@ const logoutHandler = () => {
   apiClient
     .get('/api/logout')
     .then(() => {
-      deleteCookie('userId');
-      deleteCookie('role');
-      loading.value = false
+      deleteCookie('userId')
+      deleteCookie('role')
       toggleState()
       router.push('/')
+      loading.value = false
     })
     .catch((error) => {
       console.log(error)
       loading.value = false
     })
 }
-
 </script>
 
 <template>
@@ -107,18 +105,12 @@ const logoutHandler = () => {
     class="absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0"
     ref="target"
   >
-    <div >
-    <!-- <img :src="profile" alt=""> -->
-
+    <div></div>
+    <div class="pl-8 pt-8">
+      <p style="color: white; font-size: xx-large"><strong> USER PANEL </strong></p>
     </div>
-    <!-- SIDEBAR HEADER -->
-    <div class=" pl-8 pt-8">
-        <p style="color: white; font-size: xx-large;"> <strong> USER PANEL </strong> </p>
-    </div>
-    <!-- SIDEBAR HEADER -->
 
     <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
-      <!-- Sidebar Menu -->
       <nav class="pt-5 cont">
         <template v-for="menuGroup in menuGroups" :key="menuGroup.name">
           <div>
@@ -135,74 +127,70 @@ const logoutHandler = () => {
           </div>
         </template>
 
-        <div class="logout" @click="logoutHandler"><svg
-          class="h-8 w-8 text-red-500"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" />
-          <path
-            d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
-          />
-          <path d="M7 12h14l-3 -3m0 6l3 -3" />
-        </svg><span>Logout</span>
-        
-    <div class="load">
-        <Loader v-if="loading" />
-      </div>
+        <div class="logout" @click="logoutHandler">
+          <svg
+            class="h-8 w-8 text-red-500"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <path
+              d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
+            />
+            <path d="M7 12h14l-3 -3m0 6l3 -3" /></svg
+          ><span>Logout</span>
+
+          <div class="load">
+            <Loader v-if="loading" />
+          </div>
         </div>
       </nav>
-      <!-- Sidebar Menu -->
     </div>
   </aside>
 </template>
 
 <style scoped>
-    aside {
-        position: sticky;
-    }
+aside {
+  position: sticky;
+}
 
-    .img {
-      height: 100px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 1rem;
-      border-radius: 100%;
-    }
-    img {
-      width: 100px;
-    }
+.img {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  border-radius: 100%;
+}
+img {
+  width: 100px;
+}
 
-    .cont {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100vh;
-    }
+.cont {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
 
-    .logout {
-      width: 100%;
-      height: 50px;
-      background: red;
-      display: flex;
-      align-items: center;
-      color: white;
-      gap: .8rem;
-      padding-left: 1rem;
-    }
+.logout {
+  width: 100%;
+  height: 50px;
+  background: red;
+  display: flex;
+  align-items: center;
+  color: white;
+  gap: 0.8rem;
+  padding-left: 1rem;
+}
 
-    .logout:hover {
-      cursor: pointer;
-    }
-
-    .load {
-      margin-bottom: .6rem;
-    }
+.logout:hover {
+  cursor: pointer;
+}
 </style>

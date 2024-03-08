@@ -1,7 +1,7 @@
 <template>
   <div class="cont">
     <side-bar :id="4"></side-bar>
-    
+
     <slot></slot>
   </div>
 </template>
