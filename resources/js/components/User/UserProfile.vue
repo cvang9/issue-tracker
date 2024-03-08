@@ -1,7 +1,7 @@
 <template>
-<user-dashboard>
-<user-profile-card/>
-</user-dashboard>
+  <user-dashboard>
+    <user-profile-card />
+  </user-dashboard>
 </template>
 
 <script setup>

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <p><span>{{ typingText }}</span><span data-testid="temp-file" class="cursor">)</span></p>
+    <p>
+      <span>{{ typingText }}</span
+      ><span data-testid="temp-file" class="cursor">)</span>
+    </p>
   </div>
 </template>
 
@@ -11,49 +14,52 @@ export default {
     return {
       text: this.head,
       typingText: '',
-      typingSpeed: 150, // Typing speed in milliseconds
-      holdDuration: 1000, // Hold duration in milliseconds
-      deleteSpeed: 50,  // Deleting speed in milliseconds
+      typingSpeed: 150,
+      holdDuration: 1000,
+      deleteSpeed: 50,
       isDeleting: false
-    };
+    }
   },
   mounted() {
-    this.typeDeleteLoop();
+    this.typeDeleteLoop()
   },
   methods: {
     typeDeleteLoop() {
       setTimeout(() => {
-        this.isDeleting = true;
+        this.isDeleting = true
         setTimeout(() => {
-          this.isDeleting = false;
-          this.typingText = '';
+          this.isDeleting = false
+          this.typingText = ''
           setTimeout(() => {
-            this.typeText();
-          }, this.typingSpeed);
-        }, this.holdDuration);
-      }, this.typingSpeed);
+            this.typeText()
+          }, this.typingSpeed)
+        }, this.holdDuration)
+      }, this.typingSpeed)
     },
     typeText() {
-      let index = 0;
-      const typingInterval = setInterval(() => {
-        if (!this.isDeleting) {
-          if (index < this.text.length) {
-            this.typingText += this.text[index];
-            index++;
+      let index = 0
+      const typingInterval = setInterval(
+        () => {
+          if (!this.isDeleting) {
+            if (index < this.text.length) {
+              this.typingText += this.text[index]
+              index++
+            } else {
+              clearInterval(typingInterval)
+            }
           } else {
-            clearInterval(typingInterval);
+            if (this.typingText.length > 0) {
+              this.typingText = this.typingText.slice(0, -1)
+            } else {
+              clearInterval(typingInterval)
+            }
           }
-        } else {
-          if (this.typingText.length > 0) {
-            this.typingText = this.typingText.slice(0, -1);
-          } else {
-            clearInterval(typingInterval);
-          }
-        }
-      }, this.isDeleting ? this.deleteSpeed : this.typingSpeed);
+        },
+        this.isDeleting ? this.deleteSpeed : this.typingSpeed
+      )
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -63,7 +69,8 @@ export default {
 }
 
 @keyframes blink-caret {
-  from, to {
+  from,
+  to {
     opacity: 0;
   }
   50% {
