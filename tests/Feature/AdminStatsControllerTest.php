@@ -76,7 +76,7 @@ public function test_fetch_data_by_admin()
                             'weekly' => [
                                 'created' =>
                                        array (
-                                         'Thursday' =>
+                                         'Friday' =>
                                          array (
                                            'ticket_count' => 1,
                                          ),
