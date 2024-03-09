@@ -101,6 +101,7 @@
                 
                 // Generating hash
                function hashFunction(a, b) {
+
                    let hash = a ^ b;
                    hash ^= (hash << 13) | (hash >>> 19);
                    hash ^= (hash << 5) | (hash >>> 27);
@@ -142,11 +143,12 @@
 
                         if( e.user.id != user.value && e.message.friend_id == user.value && e.user.id == friendId.value )
                         {
-                           messages.value.push({
+                            messages.value.push({
                             message: e.message.message,
                             user_id: e.user.id,
                             friend_id: e.message.friend_id,
                             role: e.user.role
+
                         })
 
                         }

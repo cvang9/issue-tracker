@@ -55,8 +55,6 @@ export default {
 }
 
 
-
-
 .login-box {
   display: flex;
   /* width: 90em; */

@@ -40,7 +40,7 @@ class ChatSessionNotification extends Notification
         return (new MailMessage)
                     ->subject('Chat Session Scheduled')
                     ->line('Hello ' . $notifiable->name . ',')
-                    ->line('A chat session has been scheduled for ' . $this->timestamp)
+                    ->line('A chat session has been scheduled for ' . $this->timestamp )
                     ->action('Start chat', url('http://localhost:8000/chat?role=user&friendId=' .  (string)$this->resolverId ))
                     ->line('Thank you for using our application!');
     }
